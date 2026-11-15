@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { SEED_CATALOGS } from '../seed-catalog/index.js';
+import { validateEquipmentForArchetype } from '../archetype-baseline/index.js';
+import { findArchetypeById, SEED_CATALOGS } from '../seed-catalog/index.js';
 import {
   createParsedItemFromUnique,
   parsePoeItemClipboard,
@@ -69,5 +70,54 @@ describe('item-parser & Stage 1 local weapon math', () => {
     const roundTripped = parsePoeItemClipboard(serializeItemToClipboard(armour));
     expect(roundTripped.name).toBe("Doryani's Prototype");
     expect(roundTripped.rarity).toBe('Unique');
+  });
+
+  it('normalizes plural PoE Item Class (Wands -> Wand) and parses Alt+Ctrl+C advanced modifier text', () => {
+    const altCopiedWand = `Item Class: Wands
+Rarity: Rare
+Beast Gnarl
+Convening Wand
+--------
+Wand
+Physical Damage: 25-47
+Critical Strike Chance: 8.00%
+Attacks per Second: 1.50
+--------
+Requirements:
+Level: 50
+Int: 183 (unmet)
+--------
+Sockets: W-W-W
+--------
+Item Level: 68
+--------
+{ Implicit Modifier — Damage, Minion }
+Minions deal 20(20-24)% increased Damage
+{ Prefix Modifier "Incinerating" (Tier: 3) — Damage, Elemental, Fire, Caster }
+Adds 49(38-51) to 85(77-88) Fire Damage to Spells
+{ Prefix Modifier "Countess's" (Tier: 5) — Damage, Minion }
+Minions deal 42(40-54)% increased Damage`;
+
+    const parsed = parsePoeItemClipboard(altCopiedWand);
+
+    expect(parsed.itemClass).toBe('Wand');
+    expect(parsed.validSlots).toEqual(['Weapon1', 'Weapon2']);
+    expect(parsed.localWeaponStats?.physMin).toBe(25);
+    expect(parsed.localWeaponStats?.physMax).toBe(47);
+    expect(parsed.localWeaponStats?.critChancePct).toBe(8);
+    expect(parsed.localWeaponStats?.aps).toBe(1.5);
+
+    expect(parsed.modLines.some((m) => m.rawText.includes('Requirements'))).toBe(false);
+    expect(parsed.modLines.some((m) => m.rawText.startsWith('{'))).toBe(false);
+
+    const impMod = parsed.modLines.find((m) => m.rawText.includes('20% increased Damage'));
+    const spellFireMod = parsed.modLines.find((m) =>
+      m.rawText.includes('Adds 49 to 85 Fire Damage to Spells'),
+    );
+    expect(impMod?.tierType).toBe('implicit');
+    expect(spellFireMod?.tierType).toBe('explicit');
+
+    const fallenReverend = findArchetypeById('fallen_reverend')!;
+    expect(validateEquipmentForArchetype(fallenReverend, 'Weapon1', parsed)).toBeNull();
   });
 });

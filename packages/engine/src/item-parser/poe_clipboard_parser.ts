@@ -8,6 +8,12 @@ import type {
 } from '../catalog-types/index.js';
 import { SEED_CATALOGS, type GameCatalogBundle } from '../seed-catalog/index.js';
 import {
+  inferModifierHeaderTier,
+  isPropertyOrRequirementLine,
+  normalizePoeItemClass,
+  stripAdvancedModRanges,
+} from './clipboard_normalization.js';
+import {
   computeLocalItemStats,
   type HeaderFallbackStats,
 } from './local_weapon_defence_calc.js';
@@ -54,14 +60,6 @@ function inferTierType(rawLine: string): ItemModTierType {
   return 'explicit';
 }
 
-function isPropertyOrRequirementLine(line: string): boolean {
-  return (
-    /^(Quality|Physical Damage|Elemental Damage|Critical Strike Chance|Attacks per Second|Weapon Range|Armour|Evasion Rating|Energy Shield|Ward|Chance to Block|Requires|Level|Str|Dex|Int|Sockets|Item Level):?/i.test(
-      line,
-    ) || /^(R|G|B|W|-|\s)+$/.test(line)
-  );
-}
-
 /** Parses raw PoE `Ctrl+C` clipboard item text into a structured `ParsedItem`. */
 export function parsePoeItemClipboard(
   rawText: string,
@@ -74,13 +72,13 @@ export function parsePoeItemClipboard(
     .filter((sec) => sec.length > 0);
 
   const headerLines = sections[0] ?? [];
-  let itemClass = 'Wand';
+  let rawItemClass = 'Wand';
   let rarity: ItemRarity = 'Rare';
   const nameLines: string[] = [];
 
   for (const line of headerLines) {
     if (line.startsWith('Item Class:')) {
-      itemClass = line.slice('Item Class:'.length).trim();
+      rawItemClass = line.slice('Item Class:'.length).trim();
     } else if (line.startsWith('Rarity:')) {
       const r = line.slice('Rarity:'.length).trim();
       if (r === 'Normal' || r === 'Magic' || r === 'Rare' || r === 'Unique') {
@@ -93,6 +91,7 @@ export function parsePoeItemClipboard(
 
   const name = nameLines[0] ?? 'Unnamed Item';
   const baseType = nameLines[1] ?? nameLines[0] ?? 'Unknown Base';
+  const itemClass = normalizePoeItemClass(rawItemClass, baseType);
 
   let qualityPct = 0;
   let corrupted = false;
@@ -118,6 +117,8 @@ export function parsePoeItemClipboard(
           fallback.physMin = Number(pm[1]);
           fallback.physMax = Number(pm[2]);
         }
+        isExplicitPropertySection = true;
+      } else if (line.startsWith('Elemental Damage:') || line.startsWith('Chaos Damage:')) {
         isExplicitPropertySection = true;
       } else if (line.startsWith('Attacks per Second:')) {
         const am = line.match(/(\d+(?:\.\d+)?)/);
@@ -150,14 +151,31 @@ export function parsePoeItemClipboard(
       continue;
     }
 
+    let sectionPendingTier: ItemModTierType | null = null;
     for (const line of sec) {
       if (line === 'Corrupted') {
         corrupted = true;
         continue;
       }
+      const headerTier = inferModifierHeaderTier(line);
+      if (headerTier) {
+        sectionPendingTier = headerTier;
+        continue;
+      }
       if (isPropertyOrRequirementLine(line)) continue;
       if (line.startsWith('Note:') || line.startsWith('Unidentified')) continue;
-      modLines.push({ rawText: line, tierType: inferTierType(line) });
+
+      const cleanedLine = stripAdvancedModRanges(line);
+      if (!cleanedLine) continue;
+
+      const inferredTier = sectionPendingTier ?? inferTierType(cleanedLine);
+      const normalizedRawText =
+        inferredTier === 'implicit' && !cleanedLine.toLowerCase().includes('(implicit)')
+          ? `${cleanedLine} (implicit)`
+          : cleanedLine;
+
+      modLines.push({ rawText: normalizedRawText, tierType: inferredTier });
+      sectionPendingTier = null;
     }
   }
 
