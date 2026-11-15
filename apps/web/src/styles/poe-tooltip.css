@@ -1,0 +1,88 @@
+/* Path of Mercenaries (PoM) — Authentic In-Game PoE Tooltip Styles */
+
+.poe-tooltip {
+  background-color: #08090c;
+  border: 1px solid #3c3a32;
+  border-radius: 1px;
+  color: var(--poe-normal);
+  font-family: var(--pom-font-ui);
+  font-size: 12px;
+  text-align: center;
+  min-width: 260px;
+  max-width: 380px;
+}
+
+.poe-tooltip-header {
+  padding: 6px 12px;
+  font-family: var(--pom-font-banner);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+  border-bottom: 1px solid #2e2d28;
+}
+
+.poe-tooltip-header--normal {
+  color: var(--poe-normal);
+  background: linear-gradient(90deg, #17181b 0%, #2a2c30 50%, #17181b 100%);
+}
+
+.poe-tooltip-header--magic {
+  color: var(--poe-magic);
+  background: linear-gradient(90deg, #131426 0%, #242754 50%, #131426 100%);
+}
+
+.poe-tooltip-header--rare {
+  color: var(--poe-rare);
+  background: linear-gradient(90deg, #211f12 0%, #443e1c 50%, #211f12 100%);
+}
+
+.poe-tooltip-header--unique {
+  color: var(--poe-unique);
+  background: linear-gradient(90deg, #241309 0%, #4d2812 50%, #241309 100%);
+}
+
+.poe-tooltip-body {
+  padding: 6px 12px 8px;
+}
+
+.poe-tooltip-divider {
+  height: 1px;
+  margin: 5px 10px;
+  background: radial-gradient(circle, #665e4d 0%, rgba(102, 94, 77, 0) 100%);
+}
+
+.poe-mod-implicit,
+.poe-mod-explicit {
+  color: var(--poe-magic);
+  line-height: 1.4;
+}
+
+.poe-mod-crafted {
+  color: var(--poe-crafted);
+  line-height: 1.4;
+}
+
+.poe-mod-fractured {
+  color: var(--poe-fractured);
+  line-height: 1.4;
+}
+
+.poe-mod-corrupted {
+  color: var(--poe-corrupted);
+  font-weight: 600;
+}
+
+.poe-mod-flavour {
+  color: var(--poe-unique);
+  font-style: italic;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.poe-diff-pos {
+  color: var(--poe-diff-pos);
+}
+
+.poe-diff-neg {
+  color: var(--poe-diff-neg);
+}

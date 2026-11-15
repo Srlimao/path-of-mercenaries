@@ -1,0 +1,61 @@
+.tabBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--pom-tabbar-height);
+  padding: 0 8px;
+  background-color: var(--pom-bg-recessed);
+  border-bottom: 1px solid var(--pom-border-strong);
+}
+
+.tabList {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 100%;
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 27px;
+  padding: 0 14px;
+  background-color: var(--pom-bg-panel);
+  color: var(--pom-text-secondary);
+  border: 1px solid var(--pom-border-strong);
+  border-bottom: none;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  font-family: var(--pom-font-banner);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tabButton:hover {
+  background-color: var(--pom-bg-elevated);
+  color: var(--pom-text-primary);
+}
+
+.tabButtonActive {
+  height: 29px;
+  background-color: var(--pom-bg-root);
+  color: var(--pom-gold);
+  border-color: var(--pom-gold-dim);
+  border-top: 2px solid var(--pom-gold);
+}
+
+.hotkey {
+  font-family: var(--pom-font-mono);
+  font-size: 10px;
+  color: var(--pom-text-muted);
+}
+
+.statusHint {
+  font-family: var(--pom-font-mono);
+  font-size: 11px;
+  color: var(--pom-text-muted);
+}

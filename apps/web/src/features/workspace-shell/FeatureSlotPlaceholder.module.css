@@ -1,0 +1,55 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  height: 100%;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.fullSpan {
+  grid-column: 1 / -1;
+}
+
+.body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.notice {
+  padding: 6px 8px;
+  border-left: 2px solid var(--pom-gold);
+  background-color: var(--pom-bg-recessed);
+  color: var(--pom-text-secondary);
+  font-size: 12px;
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.slotItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: 2px;
+}
+
+.slotName {
+  color: var(--pom-text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.slotEmpty {
+  color: var(--pom-text-muted);
+  font-style: italic;
+}

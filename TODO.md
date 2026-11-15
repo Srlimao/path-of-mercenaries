@@ -55,25 +55,25 @@
 
 *Goal: Build the runnable, high-density PoB desktop shell with Zero-Tailwind CSS styling, persistent Left Stat Sidebar, 4-tab switcher (`Items` | `Skills` | `Config` | `Calcs`), and live reactive binding to `@pom/engine`.*
 
-- [ ] **2.1 Vite + React + TypeScript App Setup (`apps/web/`)**
-  - [ ] Initialize `apps/web/package.json`, `vite.config.ts`, `tsconfig.json` (workspace linked to `@pom/engine`), and `index.html` (loading `Cinzel` and `JetBrains Mono`).
-  - [ ] Verify `pnpm --filter web dev` boots cleanly with zero console errors.
+- [x] **2.1 Vite + React + TypeScript App Setup (`apps/web/`)**
+  - [x] Initialize `apps/web/package.json`, `vite.config.ts`, `tsconfig.json` (workspace linked to `@pom/engine`), and `index.html` (loading `Cinzel` and `JetBrains Mono`).
+  - [x] Verify `pnpm --filter @pom/web build` (`tsc --noEmit && vite build`) compiles cleanly with zero errors.
 
-- [ ] **2.2 Zero-Tailwind Desktop PoB Design System (`apps/web/src/styles/`)**
-  - [ ] `tokens.css`: Surface palette (`#0b0c0e`, `#121418`, `#181b21`, `#2b303a`, `#c8aa6e`), PoE item/mod rarity colors (`#c8c8c8`, `#8888ff`, `#ffff77`, `#af6025`, `#b4b4ff`, `#a29162`, `#d20000`), positive/negative diff greens/reds, and `tabular-nums` font rules.
-  - [ ] `primitives.css`: Crisp `2px`-radius `.pom-button`, `.pom-panel-header`, `.pom-fieldset`, `.pom-input`, `.pom-select`, `.pom-table`, and thin dark scrollbars.
-  - [ ] `poe-tooltip.css`: Rarity-graded tooltip header banners, ornamental radial horizontal dividers, and centered PoE mod line styling.
+- [x] **2.2 Zero-Tailwind Desktop PoB Design System (`apps/web/src/styles/`)**
+  - [x] `tokens.css`: Surface palette (`#0b0c0e`, `#121418`, `#181b21`, `#2b303a`, `#c8aa6e`), PoE item/mod rarity colors (`#c8c8c8`, `#8888ff`, `#ffff77`, `#af6025`, `#b4b4ff`, `#a29162`, `#d20000`), positive/negative diff greens/reds, and `tabular-nums` font rules.
+  - [x] `primitives.css`: Crisp `2px`-radius `.pom-button`, `.pom-panel-header`, `.pom-fieldset`, `.pom-input`, `.pom-select`, `.pom-table`, and thin dark scrollbars.
+  - [x] `poe-tooltip.css`: Rarity-graded tooltip header banners, ornamental radial horizontal dividers, and centered PoE mod line styling.
 
-- [ ] **2.3 Reactive State & Engine Bridge (`apps/web/src/state/`)**
-  - [ ] `build_state_context.tsx`: React Context storing `MercenaryBuildState`, active workspace tab (`'items' | 'skills' | 'config' | 'calcs'`), `hoveredComparison`, and `selectedCalcCell`.
-  - [ ] `use_mercenary_calculator.ts`: Memoized hook calling `calculateBuild(buildState, catalogs)` on every state change and exposing `calcSnapshot` + typed dispatch actions.
+- [x] **2.3 Reactive State & Engine Bridge (`apps/web/src/state/`)**
+  - [x] `build_state_context.tsx`: React Context storing `MercenaryBuildState`, active workspace tab (`'items' | 'skills' | 'config' | 'calcs'`), memoized `calculateBuild()` output, and typed dispatch updaters.
+  - [x] `use_mercenary_calculator.ts`: Memoized hook exposing `snapshot`, `modDb`, `catalogs`, `activeArchetype`, `activeSkillGroup`, and `activeSkillDef`.
 
-- [ ] **2.4 Top Application Header & 4-Tab Workspace Shell (`apps/web/src/features/workspace-shell/`)**
-  - [ ] `TopActionHeader.tsx` & `TopActionHeader.module.css`: PoM branding, editable build name input, and placeholder action buttons (`Save / Cloud`, `Share URL`, `Export PoB XML`, `Import GGG`).
-  - [ ] `WorkspaceTabBar.tsx`: PoB top mode tabs (`Items` | `Skills` | `Config` | `Calcs`) with `#c8aa6e` active underline/border and clean slot mounting for each feature slice.
+- [x] **2.4 Top Application Header & 4-Tab Workspace Shell (`apps/web/src/features/workspace-shell/`)**
+  - [x] `TopActionHeader.tsx` & `TopActionHeader.module.css`: PoM branding, editable build name input, archetype/level badges, and Reset + Phase 13 cloud/share/import controls.
+  - [x] `WorkspaceTabBar.tsx`: PoB top mode tabs (`Items` | `Skills` | `Config` | `Calcs`) with `#c8aa6e` active highlight, `F1`–`F4` hotkeys, and live `FeatureSlotPlaceholder.tsx` views.
 
-- [ ] **2.5 Persistent Left Stat Sidebar Shell (`apps/web/src/features/left-stat-sidebar/`)**
-  - [ ] `LeftStatSidebar.tsx` & `LeftStatSidebar.module.css`: Fixed-width (`280px–300px`) PoB summary column rendering Archetype/Level header, Active Skill selector slot, Offence block (`Combined Full DPS`, `Active Skill DPS`, `Average Hit`, `Rate`, `Crit`, `Hit Chance`), and Defences block (`EHP`, `Life/ES`, `Max Hit`, `Armour/Ev/Block`, `Resistances`).
+- [x] **2.5 Persistent Left Stat Sidebar Shell (`apps/web/src/features/left-stat-sidebar/`)**
+  - [x] `LeftStatSidebar.tsx` & `LeftStatSidebar.module.css`: Fixed-width (`296px`) PoB summary column rendering Archetype/Level selector, Main Skill & Part selector, Offence block (`Combined Full DPS`, `Active Skill DPS`, `Average Hit`, `Rate`, `Crit`, `Hit Chance`), Attributes/Pools (`STR/DEX/INT`, `Life/ES/Ward`, `EHP`), and Defences/Resistances (`Armour`, `Evasion`, `Capped (Uncapped)` Res, Per-Type `Max Hit Taken`).
 
 ---
 

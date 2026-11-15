@@ -1,0 +1,104 @@
+/* Path of Mercenaries (PoM) — Desktop PoB Design Tokens (Zero-Tailwind) */
+
+:root {
+  /* Core Surfaces */
+  --pom-bg-root: #0b0c0e;
+  --pom-bg-recessed: #121418;
+  --pom-bg-panel: #181b21;
+  --pom-bg-elevated: #20242d;
+  --pom-bg-hover: #262b36;
+  --pom-bg-input: #0e1014;
+
+  /* Structural Borders & Bevels */
+  --pom-border-subtle: #232730;
+  --pom-border-strong: #2b303a;
+  --pom-border-bevel-light: #3a4150;
+  --pom-border-bevel-dark: #07080a;
+  --pom-gold: #c8aa6e;
+  --pom-gold-dim: #8c7448;
+  --pom-gold-bg: rgba(200, 170, 110, 0.12);
+
+  /* Text Hierarchy */
+  --pom-text-primary: #e2e6ee;
+  --pom-text-secondary: #9ba3b2;
+  --pom-text-muted: #6c7484;
+  --pom-text-accent: #f0d79a;
+
+  /* PoE Item Rarity & Mod Hex Tokens */
+  --poe-normal: #c8c8c8;
+  --poe-magic: #8888ff;
+  --poe-rare: #ffff77;
+  --poe-unique: #af6025;
+  --poe-crafted: #b4b4ff;
+  --poe-fractured: #a29162;
+  --poe-corrupted: #d20000;
+
+  /* Damage Type & Stat Colors */
+  --poe-phys: #d8d8d8;
+  --poe-fire: #e06c4c;
+  --poe-cold: #66b8eb;
+  --poe-lightning: #edd55a;
+  --poe-chaos: #c964cf;
+  --poe-life: #e05252;
+  --poe-es: #70b7ff;
+  --poe-ward: #89d8b5;
+  --poe-diff-pos: #4ade80;
+  --poe-diff-neg: #f87171;
+
+  /* Typography */
+  --pom-font-banner: 'Cinzel', Georgia, serif;
+  --pom-font-ui: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  --pom-font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+
+  /* Layout Radii & Sizing */
+  --pom-radius: 2px;
+  --pom-sidebar-width: 296px;
+  --pom-header-height: 40px;
+  --pom-tabbar-height: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--pom-bg-root);
+  color: var(--pom-text-primary);
+  font-family: var(--pom-font-ui);
+  font-size: 12px;
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular-nums {
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Thin Dark Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pom-bg-root);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pom-border-strong);
+  border: 1px solid var(--pom-bg-root);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pom-border-bevel-light);
+}

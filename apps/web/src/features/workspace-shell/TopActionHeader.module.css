@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: var(--pom-header-height);
+  padding: 0 10px;
+  background-color: var(--pom-bg-recessed);
+  border-bottom: 1px solid var(--pom-border-strong);
+}
+
+.leftCluster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brandMark {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--pom-font-banner);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--pom-gold);
+  white-space: nowrap;
+}
+
+.brandSub {
+  font-family: var(--pom-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--pom-text-muted);
+  letter-spacing: 0;
+}
+
+.buildNameInput {
+  width: 240px;
+  max-width: 30vw;
+  font-weight: 600;
+}
+
+.metaCluster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionsCluster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

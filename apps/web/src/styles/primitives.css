@@ -1,0 +1,187 @@
+/* Path of Mercenaries (PoM) — Desktop PoB Control & Surface Primitives */
+
+.pom-panel {
+  background-color: var(--pom-bg-panel);
+  border: 1px solid var(--pom-border-strong);
+  border-top-color: var(--pom-border-bevel-light);
+  border-bottom-color: var(--pom-border-bevel-dark);
+  border-radius: var(--pom-radius);
+}
+
+.pom-panel-recessed {
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.pom-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background-color: var(--pom-bg-elevated);
+  border-bottom: 1px solid var(--pom-border-strong);
+  font-family: var(--pom-font-banner);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--pom-gold);
+}
+
+.pom-fieldset {
+  margin: 0;
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-strong);
+  border-radius: var(--pom-radius);
+}
+
+.pom-fieldset legend {
+  padding: 0 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--pom-gold);
+}
+
+.pom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 9px;
+  background-color: var(--pom-bg-elevated);
+  color: var(--pom-text-primary);
+  border: 1px solid var(--pom-border-strong);
+  border-top-color: var(--pom-border-bevel-light);
+  border-bottom-color: var(--pom-border-bevel-dark);
+  border-radius: var(--pom-radius);
+  font-family: var(--pom-font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pom-button:hover:not(:disabled) {
+  background-color: var(--pom-bg-hover);
+  border-color: var(--pom-gold-dim);
+}
+
+.pom-button:active:not(:disabled) {
+  border-top-color: var(--pom-border-bevel-dark);
+  border-bottom-color: var(--pom-border-bevel-light);
+}
+
+.pom-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pom-button-gold {
+  border-color: var(--pom-gold-dim);
+  color: var(--pom-text-accent);
+  background-color: var(--pom-gold-bg);
+}
+
+.pom-button-gold:hover:not(:disabled) {
+  border-color: var(--pom-gold);
+  background-color: rgba(200, 170, 110, 0.22);
+}
+
+.pom-input,
+.pom-select {
+  height: 24px;
+  padding: 2px 6px;
+  background-color: var(--pom-bg-input);
+  color: var(--pom-text-primary);
+  border: 1px solid var(--pom-border-strong);
+  border-top-color: var(--pom-border-bevel-dark);
+  border-bottom-color: var(--pom-border-bevel-light);
+  border-radius: var(--pom-radius);
+  font-family: var(--pom-font-ui);
+  font-size: 12px;
+  outline: none;
+}
+
+.pom-input:focus,
+.pom-select:focus {
+  border-color: var(--pom-gold);
+}
+
+.pom-stat-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 4px;
+  border-bottom: 1px solid rgba(43, 48, 58, 0.45);
+}
+
+.pom-stat-row:last-child {
+  border-bottom: none;
+}
+
+.pom-stat-label {
+  color: var(--pom-text-secondary);
+  font-size: 12px;
+}
+
+.pom-stat-value {
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--pom-text-primary);
+  text-align: right;
+}
+
+.pom-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  border-radius: var(--pom-radius);
+  border: 1px solid var(--pom-border-strong);
+  background-color: var(--pom-bg-elevated);
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: var(--pom-text-secondary);
+}
+
+.pom-badge-gold {
+  border-color: var(--pom-gold-dim);
+  color: var(--pom-gold);
+  background-color: var(--pom-gold-bg);
+}
+
+.pom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.pom-table th {
+  padding: 4px 8px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--pom-gold);
+  background-color: var(--pom-bg-elevated);
+  border-bottom: 1px solid var(--pom-border-strong);
+}
+
+.pom-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--pom-border-subtle);
+  color: var(--pom-text-primary);
+}
+
+.pom-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.025);
+}
