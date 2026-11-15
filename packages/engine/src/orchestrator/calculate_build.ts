@@ -1,5 +1,6 @@
 import {
   DAMAGE_TYPES,
+  EQUIPMENT_SLOTS,
   KeywordFlags,
   ModFlags,
   type CalculationResultSnapshot,
@@ -9,11 +10,11 @@ import {
   type PerTypeDamageBreakdown,
   type SkillPartCalcResult,
 } from '../catalog-types/index.js';
-import { ModDB, type EvalContext, type ModSource } from '../mod-db/index.js';
+import { compileArchetypeMods, validateEquipmentForArchetype } from '../archetype-baseline/index.js';
+import { ModDB, type EvalContext } from '../mod-db/index.js';
+import { compileEquippedItemsMods } from '../mod-parser/index.js';
 import {
   SEED_CATALOGS,
-  deriveHiddenElemResPct,
-  deriveMercSkillLevel,
   findArchetypeById,
   findSkillById,
   type GameCatalogBundle,
@@ -43,18 +44,9 @@ function emptyBreakdown(damageType: DamageType): PerTypeDamageBreakdown {
   };
 }
 
-function archetypeSource(archetypeName: string, rawLine: string): ModSource {
-  return {
-    sourceType: 'Archetype',
-    sourceId: `archetype:${archetypeName}`,
-    sourceLabel: `${archetypeName} Baseline`,
-    rawLine,
-  };
-}
-
 /**
- * Baseline Phase 1 calculation orchestrator.
- * Compiles Archetype Level 1-85 baseline stats into ModDB and returns a full snapshot DTO.
+ * Compiles Archetype baseline (Phase 3) and Equipped Items (Phase 4) into ModDB,
+ * computing attributes, pools, resistances, and Stage 1 weapon/skill preview metrics.
  */
 export function calculateBuild(
   buildState: MercenaryBuildState,
@@ -63,51 +55,62 @@ export function calculateBuild(
   const modDb = new ModDB();
   const warnings: string[] = [];
 
-  const archetype = findArchetypeById(buildState.archetypeId, catalogs) ?? catalogs.archetypes[0];
-  const clampedLevel = Math.max(1, Math.min(85, Math.round(buildState.mercLevel)));
-  const levelRow = archetype?.statsByLevel[clampedLevel];
+  const archetype = findArchetypeById(buildState.archetypeId, catalogs) ?? catalogs.archetypes[0]!;
+  const baseline = compileArchetypeMods(archetype, buildState.mercLevel, modDb);
 
-  const baseStr = levelRow?.baseStr ?? 50;
-  const baseDex = levelRow?.baseDex ?? 50;
-  const baseInt = levelRow?.baseInt ?? 50;
-  const baseLife = levelRow?.baseLife ?? 1000;
-  const baseAccuracy = levelRow?.baseAccuracy ?? 500;
-  const baseEvasion = levelRow?.baseEvasion ?? 300;
-  const hiddenElemResPct = levelRow?.hiddenElemResPct ?? deriveHiddenElemResPct(clampedLevel);
-  const derivedSkillLevel = levelRow?.defaultSkillLevel ?? deriveMercSkillLevel(clampedLevel);
-  const archName = archetype?.name ?? 'Unknown Archetype';
+  const weapon1 = buildState.equippedItems.Weapon1;
+  for (const slot of EQUIPMENT_SLOTS) {
+    const item = buildState.equippedItems[slot];
+    if (!item) continue;
+    const warning = validateEquipmentForArchetype(archetype, slot, item, weapon1);
+    if (warning) warnings.push(warning);
+  }
+  compileEquippedItemsMods(buildState.equippedItems, modDb);
 
-  modDb.addMods([
-    { name: 'Str', type: 'BASE', value: baseStr, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseStr} Strength`) },
-    { name: 'Dex', type: 'BASE', value: baseDex, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseDex} Dexterity`) },
-    { name: 'Int', type: 'BASE', value: baseInt, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseInt} Intelligence`) },
-    { name: 'Life', type: 'BASE', value: baseLife, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseLife} Base Life`) },
-    { name: 'Accuracy', type: 'BASE', value: baseAccuracy, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseAccuracy} Base Accuracy`) },
-    { name: 'Evasion', type: 'BASE', value: baseEvasion, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${baseEvasion} Base Evasion`) },
-    { name: 'FireResist', type: 'BASE', value: hiddenElemResPct, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${hiddenElemResPct}% Hidden Elemental Resistances`) },
-    { name: 'ColdResist', type: 'BASE', value: hiddenElemResPct, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${hiddenElemResPct}% Hidden Elemental Resistances`) },
-    { name: 'LightningResist', type: 'BASE', value: hiddenElemResPct, flags: ModFlags.None, keywordFlags: KeywordFlags.None, source: archetypeSource(archName, `+${hiddenElemResPct}% Hidden Elemental Resistances`) },
-  ]);
-
-  const emptyContext: EvalContext = { conditions: {}, stats: {} };
-  const queryBase = (name: string) => ({
-    names: [name],
-    flags: ModFlags.None,
-    keywordFlags: KeywordFlags.None,
-    context: emptyContext,
+  const emptyCtx: EvalContext = { conditions: {}, stats: {} };
+  const q = (names: string[], flags = ModFlags.None, keywordFlags = KeywordFlags.None) => ({
+    names,
+    flags,
+    keywordFlags,
+    context: emptyCtx,
   });
 
-  const str = modDb.sum('BASE', queryBase('Str'));
-  const dex = modDb.sum('BASE', queryBase('Dex'));
-  const int = modDb.sum('BASE', queryBase('Int'));
-  const maxLife = Math.round(modDb.sum('BASE', queryBase('Life')) + str / 2);
-  const accuracy = Math.round(modDb.sum('BASE', queryBase('Accuracy')) + dex * 2);
-  const evasion = Math.round(modDb.sum('BASE', queryBase('Evasion')));
+  const str = Math.round(modDb.sum('BASE', q(['Str'])));
+  const dex = Math.round(modDb.sum('BASE', q(['Dex'])));
+  const int = Math.round(modDb.sum('BASE', q(['Int'])));
 
-  const fireUncapped = modDb.sum('BASE', queryBase('FireResist'));
-  const coldUncapped = modDb.sum('BASE', queryBase('ColdResist'));
-  const lightUncapped = modDb.sum('BASE', queryBase('LightningResist'));
-  const chaosUncapped = modDb.sum('BASE', queryBase('ChaosResist'));
+  const maxLife = Math.round(
+    (modDb.sum('BASE', q(['Life'])) + str / 2) * (1 + modDb.sum('INC', q(['Life'])) / 100),
+  );
+  const maxEnergyShield = Math.round(
+    modDb.sum('BASE', q(['EnergyShield'])) *
+      (1 + (modDb.sum('INC', q(['EnergyShield'])) + int / 5) / 100),
+  );
+  const maxWard = Math.round(
+    modDb.sum('BASE', q(['Ward'])) * (1 + modDb.sum('INC', q(['Ward'])) / 100),
+  );
+  const armour = Math.round(
+    modDb.sum('BASE', q(['Armour'])) * (1 + modDb.sum('INC', q(['Armour'])) / 100),
+  );
+  const evasion = Math.round(
+    modDb.sum('BASE', q(['Evasion'])) * (1 + (modDb.sum('INC', q(['Evasion'])) + dex / 5) / 100),
+  );
+  const accuracy = Math.round(
+    (modDb.sum('BASE', q(['Accuracy'])) + dex * 2) * (1 + modDb.sum('INC', q(['Accuracy'])) / 100),
+  );
+
+  const attackBlockPct = Math.min(75, Math.round(modDb.sum('BASE', q(['AttackBlockChance']))));
+  const spellBlockPct = Math.min(75, Math.round(modDb.sum('BASE', q(['SpellBlockChance']))));
+  const spellSuppressionPct = Math.min(100, Math.round(modDb.sum('BASE', q(['SpellSuppressionChance']))));
+
+  const fireUncapped = modDb.sum('BASE', q(['FireResist']));
+  const coldUncapped = modDb.sum('BASE', q(['ColdResist']));
+  const lightUncapped = modDb.sum('BASE', q(['LightningResist']));
+  const chaosUncapped = modDb.sum('BASE', q(['ChaosResist']));
+
+  const enemyPhysHit = Math.max(100, buildState.enemyConfig.physicalHitSize || 3500);
+  const armourPdr = Math.min(0.9, armour / (armour + 5 * enemyPhysHit));
+  const poolTotal = maxLife + maxEnergyShield + maxWard;
 
   const defences: DefenceCalcResult = {
     str,
@@ -115,30 +118,30 @@ export function calculateBuild(
     int,
     accuracy,
     maxLife,
-    maxEnergyShield: 0,
-    maxWard: 0,
-    armour: 0,
+    maxEnergyShield,
+    maxWard,
+    armour,
     evasion,
     evadeChancePct: 0,
-    attackBlockPct: 0,
-    spellBlockPct: 0,
-    spellSuppressionPct: 0,
-    physicalDamageReductionPct: 0,
+    attackBlockPct,
+    spellBlockPct,
+    spellSuppressionPct,
+    physicalDamageReductionPct: Math.round(armourPdr * 100),
     resistances: {
-      Fire: { capped: Math.min(75, fireUncapped), uncapped: fireUncapped, maxCap: 75, hiddenBaselinePct: hiddenElemResPct },
-      Cold: { capped: Math.min(75, coldUncapped), uncapped: coldUncapped, maxCap: 75, hiddenBaselinePct: hiddenElemResPct },
-      Lightning: { capped: Math.min(75, lightUncapped), uncapped: lightUncapped, maxCap: 75, hiddenBaselinePct: hiddenElemResPct },
+      Fire: { capped: Math.min(75, fireUncapped), uncapped: fireUncapped, maxCap: 75, hiddenBaselinePct: baseline.hiddenElemResPct },
+      Cold: { capped: Math.min(75, coldUncapped), uncapped: coldUncapped, maxCap: 75, hiddenBaselinePct: baseline.hiddenElemResPct },
+      Lightning: { capped: Math.min(75, lightUncapped), uncapped: lightUncapped, maxCap: 75, hiddenBaselinePct: baseline.hiddenElemResPct },
       Chaos: { capped: Math.min(75, chaosUncapped), uncapped: chaosUncapped, maxCap: 75, hiddenBaselinePct: 0 },
     },
     physTakenAsPct: { Fire: 0, Cold: 0, Lightning: 0, Chaos: 0 },
     maxHitTaken: {
-      Physical: maxLife,
-      Fire: Math.round(maxLife / Math.max(0.1, 1 - Math.min(75, fireUncapped) / 100)),
-      Cold: Math.round(maxLife / Math.max(0.1, 1 - Math.min(75, coldUncapped) / 100)),
-      Lightning: Math.round(maxLife / Math.max(0.1, 1 - Math.min(75, lightUncapped) / 100)),
-      Chaos: maxLife,
+      Physical: Math.round(poolTotal / Math.max(0.1, 1 - armourPdr)),
+      Fire: Math.round(poolTotal / Math.max(0.05, 1 - Math.min(75, fireUncapped) / 100)),
+      Cold: Math.round(poolTotal / Math.max(0.05, 1 - Math.min(75, coldUncapped) / 100)),
+      Lightning: Math.round(poolTotal / Math.max(0.05, 1 - Math.min(75, lightUncapped) / 100)),
+      Chaos: Math.round(maxLife / Math.max(0.05, 1 - Math.min(75, chaosUncapped) / 100)),
     },
-    effectiveHitPool: maxLife,
+    effectiveHitPool: Math.round(poolTotal / Math.max(0.1, 1 - armourPdr * 0.5)),
     netLifeRecoveryPerSec: 0,
   };
 
@@ -154,39 +157,86 @@ export function calculateBuild(
     DAMAGE_TYPES.map((dt) => [dt, emptyBreakdown(dt)]),
   ) as Record<DamageType, PerTypeDamageBreakdown>;
 
-  const activePartResult: SkillPartCalcResult | null = activeSkillDef && activePartDef
-    ? {
-        groupId: activeGroup?.groupId ?? 'primary-1',
-        skillId: activeSkillDef.id,
-        skillName: activeSkillDef.name,
-        partId: activePartDef.id,
-        partLabel: activePartDef.label,
-        effectiveSkillLevel: activeGroup?.skillLevelOverride ?? derivedSkillLevel,
-        hitChancePct: 100,
-        effectiveCritChancePct: 0,
-        critMultiplierPct: 150,
-        effectiveActionRate: 1,
-        isLuckyDamage: false,
-        averageHit: 0,
-        hitDps: 0,
-        impaleDps: 0,
-        igniteDps: 0,
-        bleedDps: 0,
-        poisonDps: 0,
-        partFullDpsContribution: 0,
-        perTypeBreakdown: perTypeRecord,
+  let activePartResult: SkillPartCalcResult | null = null;
+  let activeSkillDps = 0;
+
+  if (activeSkillDef && activePartDef) {
+    const effSkillLv = activeGroup?.skillLevelOverride ?? baseline.derivedSkillLevel;
+    const clampedLv = Math.max(1, Math.min(40, effSkillLv));
+    const weaponStats = weapon1?.localWeaponStats;
+    const skillFlags = activePartDef.skillModFlags;
+
+    let baseAvg = 0;
+    if (activePartDef.isAttack) {
+      const mul = (activePartDef.weaponDamageMultiplierPctByLevel[clampedLv] ?? 100) / 100;
+      const wPhys = weaponStats ? (weaponStats.physMin + weaponStats.physMax) / 2 : 12;
+      let wEle = 0;
+      if (weaponStats) {
+        for (const dt of ['Fire', 'Cold', 'Lightning', 'Chaos'] as const) {
+          wEle += ((weaponStats.eleMin[dt] ?? 0) + (weaponStats.eleMax[dt] ?? 0)) / 2;
+        }
       }
-    : null;
+      baseAvg = (wPhys + wEle) * mul;
+    } else {
+      const spellBase = activePartDef.baseAddedDamageByLevel[clampedLv];
+      if (spellBase) {
+        for (const dt of DAMAGE_TYPES) {
+          const range = spellBase[dt];
+          if (range) baseAvg += (range[0] + range[1]) / 2;
+        }
+      }
+    }
+
+    const baseCritPct = activePartDef.isAttack
+      ? (weaponStats?.critChancePct ?? 5)
+      : (activePartDef.baseCritChancePct ?? 6);
+    const incCritPct = modDb.sum('INC', q(['CritChance'], skillFlags));
+    const effCrit = Math.min(100, baseCritPct * (1 + incCritPct / 100));
+    const critMulti = 150 + modDb.sum('BASE', q(['CritMultiplier'], skillFlags));
+    const critFactor = 1 + (effCrit / 100) * ((critMulti - 100) / 100);
+
+    const baseRate = activePartDef.isAttack
+      ? (weaponStats?.aps ?? 1.2) * (activePartDef.attackSpeedMulti ?? 1)
+      : 1 / (activePartDef.baseCastTimeSec ?? 0.7);
+    const incSpeed = modDb.sum('INC', q(['Speed'], skillFlags));
+    const effRate = Number((baseRate * (1 + incSpeed / 100)).toFixed(2));
+
+    const incDmg = modDb.sum('INC', q(['Damage', 'ProjectileDamage', 'ElementalDamage', 'PhysicalDamage'], skillFlags, activePartDef.skillKeywordFlags));
+    const avgHit = Math.round(baseAvg * (1 + incDmg / 100) * critFactor);
+    activeSkillDps = Math.round(avgHit * effRate);
+
+    activePartResult = {
+      groupId: activeGroup?.groupId ?? 'primary-1',
+      skillId: activeSkillDef.id,
+      skillName: activeSkillDef.name,
+      partId: activePartDef.id,
+      partLabel: activePartDef.label,
+      effectiveSkillLevel: clampedLv,
+      hitChancePct: 100,
+      effectiveCritChancePct: Number(effCrit.toFixed(2)),
+      critMultiplierPct: Math.round(critMulti),
+      effectiveActionRate: effRate,
+      isLuckyDamage: modDb.flag('LuckyHitDamage', emptyCtx),
+      averageHit: avgHit,
+      hitDps: activeSkillDps,
+      impaleDps: 0,
+      igniteDps: 0,
+      bleedDps: 0,
+      poisonDps: 0,
+      partFullDpsContribution: activeSkillDps,
+      perTypeBreakdown: perTypeRecord,
+    };
+  }
 
   return {
     modDb,
     snapshot: {
-      archetypeId: archetype?.id ?? buildState.archetypeId,
-      archetypeName: archName,
-      mercLevel: clampedLevel,
-      derivedSkillLevel,
-      combinedFullDps: 0,
-      activeSkillDps: 0,
+      archetypeId: archetype.id,
+      archetypeName: archetype.name,
+      mercLevel: baseline.clampedLevel,
+      derivedSkillLevel: baseline.derivedSkillLevel,
+      combinedFullDps: activeSkillDps,
+      activeSkillDps,
       activePartResult,
       skillResults: activePartResult ? [activePartResult] : [],
       defences,

@@ -1,62 +1,12 @@
-import { EQUIPMENT_SLOTS } from '@pom/engine';
 import { useMercenaryCalculator } from '../../state/index.js';
+import { ItemsTabView } from '../items-paperdoll-inspector/index.js';
 import styles from './FeatureSlotPlaceholder.module.css';
 
 export function FeatureSlotPlaceholder() {
-  const { activeTab, buildState, catalogs, activeSkillDef, modDb, snapshot } =
-    useMercenaryCalculator();
+  const { activeTab, buildState, activeSkillDef, modDb, snapshot } = useMercenaryCalculator();
 
   if (activeTab === 'items') {
-    return (
-      <div className={styles.container}>
-        <section className="pom-panel">
-          <div className="pom-panel-header">
-            <span>Equipment Paperdoll (10 Slots)</span>
-            <span className="pom-badge">Phase 4 Slot</span>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.notice}>
-              Ready for Slice 2 &amp; 3: PoE Ctrl+V item pasting, Stage 1 local weapon DPS,
-              in-place roll editor, and live hover +DPS / +EHP diffs.
-            </div>
-            <div className={styles.slotGrid}>
-              {EQUIPMENT_SLOTS.map((slot) => {
-                const item = buildState.equippedItems[slot];
-                return (
-                  <div key={slot} className={styles.slotItem}>
-                    <span className={styles.slotName}>{slot}</span>
-                    <span className={item ? '' : styles.slotEmpty}>
-                      {item ? item.name : '(Empty)'}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="pom-panel">
-          <div className="pom-panel-header">
-            <span>Seed Uniques &amp; Base Catalogs</span>
-            <span className="pom-badge pom-badge-gold">{catalogs.uniques.length} Uniques</span>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.notice}>
-              Loaded {catalogs.uniques.length} signature Mercenary Uniques and{' '}
-              {catalogs.baseItems.length} Base Items from @pom/engine seed catalog.
-            </div>
-            <div className={styles.slotGrid}>
-              {catalogs.uniques.slice(0, 8).map((u) => (
-                <div key={u.id} className={styles.slotItem}>
-                  <span style={{ color: 'var(--poe-unique)', fontWeight: 600 }}>{u.name}</span>
-                  <span className="pom-badge">{u.itemClass}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    );
+    return <ItemsTabView />;
   }
 
   if (activeTab === 'skills') {

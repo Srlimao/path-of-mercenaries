@@ -1,0 +1,122 @@
+.layout {
+  display: grid;
+  grid-template-columns: 310px minmax(280px, 1fr) 330px;
+  gap: 8px;
+  align-items: start;
+}
+
+@media (max-width: 1180px) {
+  .layout {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panelBody {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inspectorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.warningBanner {
+  padding: 6px 8px;
+  background-color: rgba(210, 0, 0, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  border-radius: var(--pom-radius);
+  color: var(--poe-diff-neg);
+  font-size: 11px;
+}
+
+.emptySlotBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px dashed var(--pom-border-strong);
+  border-radius: var(--pom-radius);
+}
+
+.emptyTitle {
+  font-weight: 600;
+  color: var(--pom-text-primary);
+}
+
+.emptyHint {
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+  line-height: 1.45;
+}
+
+.searchInput {
+  width: 100%;
+}
+
+.uniqueList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 620px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.uniqueCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.uniqueCard:hover {
+  border-color: var(--pom-border-strong);
+  background-color: var(--pom-bg-elevated);
+}
+
+.uniqueTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.uniqueTitleWrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.uniqueName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--poe-unique);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uniqueBase {
+  font-size: 10px;
+  color: var(--pom-text-muted);
+}
+
+.uniqueModPreview {
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+  line-height: 1.3;
+}

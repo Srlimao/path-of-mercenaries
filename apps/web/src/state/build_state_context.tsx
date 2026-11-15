@@ -9,10 +9,14 @@ import {
   SEED_CATALOGS,
   calculateBuild,
   createDefaultBuildState,
+  createParsedItemFromUnique,
   findArchetypeById,
   findSkillById,
+  parsePoeItemClipboard,
   type EngineCalculationOutput,
+  type EquipmentSlot,
   type MercenaryBuildState,
+  type ParsedItem,
 } from '@pom/engine';
 
 export type WorkspaceTabId = 'items' | 'skills' | 'config' | 'calcs';
@@ -28,9 +32,39 @@ export interface BuildStateContextValue {
   setActiveSkillGroup: (groupId: string) => void;
   setActiveSkillId: (groupId: string, skillId: string) => void;
   setActiveSkillPart: (groupId: string, partId: string) => void;
+  equipItem: (slot: EquipmentSlot, item: ParsedItem) => void;
+  unequipItem: (slot: EquipmentSlot) => void;
+  equipStarterLoadout: () => void;
   updateBuildState: (updater: (prev: MercenaryBuildState) => MercenaryBuildState) => void;
   resetBuildState: () => void;
 }
+
+const STARTER_RARE_WAND = `Item Class: Wand
+Rarity: Rare
+Storm Spiker
+Imbued Wand
+--------
+Quality: +20% (augmented)
+--------
+33% increased Spell Damage (implicit)
+--------
+Adds 24 to 390 Lightning Damage
+21% increased Attack Speed
+28% increased Critical Strike Chance
++35% to Global Critical Strike Multiplier (crafted)`;
+
+const STARTER_RARE_RING = `Item Class: Ring
+Rarity: Rare
+Blight Band
+Opal Ring
+--------
+25% increased Elemental Damage (implicit)
+--------
++78 to maximum Life
++42 to Intelligence
++45% to Fire Resistance
+-38% to Lightning Resistance
+34% increased Elemental Damage with Attack Skills`;
 
 export const BuildStateContext = createContext<BuildStateContextValue | null>(null);
 
@@ -129,6 +163,43 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
+  const equipItem = useCallback((slot: EquipmentSlot, item: ParsedItem) => {
+    setBuildState((prev) => ({
+      ...prev,
+      equippedItems: { ...prev.equippedItems, [slot]: item },
+    }));
+  }, []);
+
+  const unequipItem = useCallback((slot: EquipmentSlot) => {
+    setBuildState((prev) => {
+      const next = { ...prev.equippedItems };
+      delete next[slot];
+      return { ...prev, equippedItems: next };
+    });
+  }, []);
+
+  const equipStarterLoadout = useCallback(() => {
+    setBuildState((prev) => {
+      const findU = (id: string) => SEED_CATALOGS.uniques.find((u) => u.id === id);
+      const nextEquipped = { ...prev.equippedItems };
+      nextEquipped.Weapon1 = parsePoeItemClipboard(STARTER_RARE_WAND, SEED_CATALOGS);
+      const dawn = findU('dawnbreaker');
+      if (dawn) nextEquipped.Weapon2 = createParsedItemFromUnique(dawn, SEED_CATALOGS);
+      const crown = findU('crown_of_the_tyrant');
+      if (crown) nextEquipped.Helmet = createParsedItemFromUnique(crown, SEED_CATALOGS);
+      const doryani = findU('doryanis_prototype');
+      if (doryani) nextEquipped.BodyArmour = createParsedItemFromUnique(doryani, SEED_CATALOGS);
+      const grave = findU('gravebind');
+      if (grave) nextEquipped.Gloves = createParsedItemFromUnique(grave, SEED_CATALOGS);
+      const rala = findU('ralakeshs_impatience');
+      if (rala) nextEquipped.Boots = createParsedItemFromUnique(rala, SEED_CATALOGS);
+      const perquil = findU('perquils_toe');
+      if (perquil) nextEquipped.Amulet = createParsedItemFromUnique(perquil, SEED_CATALOGS);
+      nextEquipped.Ring1 = parsePoeItemClipboard(STARTER_RARE_RING, SEED_CATALOGS);
+      return { ...prev, equippedItems: nextEquipped };
+    });
+  }, []);
+
   const updateBuildState = useCallback(
     (updater: (prev: MercenaryBuildState) => MercenaryBuildState) => {
       setBuildState((prev) => updater(prev));
@@ -152,6 +223,9 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
       setActiveSkillGroup,
       setActiveSkillId,
       setActiveSkillPart,
+      equipItem,
+      unequipItem,
+      equipStarterLoadout,
       updateBuildState,
       resetBuildState,
     }),
@@ -165,6 +239,9 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
       setActiveSkillGroup,
       setActiveSkillId,
       setActiveSkillPart,
+      equipItem,
+      unequipItem,
+      equipStarterLoadout,
       updateBuildState,
       resetBuildState,
     ],

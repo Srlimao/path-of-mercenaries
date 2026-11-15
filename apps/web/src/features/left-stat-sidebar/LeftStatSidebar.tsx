@@ -1,4 +1,6 @@
 import { useMercenaryCalculator } from '../../state/index.js';
+import { ArchetypeSelector } from './ArchetypeSelector.js';
+import { MercLevelControl } from './MercLevelControl.js';
 import styles from './LeftStatSidebar.module.css';
 
 function formatNum(value: number): string {
@@ -18,14 +20,9 @@ export function LeftStatSidebar() {
     activeArchetype,
     activeSkillGroup,
     activeSkillDef,
-    setArchetypeId,
-    setMercLevel,
     setActiveSkillId,
     setActiveSkillPart,
   } = useMercenaryCalculator();
-
-  const standardArchetypes = catalogs.archetypes.filter((a) => !a.isInfamous);
-  const infamousArchetypes = catalogs.archetypes.filter((a) => a.isInfamous);
 
   const allowedSkillIds = new Set(
     activeArchetype
@@ -48,49 +45,8 @@ export function LeftStatSidebar() {
       <fieldset className="pom-fieldset">
         <legend>Mercenary Identity</legend>
         <div className={styles.controlGrid}>
-          <label className={styles.fieldLabel}>
-            <span>Archetype</span>
-            <select
-              className="pom-select"
-              value={buildState.archetypeId}
-              onChange={(e) => setArchetypeId(e.target.value)}
-            >
-              <optgroup label="Standard Mercenaries">
-                {standardArchetypes.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name} ({a.attributeAffinity})
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Infamous Mercenaries">
-                {infamousArchetypes.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name} ({a.attributeAffinity})
-                  </option>
-                ))}
-              </optgroup>
-            </select>
-          </label>
-
-          <div className={styles.inlineSplit}>
-            <label className={styles.fieldLabel}>
-              <span>Merc Level (1–85)</span>
-              <input
-                type="number"
-                min={1}
-                max={85}
-                className="pom-input tabular-nums"
-                value={buildState.mercLevel}
-                onChange={(e) => setMercLevel(Number(e.target.value))}
-              />
-            </label>
-            <div className={styles.fieldLabel}>
-              <span>Skill Level</span>
-              <div className="pom-badge pom-badge-gold" style={{ height: 24, justifyContent: 'center' }}>
-                Gem Lv {snapshot.derivedSkillLevel}
-              </div>
-            </div>
-          </div>
+          <ArchetypeSelector />
+          <MercLevelControl />
 
           {activeSkillGroup && (
             <>
@@ -129,6 +85,23 @@ export function LeftStatSidebar() {
           )}
         </div>
       </fieldset>
+
+      {snapshot.warnings.length > 0 && (
+        <div
+          style={{
+            padding: '5px 8px',
+            border: '1px solid #993333',
+            backgroundColor: 'rgba(210, 0, 0, 0.12)',
+            color: '#f87171',
+            fontSize: 11,
+            borderRadius: 2,
+          }}
+        >
+          {snapshot.warnings.map((w, i) => (
+            <div key={i}>{w}</div>
+          ))}
+        </div>
+      )}
 
       <div className={styles.fullDpsCard}>
         <span className={styles.fullDpsLabel}>Combined Full DPS</span>

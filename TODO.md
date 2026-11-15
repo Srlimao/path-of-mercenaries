@@ -81,14 +81,14 @@
 
 *Goal: Make the Mercenary Archetype and Level (`1–85`) controls fully functional end-to-end across engine and Left Sidebar.*
 
-- [ ] **3.1 Engine: Archetype Baseline Compiler (`packages/engine/src/archetype-baseline/`)**
-  - [ ] `compile_archetype_mods.ts`: Inject Level `1–85` base Life, Str/Dex/Int, Base Accuracy, Base Evasion, hidden elemental resistance curve (`+35%` at Lv 80+), and archetype innate modifiers into `ModDB` with `sourceType: 'Archetype'`.
-  - [ ] `archetype_baseline.test.ts`: Assert exact base Life, Attributes, Accuracy, Evasion, and `+35%` hidden elemental res at Lv 80–85 against PoB datamine fixtures.
+- [x] **3.1 Engine: Archetype Baseline Compiler (`packages/engine/src/archetype-baseline/`)**
+  - [x] `compile_archetype_mods.ts`: Inject Level `1–85` base Life, Str/Dex/Int, Base Accuracy, Base Evasion, hidden elemental resistance curve (`+35%` at Lv 80+), and archetype innate modifiers into `ModDB` with `sourceType: 'Archetype'`.
+  - [x] `archetype_baseline.test.ts`: Assert exact base Life, Attributes, Accuracy, Evasion, and `+35%` hidden elemental res at Lv 80–85 against PoB datamine fixtures.
 
-- [ ] **3.2 UI: Archetype & Level Selector (`apps/web/src/features/left-stat-sidebar/`)**
-  - [ ] `ArchetypeSelector.tsx`: Grouped dropdown (Standard vs Infamous) displaying attribute affinity badge and allowed weapon classes.
-  - [ ] `MercLevelControl.tsx`: Level `1–85` input/stepper displaying the auto-derived Skill Level badge (e.g., `Lv 84 → Skill Lv 27`).
-  - [ ] Update `LeftStatSidebar.tsx` to display live Attributes (`STR / DEX / INT`), Base Life/Mana, Accuracy, Evasion, and Hidden Resistance baseline.
+- [x] **3.2 UI: Archetype & Level Selector (`apps/web/src/features/left-stat-sidebar/`)**
+  - [x] `ArchetypeSelector.tsx`: Grouped dropdown (Standard vs Infamous) displaying attribute affinity badge and allowed weapon classes.
+  - [x] `MercLevelControl.tsx`: Level `1–85` input/stepper displaying the auto-derived Skill Level badge (e.g., `Lv 84 → Skill Lv 27`).
+  - [x] Update `LeftStatSidebar.tsx` to display live Attributes (`STR / DEX / INT`), Base Life/Mana, Accuracy, Evasion, and Hidden Resistance baseline.
 
 ---
 
@@ -96,20 +96,20 @@
 
 *Goal: Enable pasting real PoE items (`Ctrl+C` -> `Ctrl+V`), equipping them into the 10-slot paperdoll, viewing authentic tooltips, and calculating exact Stage 1 local weapon DPS/APS/Crit.*
 
-- [ ] **4.1 Engine: PoE Clipboard Parser & Stage 1 Local Weapon Calculator (`packages/engine/src/item-parser/`)**
-  - [ ] `poe_clipboard_parser.ts`: Parse `Item Class`, `Rarity`, `Name`, `Base Type`, `Quality`, `--------` sections, `(implicit)`, `(crafted)`, `(fractured)`, `(enchant)`, `Corrupted` flags, and catalyst quality tags into `ParsedItem`.
-  - [ ] `local_weapon_defence_calc.ts`: Implement **Stage 1 Local Weapon Math** (`LocalPhys`, `LocalEle`, `WeaponAPS`, `WeaponCrit`, `pDPS`, `eDPS`, `TotalWeaponDPS`) and local Armour/Evasion/ES scaling from quality + local mods.
-  - [ ] `item_parser.test.ts`: Unit tests covering Normal/Magic/Rare/Unique/Fractured/Crafted/Corrupted weapons, shields, jewellery, and exact local pDPS/APS/Crit math.
+- [x] **4.1 Engine: PoE Clipboard Parser & Stage 1 Local Weapon Calculator (`packages/engine/src/item-parser/`)**
+  - [x] `poe_clipboard_parser.ts`: Parse `Item Class`, `Rarity`, `Name`, `Base Type`, `Quality`, `--------` sections, `(implicit)`, `(crafted)`, `(fractured)`, `(enchant)`, `Corrupted` flags, and catalyst quality tags into `ParsedItem`.
+  - [x] `local_weapon_defence_calc.ts`: Implement **Stage 1 Local Weapon Math** (`LocalPhys`, `LocalEle`, `WeaponAPS`, `WeaponCrit`, `pDPS`, `eDPS`, `TotalWeaponDPS`) and local Armour/Evasion/ES scaling from quality + local mods.
+  - [x] `item_parser.test.ts`: Unit tests covering Normal/Magic/Rare/Unique/Fractured/Crafted/Corrupted weapons, shields, jewellery, and exact local pDPS/APS/Crit math.
 
-- [ ] **4.2 Engine: Text-to-`Mod` Line Compiler (`packages/engine/src/mod-parser/`)**
-  - [ ] `global_mod_patterns.ts`: Pattern registry matching PoE mod lines (flat damage, `% increased`, `% more`, attack/cast speed, crit chance/multi, penetration, attributes, life, ES, armour, evasion, resistances, conversion, gain as extra, block, spell suppression).
-  - [ ] `compile_item_mods.ts`: Compile all non-local implicit/explicit/enchant mods on equipped items into tagged `Mod` objects attributed to `sourceId: slot`.
-  - [ ] `mod_parser.test.ts`: Verify accurate tag assignment (`ModFlags` / `KeywordFlags`) and graceful tracking of unrecognized lines.
+- [x] **4.2 Engine: Text-to-`Mod` Line Compiler (`packages/engine/src/mod-parser/`)**
+  - [x] `global_mod_patterns.ts`: Pattern registry matching PoE mod lines (flat damage, `% increased`, `% more`, attack/cast speed, crit chance/multi, penetration, attributes, life, ES, armour, evasion, resistances, conversion, gain as extra, block, spell suppression).
+  - [x] `compile_item_mods.ts`: Compile all non-local implicit/explicit/enchant mods on equipped items into tagged `Mod` objects attributed to `sourceId: slot`.
+  - [x] `mod_parser.test.ts`: Verify accurate tag assignment (`ModFlags` / `KeywordFlags`) and graceful tracking of unrecognized lines.
 
-- [ ] **4.3 UI: 10-Slot Paperdoll, Tooltip & `Ctrl+V` Paste Modal (`apps/web/src/features/items-paperdoll-inspector/`)**
-  - [ ] `EquipmentPaperdoll.tsx` & `EquipmentPaperdoll.module.css`: 10-slot equipment list (`Weapon 1` to `Belt`) enforcing archetype allowed weapon/offhand rules (with clear inline warning if incompatible) and `Unequip` / `Copy PoE Text` actions.
-  - [ ] `PoeItemTooltip.tsx`: Pixel-accurate PoE tooltip preview rendering rarity header bars, weapon DPS stats, implicit/crafted/fractured/corrupted colors, and flavour text.
-  - [ ] `PasteItemModal.tsx` & global `Ctrl+V` listener: Auto-detect clipboard PoE item blocks outside text inputs, preview parsed tooltip + target slot selector, and equip in 1 click.
+- [x] **4.3 UI: 10-Slot Paperdoll, Tooltip & `Ctrl+V` Paste Modal (`apps/web/src/features/items-paperdoll-inspector/`)**
+  - [x] `EquipmentPaperdoll.tsx` & `EquipmentPaperdoll.module.css`: 10-slot equipment list (`Weapon 1` to `Belt`) enforcing archetype allowed weapon/offhand rules (with clear inline warning if incompatible) and `Unequip` / `Copy PoE Text` actions.
+  - [x] `PoeItemTooltip.tsx`: Pixel-accurate PoE tooltip preview rendering rarity header bars, weapon DPS stats, implicit/crafted/fractured/corrupted colors, and flavour text.
+  - [x] `PasteItemModal.tsx` & global `Ctrl+V` listener: Auto-detect clipboard PoE item blocks outside text inputs, preview parsed tooltip + target slot selector, and equip in 1 click.
 
 ---
 
