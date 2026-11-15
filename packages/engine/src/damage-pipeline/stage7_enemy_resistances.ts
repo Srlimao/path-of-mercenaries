@@ -1,7 +1,8 @@
-import type {
-  DamageType,
-  EnemyConfigState,
-  EnemyPresetId,
+import {
+  ModFlags,
+  type DamageType,
+  type EnemyConfigState,
+  type EnemyPresetId,
 } from '../catalog-types/index.js';
 import type { EvalContext, ModDB } from '../mod-db/index.js';
 
@@ -149,7 +150,16 @@ export function computeStage7EnemyEffectiveResist(
       keywordFlags: 0,
       context,
     });
-    return Math.round(enemyConfig.baseResistsPct.Chaos + allResMod + curseDelta);
+    const chaosPen =
+      (queryFlags & ModFlags.Dot) === 0
+        ? skillModDb.sum('BASE', {
+            names: ['ChaosPenetration'],
+            flags: queryFlags,
+            keywordFlags: 0,
+            context,
+          })
+        : 0;
+    return Number((enemyConfig.baseResistsPct.Chaos + allResMod + curseDelta - chaosPen).toFixed(1));
   }
 
   // Doryani's Prototype locks Enemy Lightning Res to Mercenary Lightning Res ([-200, 75])

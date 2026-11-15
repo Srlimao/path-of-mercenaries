@@ -61,11 +61,11 @@ export function SkillGroupCard({
       (r) => r.groupId === group.groupId && r.partId === group.activePartId,
     ) ?? snapshot.skillResults.find((r) => r.groupId === group.groupId);
 
-  const manaMultiTotalPct = group.supports.reduce((acc, s) => {
-    if (!s.enabled) return acc;
+  const gildedCount = group.supports.filter((s) => {
+    if (!s.enabled) return false;
     const def = catalogs.supports.find((x) => x.id === s.supportId);
-    return acc * ((def?.manaMultiplierPct ?? 100) / 100);
-  }, 100);
+    return Boolean(def?.isGilded);
+  }).length;
 
   return (
     <section className={`pom-panel ${styles.card ?? ''} ${isActiveGroup ? (styles.cardActive ?? '') : ''}`}>
@@ -232,7 +232,7 @@ export function SkillGroupCard({
           <div className={styles.supportsTitleRow ?? ''}>
             <span>Support Links ({group.supports.filter((s) => s.enabled).length} / {MAX_SUPPORT_SLOTS})</span>
             <span className="pom-badge pom-badge-gold">
-              Mana Multi {Math.round(manaMultiTotalPct)}%
+              Tier (I–III) · DPS Delta / Tier{gildedCount > 0 ? ` · ${gildedCount} Gilded` : ''}
             </span>
           </div>
           {Array.from({ length: MAX_SUPPORT_SLOTS }, (_, slotIdx) => (

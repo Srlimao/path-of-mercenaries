@@ -39,6 +39,12 @@ export function SupportSlotSelector({
   const isEmpty = !equippedSlot;
   const shouldRank = !isEmpty || canAppendNew;
 
+  const currentTier = equippedSlot
+    ? equippedSlot.level > 3
+      ? 3
+      : Math.max(1, Math.min(3, Math.round(equippedSlot.level)))
+    : 3;
+
   const rankedEntries = useMemo(() => {
     if (!shouldRank) return [];
     return rankSupportGemsForSkillGroup({
@@ -49,7 +55,7 @@ export function SupportSlotSelector({
       derivedSkillLevel: snapshot.derivedSkillLevel,
       accuracy: snapshot.defences.accuracy,
       mercLightningUncappedResistPct: snapshot.defences.resistances.Lightning.uncapped,
-      supportLevel: equippedSlot?.level ?? 20,
+      supportLevel: currentTier,
       catalogs,
     });
   }, [
@@ -61,13 +67,16 @@ export function SupportSlotSelector({
     snapshot.derivedSkillLevel,
     snapshot.defences.accuracy,
     snapshot.defences.resistances.Lightning.uncapped,
-    equippedSlot?.level,
+    currentTier,
     catalogs,
   ]);
 
   const selectedEntry = equippedSlot
     ? rankedEntries.find((r) => r.support.id === equippedSlot.supportId)
     : undefined;
+  const selectedSupport =
+    selectedEntry?.support ??
+    (equippedSlot ? catalogs.supports.find((s) => s.id === equippedSlot.supportId) : undefined);
   const primaryDeltaPct = selectedEntry
     ? selectedEntry.deltaFullDps !== 0
       ? selectedEntry.deltaFullDpsPct
@@ -105,7 +114,12 @@ export function SupportSlotSelector({
           if (!val) {
             if (!isEmpty) onRemoveSlot();
           } else {
-            onSelectSupport(val, equippedSlot?.level ?? 20);
+            const nextDef = rankedEntries.find((r) => r.support.id === val)?.support;
+            const avail = nextDef?.tiersAvailable ?? [1, 2, 3];
+            const nextTier = avail.includes(currentTier as 1 | 2 | 3)
+              ? currentTier
+              : (avail[avail.length - 1] ?? 3);
+            onSelectSupport(val, nextTier);
           }
         }}
       >
@@ -134,28 +148,62 @@ export function SupportSlotSelector({
         })}
       </select>
 
-      <input
-        type="number"
-        min={1}
-        max={25}
-        className={`pom-input ${styles.levelInput ?? ''}`}
-        value={equippedSlot?.level ?? 20}
+      <select
+        aria-label={`Support slot ${slotIndex + 1} tier`}
+        className={`pom-select ${styles.levelInput ?? ''}`}
+        value={currentTier}
         disabled={isEmpty}
-        title="Support Gem Level (1-25)"
+        title={
+          selectedSupport?.isGilded
+            ? 'Mercenary Gilded Support (Tier III)'
+            : 'Mercenary Support Tier (I–III)'
+        }
         onChange={(e) => {
           const num = Number(e.target.value);
           if (Number.isFinite(num)) onChangeLevel(num);
         }}
-      />
+      >
+        <option
+          value={1}
+          disabled={Boolean(
+            selectedSupport?.tiersAvailable &&
+              !selectedSupport.tiersAvailable.includes(1),
+          )}
+        >
+          Tier I (Lesser)
+        </option>
+        <option
+          value={2}
+          disabled={Boolean(
+            selectedSupport?.tiersAvailable &&
+              !selectedSupport.tiersAvailable.includes(2),
+          )}
+        >
+          Tier II
+        </option>
+        <option value={3}>
+          {selectedSupport?.isGilded ? 'Gilded III' : 'Tier III (Greater)'}
+        </option>
+      </select>
 
       <span className={`${styles.deltaCell ?? ''} ${deltaClass}`}>
-        {equippedSlot
-          ? equippedSlot.enabled
-            ? `${selectedEntry?.support.manaMultiplierPct ?? 100}% Mana`
-            : 'Disabled'
-          : topCandidate
-            ? `Best ${topCandidate.deltaFullDpsPct >= 0 ? '+' : ''}${topCandidate.deltaFullDpsPct.toFixed(0)}%`
-            : '—'}
+        {equippedSlot ? (
+          equippedSlot.enabled ? (
+            selectedSupport?.isGilded ? (
+              <span className="pom-badge pom-badge-gold">Gilded III</span>
+            ) : (
+              `Tiers: ${(selectedSupport?.tiersAvailable ?? [1, 2, 3])
+                .map((t) => (t === 1 ? 'I' : t === 2 ? 'II' : 'III'))
+                .join(' / ')}`
+            )
+          ) : (
+            'Disabled'
+          )
+        ) : topCandidate ? (
+          `Best ${topCandidate.deltaFullDpsPct >= 0 ? '+' : ''}${topCandidate.deltaFullDpsPct.toFixed(0)}%`
+        ) : (
+          '—'
+        )}
       </span>
 
       <button

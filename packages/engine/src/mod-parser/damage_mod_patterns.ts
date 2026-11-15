@@ -44,6 +44,11 @@ function parseDamageScopeFlags(scopeText: string | undefined): {
   if (/\bHits?\b/i.test(s) && !/\bAilments?\b/i.test(s)) flags |= ModFlags.Hit;
   if (/\bAilments?\b/i.test(s) && !/\bHits?\b/i.test(s)) flags |= ModFlags.Ailment;
   if (/\bover Time\b/i.test(s)) flags |= ModFlags.Dot;
+  if (/\bBurning\b/i.test(s)) {
+    flags |= ModFlags.Dot | ModFlags.Ailment;
+    keywordFlags |= KeywordFlags.Fire;
+    modName = 'FireDamage';
+  }
 
   for (const typeName of ['Physical', 'Lightning', 'Cold', 'Fire', 'Chaos', 'Elemental'] as const) {
     if (new RegExp(`\\b${typeName}\\b`, 'i').test(s)) {
@@ -67,18 +72,23 @@ export const DAMAGE_MOD_PATTERNS: ModPatternMatcher[] = [
     },
   },
   {
-    regex: /^(?:Supported Skills deal\s+)?(\d+)%\s+(increased|reduced|more|less)\s+(Minimum|Maximum)\s+(?:(Attack|Spell|Physical|Fire|Cold|Lightning|Chaos|Elemental)\s+)?Damage(?:\s+with Hits)?$/i,
+    regex: /^(?:Supported(?:\s+Attack)?\s+Skills deal\s+)?(\d+)%\s+(increased|reduced|more|less)\s+(Minimum|Maximum)\s+(?:(Physical|Fire|Cold|Lightning|Chaos|Elemental)\s+)?(?:(Attack|Spell)\s+)?Damage(?:\s+with Hits)?$/i,
     build: (m, s) => {
       const rawVal = Number(m[1]);
       const verb = m[2]!.toLowerCase();
       const modType = verb === 'increased' || verb === 'reduced' ? 'INC' : 'MORE';
       const signedVal = verb === 'reduced' || verb === 'less' ? -rawVal : rawVal;
       const bound = m[3]!.toLowerCase() === 'maximum' ? 'Max' : 'Min';
-      const scope = (m[4] ?? '').toLowerCase();
-      const isAttack = scope === 'attack';
+      const elemRaw = m[4];
+      const elemKey = elemRaw
+        ? ((elemRaw.charAt(0).toUpperCase() + elemRaw.slice(1).toLowerCase()) as keyof typeof ELEMENT_KEY_MAP)
+        : undefined;
+      const keywordFlags = elemKey ? (ELEMENT_KEY_MAP[elemKey] ?? KeywordFlags.None) : KeywordFlags.None;
+      const hitScope = (m[5] ?? '').toLowerCase();
+      const isAttack = hitScope === 'attack' || /Supported Attack Skills/i.test(m[0]);
       const name = `${bound}${isAttack ? 'Attack' : ''}Damage`;
-      const flags = isAttack ? ModFlags.Attack : scope === 'spell' ? ModFlags.Spell : ModFlags.None;
-      return [makeParsedMod(s, name, modType, signedVal, flags)];
+      const flags = isAttack ? ModFlags.Attack : hitScope === 'spell' ? ModFlags.Spell : ModFlags.None;
+      return [makeParsedMod(s, name, modType, signedVal, flags, keywordFlags)];
     },
   },
   {
@@ -89,14 +99,18 @@ export const DAMAGE_MOD_PATTERNS: ModPatternMatcher[] = [
     ],
   },
   {
-    regex: /^(?:(?:Supported Skills|Hits and Ailments)\s+deal\s+)?(\d+)%\s+(increased|reduced|more|less)\s+(?:([A-Za-z ]+?)\s+)?Damage(?:\s+(?:over Time|with\s+([A-Za-z ]+)))?$/i,
+    regex: /^(?:(?:Supported(?:\s+Attack)?\s+Skills|Hits and Ailments)\s+deal\s+)?(\d+)%\s+(increased|reduced|more|less)\s+(?:([A-Za-z ]+?)\s+)?Damage(?:\s+(?:over Time|with\s+([A-Za-z ]+)))?$/i,
     build: (m, s) => {
       const rawVal = Number(m[1]);
       const verb = m[2]!.toLowerCase();
       const modType = verb === 'increased' || verb === 'reduced' ? 'INC' : 'MORE';
       const signedVal = verb === 'reduced' || verb === 'less' ? -rawVal : rawVal;
       const fullLower = m[0].toLowerCase();
-      const prefixScope = fullLower.startsWith('hits and ailments') ? 'Hits and Ailments' : '';
+      const prefixScope = fullLower.startsWith('hits and ailments')
+        ? 'Hits and Ailments'
+        : fullLower.startsWith('supported attack skills')
+          ? 'Attack'
+          : '';
       const combinedScope = `${prefixScope} ${m[3] ?? ''} ${m[4] ?? ''} ${fullLower.includes('over time') ? 'over Time' : ''}`.trim();
       const scope = parseDamageScopeFlags(combinedScope);
       if (/\bHits?\b/i.test(combinedScope) && /\bAilments?\b/i.test(combinedScope)) {
@@ -148,11 +162,26 @@ export const DAMAGE_MOD_PATTERNS: ModPatternMatcher[] = [
     build: (m, s) => [makeParsedMod(s, `${m[2]}To${m[3]}`, 'BASE', Number(m[1]))],
   },
   {
-    regex: /^Gain\s+(\d+)%\s+of\s+(Physical|Lightning|Cold|Fire)\s+Damage\s+as\s+Extra\s+(Lightning|Cold|Fire|Chaos)\s+Damage$/i,
-    build: (m, s) => [makeParsedMod(s, `${m[2]}AsExtra${m[3]}`, 'BASE', Number(m[1]))],
+    regex: /^(?:Supported Skills\s+)?[Gg]ain\s+(\d+)%\s+of\s+Physical\s+Damage\s+as\s+Extra\s+Damage\s+of\s+a\s+random\s+Element$/i,
+    build: (m, s) => {
+      const share = Number((Number(m[1]) / 3).toFixed(2));
+      return [
+        makeParsedMod(s, 'PhysicalAsExtraFire', 'BASE', share),
+        makeParsedMod(s, 'PhysicalAsExtraCold', 'BASE', share),
+        makeParsedMod(s, 'PhysicalAsExtraLightning', 'BASE', share),
+      ];
+    },
   },
   {
-    regex: /(?:Damage|Attacks with this Weapon|Supported Skills)\s+Penetrates?\s+(\d+)%\s+(Fire|Cold|Lightning|Elemental)\s+Resistances?$/i,
+    regex: /^(?:Supported Skills\s+)?[Gg]ain\s+(\d+)%\s+of\s+(Physical|Lightning|Cold|Fire)\s+Damage\s+as\s+Extra\s+(Lightning|Cold|Fire|Chaos)\s+Damage$/i,
+    build: (m, s) => {
+      const from = m[2]!.charAt(0).toUpperCase() + m[2]!.slice(1).toLowerCase();
+      const to = m[3]!.charAt(0).toUpperCase() + m[3]!.slice(1).toLowerCase();
+      return [makeParsedMod(s, `${from}AsExtra${to}`, 'BASE', Number(m[1]))];
+    },
+  },
+  {
+    regex: /(?:Damage|Attacks with this Weapon|Supported Skills)\s+Penetrates?\s+(\d+)%\s+(Fire|Cold|Lightning|Chaos|Elemental)\s+Resistances?$/i,
     build: (m, s) => {
       const val = Number(m[1]);
       const elem = m[2]!.toLowerCase();
@@ -185,8 +214,24 @@ export const DAMAGE_MOD_PATTERNS: ModPatternMatcher[] = [
     },
   },
   {
-    regex: /^Nearby Allies' Damage with Hits is Lucky$/i,
+    regex: /^(?:Nearby Allies'\s+|Lightning\s+)Damage with (?:Hits|Non-Critical Strikes) is Lucky$/i,
     build: (_m, s) => [makeParsedMod(s, 'LuckyHitDamage', 'FLAG', true)],
+  },
+  {
+    regex: /^Kill Enemies that have (\d+)% Life or lower when Hit by Supported Skills$/i,
+    build: (m, s) => {
+      const thresh = Number(m[1]);
+      const morePct = thresh > 0 && thresh < 100 ? Math.round((thresh / (100 - thresh)) * 1000) / 10 : 0;
+      return [makeParsedMod(s, 'Damage', 'MORE', morePct, ModFlags.Hit)];
+    },
+  },
+  {
+    regex: /^(?:Supported Skills have\s+)?(\d+)%\s+increased Cooldown Recovery Rate$/i,
+    build: (m, s) => [makeParsedMod(s, 'CooldownRecoveryRate', 'INC', Number(m[1]))],
+  },
+  {
+    regex: /^(?:Supported Skills fire\s+)?(\d+)\s+additional Projectiles?$/i,
+    build: (m, s) => [makeParsedMod(s, 'AdditionalProjectiles', 'BASE', Number(m[1]), ModFlags.Projectile)],
   },
   {
     regex: /^Nearby Enemies have Lightning Resistance equal to yours$/i,

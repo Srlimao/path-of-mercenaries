@@ -78,6 +78,8 @@ export interface SupportGemDefinition {
   name: string;
   requiredSkillTags: string[];
   excludedSkillTags?: string[];
+  isGilded?: boolean;
+  tiersAvailable?: (1 | 2 | 3)[];
   manaMultiplierPct: number;
   modsByLevel: Record<number, string[]>;
 }

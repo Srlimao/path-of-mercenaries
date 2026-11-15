@@ -112,14 +112,15 @@ export function setSupportGemSlotInState(
   groupId: string,
   slotIndex: number,
   supportId: string,
-  level = 20,
+  level = 3,
 ): MercenaryBuildState {
+  const normalizedLevel = Math.max(1, Math.min(3, Math.round(level > 3 ? 3 : level) || 3));
   return {
     ...prev,
     skillGroups: prev.skillGroups.map((g) => {
       if (g.groupId !== groupId) return g;
       const nextSupports = g.supports.map((s) => ({ ...s }));
-      const nextEntry = { supportId, level, enabled: true };
+      const nextEntry = { supportId, level: normalizedLevel, enabled: true };
       if (slotIndex >= 0 && slotIndex < nextSupports.length) {
         nextSupports[slotIndex] = nextEntry;
       } else {
@@ -171,7 +172,7 @@ export function setSupportGemLevelInState(
   slotIndex: number,
   level: number,
 ): MercenaryBuildState {
-  const clamped = Math.max(1, Math.min(25, Math.round(level)));
+  const clamped = Math.max(1, Math.min(3, Math.round(level > 3 ? 3 : level) || 3));
   return {
     ...prev,
     skillGroups: prev.skillGroups.map((g) =>

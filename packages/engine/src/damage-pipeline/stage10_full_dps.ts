@@ -28,11 +28,19 @@ export interface Stage10FullDpsOutput {
   warnings: string[];
 }
 
+function normalizeMercSupportTier(gemLevel: number): 1 | 2 | 3 {
+  if (gemLevel > 3) return 3;
+  if (gemLevel <= 1) return 1;
+  if (Math.round(gemLevel) === 2) return 2;
+  return 3;
+}
+
 function lookupSupportLinesByLevel(
   modsByLevel: Record<number, string[]>,
   gemLevel: number,
 ): string[] {
-  if (modsByLevel[gemLevel]) return modsByLevel[gemLevel]!;
+  const normalizedTier = normalizeMercSupportTier(gemLevel);
+  if (modsByLevel[normalizedTier]) return modsByLevel[normalizedTier]!;
   const levels = Object.keys(modsByLevel)
     .map(Number)
     .filter((n) => Number.isFinite(n))
@@ -40,7 +48,7 @@ function lookupSupportLinesByLevel(
   if (levels.length === 0) return [];
   let chosen = levels[0]!;
   for (const lv of levels) {
-    if (lv <= gemLevel) chosen = lv;
+    if (lv <= normalizedTier) chosen = lv;
   }
   return modsByLevel[chosen] ?? [];
 }
@@ -73,12 +81,14 @@ export function compileSkillGroupModDb(
     if (!supSlot.enabled) continue;
     const supDef = findSupportById(supSlot.supportId, catalogs);
     if (!supDef) continue;
-    const lines = lookupSupportLinesByLevel(supDef.modsByLevel, supSlot.level);
+    const normalizedTier = normalizeMercSupportTier(supSlot.level);
+    const tierRoman = normalizedTier === 1 ? 'I' : normalizedTier === 2 ? 'II' : 'III';
+    const lines = lookupSupportLinesByLevel(supDef.modsByLevel, normalizedTier);
     for (const rawLine of lines) {
       const source: ModSource = {
         sourceType: 'Support',
         sourceId: supDef.id,
-        sourceLabel: `${supDef.name} (Lv ${supSlot.level})`,
+        sourceLabel: `${supDef.name} (Tier ${tierRoman})`,
         rawLine,
       };
       const mods = parseModLineToMods(rawLine, source);

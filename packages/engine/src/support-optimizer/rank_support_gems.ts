@@ -152,8 +152,9 @@ export function rankSupportGemsForSkillGroup(
   const skill = findSkillById(group.skillId, catalogs);
   if (!skill || skill.parts.length === 0) return [];
 
-  const targetLevel =
-    options.supportLevel ?? group.supports[options.slotIndex]?.level ?? 20;
+  const rawTargetLevel =
+    options.supportLevel ?? group.supports[options.slotIndex]?.level ?? 3;
+  const targetLevel = Math.min(3, Math.max(1, rawTargetLevel > 3 ? 3 : Math.round(rawTargetLevel)));
 
   const baseline = evaluateGroupActiveAndFullDps(
     options.buildState,
