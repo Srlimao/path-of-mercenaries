@@ -132,18 +132,18 @@
 
 *Goal: Implement Stages 2–6 of the PoB damage pipeline and build the `Skills` tab for configuring Primary/Secondary/Utility skills and multi-part hit components.*
 
-- [ ] **6.1 Engine: Damage Pipeline Stages 2–6 (`packages/engine/src/damage-pipeline/`)**
-  - [ ] `stage2_added_damage.ts`: Combine Stage 1 weapon/skill base damage with global flat added damage scaled by `SkillPartDefinition.damageEffectiveness` (e.g., `235%`).
-  - [ ] `stage3_conversion_dag.ts`: Implement `Phys -> Lightning -> Cold -> Fire -> Chaos` DAG conversion, `>100%` skill-priority proportional normalization, `"Gain as Extra"`, and **ancestral `KeywordFlags` bitmask inheritance**.
-  - [ ] `stage4_inc_more_buckets.ts`: Query `ModDB` per damage chunk `(currentType, ancestralTypes)` for additive `INC` and multiplicative `MORE` scalars.
-  - [ ] `stage5_crit_lucky_multihit.ts`: Compute effective Crit Chance (incl. accuracy confirmation for attacks + Lucky Crit), Crit Multi, Normal vs **Lucky Hit expectation** ($\frac{\min + 2\max}{3}$), and Double/Triple Damage.
-  - [ ] `stage6_accuracy_speed.ts`: Compute Attack Hit Chance vs Enemy Evasion + Effective Attack/Cast/Action Speed (including Dual Wield handling).
-  - [ ] `stages_2_to_6.test.ts`: Golden unit tests verifying conversion tag inheritance without double-counting, `235%` effectiveness, and Lucky roll math.
+- [x] **6.1 Engine: Damage Pipeline Stages 2–6 (`packages/engine/src/damage-pipeline/`)**
+  - [x] `stage2_added_damage.ts`: Combine Stage 1 weapon/skill base damage with global flat added damage scaled by `SkillPartDefinition.damageEffectiveness` (e.g., `235%`).
+  - [x] `stage3_conversion_dag.ts`: Implement `Phys -> Lightning -> Cold -> Fire -> Chaos` DAG conversion, `>100%` skill-priority proportional normalization, `"Gain as Extra"`, and **ancestral `KeywordFlags` bitmask inheritance**.
+  - [x] `stage4_inc_more_buckets.ts`: Query `ModDB` per damage chunk `(currentType, ancestralTypes)` for additive `INC` and multiplicative `MORE` scalars.
+  - [x] `stage5_crit_lucky_multihit.ts`: Compute effective Crit Chance (incl. accuracy confirmation for attacks + Lucky Crit), Crit Multi, Normal vs **Lucky Hit expectation** ($\frac{\min + 2\max}{3}$), and Double/Triple Damage.
+  - [x] `stage6_accuracy_speed.ts`: Compute Attack Hit Chance vs Enemy Evasion + Effective Attack/Cast/Action Speed (including Dual Wield handling).
+  - [x] `stages_2_to_6.test.ts`: Golden unit tests verifying conversion tag inheritance without double-counting, `235%` effectiveness, and Lucky roll math.
 
-- [ ] **6.2 UI: Skill Groups & Multi-Part Selector (`apps/web/src/features/skills-support-planner/`)**
-  - [ ] `SkillGroupCard.tsx`: Configure `Primary`, `Secondary`, and `Utility` skills; filter dropdown to Archetype pool by default with `"Show All Skills (Sandbox)"` toggle; auto-derive Skill Level from Merc Level with manual override.
-  - [ ] `SkillPartSelector.tsx`: Switch between sub-parts (e.g., `Projectile Hit`, `Clustering Area Explosion`) and sync active skill selection with Left Sidebar.
-  - [ ] Connect Left Sidebar Offence readouts (`Active Skill DPS`, `Average Hit`, `Attack/Cast Rate`, `Crit Chance / Multi`, `Hit Chance`).
+- [x] **6.2 UI: Skill Groups & Multi-Part Selector (`apps/web/src/features/skills-support-planner/`)**
+  - [x] `SkillGroupCard.tsx`: Configure `Primary`, `Secondary`, and `Utility` skills; filter dropdown to Archetype pool by default with `"Show All Skills (Sandbox)"` toggle; auto-derive Skill Level from Merc Level with manual override.
+  - [x] `SkillPartSelector.tsx`: Switch between sub-parts (e.g., `Projectile Hit`, `Clustering Area Explosion`) and sync active skill selection with Left Sidebar.
+  - [x] Connect Left Sidebar Offence readouts (`Active Skill DPS`, `Average Hit`, `Attack/Cast Rate`, `Crit Chance / Multi`, `Hit Chance`).
 
 ---
 
@@ -151,14 +151,14 @@
 
 *Goal: Add PoB's 5-link Support Gem dropdown sorted by live `+DPS` gain and multi-part `Combined Full DPS` aggregation.*
 
-- [ ] **7.1 Engine: Support Gem Optimizer & Stage 10 Full DPS (`packages/engine/src/support-optimizer/` & `damage-pipeline/`)**
-  - [ ] `rank_support_gems.ts`: Filter candidate Support Gems by `requiredSkillTags` / `excludedSkillTags`, evaluate each candidate against the active skill group, and return sorted descending by marginal `+DPS` and `+DPS%`.
-  - [ ] `stage10_full_dps.ts`: Aggregate `CombinedFullDPS` across all enabled skill groups and enabled parts multiplied by `PartCount` (e.g., `1x Projectile` + `5x Clustering Explosions`).
-  - [ ] `support_optimizer.test.ts`: Verify tag filtering and exact `+DPS` ranking order matches manual equip recalculations.
+- [x] **7.1 Engine: Support Gem Optimizer & Stage 10 Full DPS (`packages/engine/src/support-optimizer/` & `damage-pipeline/`)**
+  - [x] `rank_support_gems.ts`: Filter candidate Support Gems by `requiredSkillTags` / `excludedSkillTags`, evaluate each candidate against the active skill group, and return sorted descending by marginal `+DPS` and `+DPS%`.
+  - [x] `stage10_full_dps.ts`: Aggregate `CombinedFullDPS` across all enabled skill groups and enabled parts multiplied by `PartCount` (e.g., `1x Projectile` + `5x Clustering Explosions`).
+  - [x] `support_optimizer.test.ts`: Verify tag filtering and exact `+DPS` ranking order matches manual equip recalculations.
 
-- [ ] **7.2 UI: Support Gem `+DPS` Dropdown & Full DPS Parts Table (`apps/web/src/features/skills-support-planner/`)**
-  - [ ] `SupportSlotSelector.tsx`: Up to 5 support gem slots per skill group; dropdown renders sorted `+41.2% (+482k DPS)` delta badges next to each gem.
-  - [ ] `FullDpsPartsTable.tsx`: Per-skill/part `"Include in Full DPS"` toggle and Hit/Overlap Count numeric input (`1x`, `5x`, etc.) driving the top-line `Combined Full DPS` banner in the Left Sidebar.
+- [x] **7.2 UI: Support Gem `+DPS` Dropdown & Full DPS Parts Table (`apps/web/src/features/skills-support-planner/`)**
+  - [x] `SupportSlotSelector.tsx`: Up to 5 support gem slots per skill group; dropdown renders sorted `+41.2% (+482k DPS)` delta badges next to each gem.
+  - [x] `FullDpsPartsTable.tsx`: Per-skill/part `"Include in Full DPS"` toggle and Hit/Overlap Count numeric input (`1x`, `5x`, etc.) driving the top-line `Combined Full DPS` banner in the Left Sidebar.
 
 ---
 

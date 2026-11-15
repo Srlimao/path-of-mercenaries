@@ -1,0 +1,94 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardActive {
+  border-color: var(--pom-gold-dim);
+}
+
+.headerControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.skillSelect {
+  flex: 1 1 240px;
+  min-width: 180px;
+}
+
+.levelBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.levelInput {
+  width: 52px;
+  text-align: center;
+  font-family: var(--pom-font-mono);
+}
+
+.metricsStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 5px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+  font-size: 12px;
+}
+
+.metricItem {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.metricLabel {
+  color: var(--pom-text-secondary);
+  font-size: 11px;
+}
+
+.metricVal {
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--pom-text-primary);
+}
+
+.supportsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.supportsTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--pom-gold);
+}

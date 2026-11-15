@@ -1,0 +1,19 @@
+.numCell {
+  text-align: right;
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.countInput {
+  width: 66px;
+  text-align: center;
+  font-family: var(--pom-font-mono);
+}
+
+.footerRow td {
+  border-top: 1px solid var(--pom-gold-dim);
+  border-bottom: none;
+  background-color: var(--pom-gold-bg);
+  font-weight: 700;
+  color: var(--pom-gold);
+}

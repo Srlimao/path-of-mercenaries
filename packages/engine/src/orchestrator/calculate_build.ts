@@ -1,47 +1,24 @@
 import {
-  DAMAGE_TYPES,
   EQUIPMENT_SLOTS,
   KeywordFlags,
   ModFlags,
   type CalculationResultSnapshot,
-  type DamageType,
   type DefenceCalcResult,
   type MercenaryBuildState,
-  type PerTypeDamageBreakdown,
-  type SkillPartCalcResult,
 } from '../catalog-types/index.js';
 import { compileArchetypeMods, validateEquipmentForArchetype } from '../archetype-baseline/index.js';
+import { computeStage10FullDps } from '../damage-pipeline/index.js';
 import { ModDB, type EvalContext } from '../mod-db/index.js';
 import { compileEquippedItemsMods } from '../mod-parser/index.js';
 import {
   SEED_CATALOGS,
   findArchetypeById,
-  findSkillById,
   type GameCatalogBundle,
 } from '../seed-catalog/index.js';
 
 export interface EngineCalculationOutput {
   snapshot: CalculationResultSnapshot;
   modDb: ModDB;
-}
-
-function emptyBreakdown(damageType: DamageType): PerTypeDamageBreakdown {
-  const zeroRange = { min: 0, max: 0, avg: 0 };
-  return {
-    damageType,
-    baseDamage: zeroRange,
-    addedAfterEffectiveness: zeroRange,
-    convertedOutPct: 0,
-    gainedAsExtra: zeroRange,
-    totalIncreasedPct: 0,
-    totalMoreMulti: 1,
-    preMitigationHit: zeroRange,
-    effectivePreMitigationAvg: 0,
-    enemyEffectiveResistPct: 0,
-    mitigationMulti: 1,
-    finalAverageHit: 0,
-    hitDps: 0,
-  };
 }
 
 /**
@@ -145,88 +122,15 @@ export function calculateBuild(
     netLifeRecoveryPerSec: 0,
   };
 
-  const activeGroup =
-    buildState.skillGroups.find((g) => g.groupId === buildState.activeSkillGroupId) ??
-    buildState.skillGroups[0];
-  const activeSkillDef = activeGroup ? findSkillById(activeGroup.skillId, catalogs) : undefined;
-  const activePartDef =
-    activeSkillDef?.parts.find((p) => p.id === activeGroup?.activePartId) ??
-    activeSkillDef?.parts[0];
-
-  const perTypeRecord = Object.fromEntries(
-    DAMAGE_TYPES.map((dt) => [dt, emptyBreakdown(dt)]),
-  ) as Record<DamageType, PerTypeDamageBreakdown>;
-
-  let activePartResult: SkillPartCalcResult | null = null;
-  let activeSkillDps = 0;
-
-  if (activeSkillDef && activePartDef) {
-    const effSkillLv = activeGroup?.skillLevelOverride ?? baseline.derivedSkillLevel;
-    const clampedLv = Math.max(1, Math.min(40, effSkillLv));
-    const weaponStats = weapon1?.localWeaponStats;
-    const skillFlags = activePartDef.skillModFlags;
-
-    let baseAvg = 0;
-    if (activePartDef.isAttack) {
-      const mul = (activePartDef.weaponDamageMultiplierPctByLevel[clampedLv] ?? 100) / 100;
-      const wPhys = weaponStats ? (weaponStats.physMin + weaponStats.physMax) / 2 : 12;
-      let wEle = 0;
-      if (weaponStats) {
-        for (const dt of ['Fire', 'Cold', 'Lightning', 'Chaos'] as const) {
-          wEle += ((weaponStats.eleMin[dt] ?? 0) + (weaponStats.eleMax[dt] ?? 0)) / 2;
-        }
-      }
-      baseAvg = (wPhys + wEle) * mul;
-    } else {
-      const spellBase = activePartDef.baseAddedDamageByLevel[clampedLv];
-      if (spellBase) {
-        for (const dt of DAMAGE_TYPES) {
-          const range = spellBase[dt];
-          if (range) baseAvg += (range[0] + range[1]) / 2;
-        }
-      }
-    }
-
-    const baseCritPct = activePartDef.isAttack
-      ? (weaponStats?.critChancePct ?? 5)
-      : (activePartDef.baseCritChancePct ?? 6);
-    const incCritPct = modDb.sum('INC', q(['CritChance'], skillFlags));
-    const effCrit = Math.min(100, baseCritPct * (1 + incCritPct / 100));
-    const critMulti = 150 + modDb.sum('BASE', q(['CritMultiplier'], skillFlags));
-    const critFactor = 1 + (effCrit / 100) * ((critMulti - 100) / 100);
-
-    const baseRate = activePartDef.isAttack
-      ? (weaponStats?.aps ?? 1.2) * (activePartDef.attackSpeedMulti ?? 1)
-      : 1 / (activePartDef.baseCastTimeSec ?? 0.7);
-    const incSpeed = modDb.sum('INC', q(['Speed'], skillFlags));
-    const effRate = Number((baseRate * (1 + incSpeed / 100)).toFixed(2));
-
-    const incDmg = modDb.sum('INC', q(['Damage', 'ProjectileDamage', 'ElementalDamage', 'PhysicalDamage'], skillFlags, activePartDef.skillKeywordFlags));
-    const avgHit = Math.round(baseAvg * (1 + incDmg / 100) * critFactor);
-    activeSkillDps = Math.round(avgHit * effRate);
-
-    activePartResult = {
-      groupId: activeGroup?.groupId ?? 'primary-1',
-      skillId: activeSkillDef.id,
-      skillName: activeSkillDef.name,
-      partId: activePartDef.id,
-      partLabel: activePartDef.label,
-      effectiveSkillLevel: clampedLv,
-      hitChancePct: 100,
-      effectiveCritChancePct: Number(effCrit.toFixed(2)),
-      critMultiplierPct: Math.round(critMulti),
-      effectiveActionRate: effRate,
-      isLuckyDamage: modDb.flag('LuckyHitDamage', emptyCtx),
-      averageHit: avgHit,
-      hitDps: activeSkillDps,
-      impaleDps: 0,
-      igniteDps: 0,
-      bleedDps: 0,
-      poisonDps: 0,
-      partFullDpsContribution: activeSkillDps,
-      perTypeBreakdown: perTypeRecord,
-    };
-  }
+  const fullDpsOutput = computeStage10FullDps(
+    buildState,
+    modDb,
+    baseline.derivedSkillLevel,
+    accuracy,
+    lightUncapped,
+    catalogs,
+  );
+  warnings.push(...fullDpsOutput.warnings);
 
   return {
     modDb,
@@ -235,10 +139,10 @@ export function calculateBuild(
       archetypeName: archetype.name,
       mercLevel: baseline.clampedLevel,
       derivedSkillLevel: baseline.derivedSkillLevel,
-      combinedFullDps: activeSkillDps,
-      activeSkillDps,
-      activePartResult,
-      skillResults: activePartResult ? [activePartResult] : [],
+      combinedFullDps: fullDpsOutput.combinedFullDps,
+      activeSkillDps: fullDpsOutput.activeSkillDps,
+      activePartResult: fullDpsOutput.activePartResult,
+      skillResults: fullDpsOutput.skillResults,
       defences,
       calcsRows: [],
       warnings,

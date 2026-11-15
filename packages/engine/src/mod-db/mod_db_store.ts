@@ -31,6 +31,12 @@ export class ModDB {
     return this.allMods;
   }
 
+  public clone(): ModDB {
+    const copy = new ModDB();
+    copy.addMods(this.allMods);
+    return copy;
+  }
+
   public sum(type: 'BASE' | 'INC', query: ModQuery): number {
     let total = 0;
     for (const mod of this.collectMatchingMods(type, query)) {

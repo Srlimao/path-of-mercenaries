@@ -1,41 +1,17 @@
 import { useMercenaryCalculator } from '../../state/index.js';
 import { ItemsTabView } from '../items-paperdoll-inspector/index.js';
+import { SkillsTabView } from '../skills-support-planner/index.js';
 import styles from './FeatureSlotPlaceholder.module.css';
 
 export function FeatureSlotPlaceholder() {
-  const { activeTab, buildState, activeSkillDef, modDb, snapshot } = useMercenaryCalculator();
+  const { activeTab, buildState, modDb } = useMercenaryCalculator();
 
   if (activeTab === 'items') {
     return <ItemsTabView />;
   }
 
   if (activeTab === 'skills') {
-    return (
-      <div className={styles.container}>
-        <section className={`pom-panel ${styles.fullSpan}`}>
-          <div className="pom-panel-header">
-            <span>Mercenary Skill Groups &amp; Support +DPS Sorter</span>
-            <span className="pom-badge">Phase 6–7 Slot</span>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.notice}>
-              Active Skill: <strong>{activeSkillDef?.name ?? 'None'}</strong> (Skill Level{' '}
-              {snapshot.derivedSkillLevel}). Ready for Support Gem +DPS ranking and multi-part
-              Combined Full DPS multipliers.
-            </div>
-            {(activeSkillDef?.parts ?? []).map((part) => (
-              <div key={part.id} className={styles.slotItem}>
-                <span>{part.label}</span>
-                <span className="pom-badge">
-                  Eff {(part.damageEffectiveness * 100).toFixed(0)}% | Default{' '}
-                  {part.defaultFullDpsCount}x
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-    );
+    return <SkillsTabView />;
   }
 
   if (activeTab === 'config') {

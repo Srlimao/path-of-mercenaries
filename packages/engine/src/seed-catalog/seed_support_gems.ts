@@ -72,6 +72,7 @@ export const SEED_SUPPORT_GEMS: SupportGemDefinition[] = [
     requiredSkillTags: ['Projectile'],
     manaMultiplierPct: 140,
     modsByLevel: buildScaledMods(65, 61, 51, (v) => [
+      'Projectiles from Supported Skills Return to you',
       `Returning Projectiles deal ${v}% less Damage`,
     ]),
   },

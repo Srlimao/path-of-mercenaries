@@ -1,0 +1,57 @@
+.row {
+  display: grid;
+  grid-template-columns: 32px 20px minmax(220px, 1fr) 64px 96px 26px;
+  gap: 6px;
+  align-items: center;
+  padding: 3px 6px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.rowDisabled {
+  opacity: 0.55;
+}
+
+.slotTag {
+  font-family: var(--pom-font-mono);
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.selectWide {
+  width: 100%;
+  min-width: 0;
+}
+
+.levelInput {
+  width: 100%;
+  text-align: center;
+  font-family: var(--pom-font-mono);
+}
+
+.deltaCell {
+  text-align: right;
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.deltaPos {
+  color: #4ade80;
+}
+
+.deltaNeg {
+  color: #f87171;
+}
+
+.deltaNeutral {
+  color: var(--pom-text-secondary);
+}
+
+.clearBtn {
+  height: 24px;
+  padding: 0;
+  font-size: 13px;
+}
