@@ -1,0 +1,7 @@
+name = "path-of-mercenaries"
+pages_build_output_dir = "apps/web/dist"
+compatibility_date = "2026-01-01"
+
+[vars]
+APP_ID = "path-of-mercenaries"
+DUNHAS_AUTH_ORIGIN = "https://auth.dunhas.com"

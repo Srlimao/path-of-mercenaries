@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build & TypeScript outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Cloudflare Wrangler & Secrets
+.wrangler/
+.dev.vars
+.env
+.env.*
+
+# Test & coverage
+coverage/
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db

@@ -1,0 +1,295 @@
+import {
+  KeywordFlags,
+  ModFlags,
+  type DamageRangeTuple,
+  type DamageType,
+  type MercenarySkillDefinition,
+} from '../catalog-types/index.js';
+
+/** Generates linear level 1-40 weapon damage % curve. */
+function buildWeaponMulCurve(lv1Pct: number, lv20Pct: number, lv40Pct: number): Record<number, number> {
+  const out: Record<number, number> = {};
+  for (let lv = 1; lv <= 40; lv += 1) {
+    if (lv <= 20) {
+      out[lv] = Number((lv1Pct + ((lv - 1) / 19) * (lv20Pct - lv1Pct)).toFixed(1));
+    } else {
+      out[lv] = Number((lv20Pct + ((lv - 20) / 20) * (lv40Pct - lv20Pct)).toFixed(1));
+    }
+  }
+  return out;
+}
+
+/** Generates smooth level 1-40 spell/added base damage tuples. */
+function buildFlatDamageCurve(
+  type: DamageType,
+  lv1: DamageRangeTuple,
+  lv20: DamageRangeTuple,
+  lv40: DamageRangeTuple,
+): Record<number, Partial<Record<DamageType, DamageRangeTuple>>> {
+  const out: Record<number, Partial<Record<DamageType, DamageRangeTuple>>> = {};
+  for (let lv = 1; lv <= 40; lv += 1) {
+    const t = lv <= 20 ? (lv - 1) / 19 : (lv - 20) / 20;
+    const [aMin, aMax] = lv <= 20 ? lv1 : lv20;
+    const [bMin, bMax] = lv <= 20 ? lv20 : lv40;
+    const factor = lv <= 20 ? 1 : 1 + t * 1.15;
+    out[lv] = {
+      [type]: [
+        Math.round((aMin + (bMin - aMin) * t) * factor),
+        Math.round((aMax + (bMax - aMax) * t) * factor),
+      ],
+    };
+  }
+  return out;
+}
+
+const EMPTY_ADDED: Record<number, Partial<Record<DamageType, DamageRangeTuple>>> = {};
+
+export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
+  {
+    id: 'kinetic_blast_of_clustering',
+    name: 'Kinetic Blast of Clustering',
+    category: 'PRIMARY',
+    tags: ['Attack', 'Projectile', 'Wand', 'Area'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'projectile',
+        label: 'Projectile Hit',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Wand | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 2.35,
+        attackSpeedMulti: 1.0,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(150, 235, 340),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: [],
+      },
+      {
+        id: 'clustering_explosion',
+        label: 'Clustering Area Explosion',
+        defaultFullDpsCount: 5,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Area | ModFlags.Wand | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 2.35,
+        attackSpeedMulti: 1.0,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(150, 235, 340),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: ['15% more Area Damage'],
+      },
+    ],
+  },
+  {
+    id: 'kinetic_bolt_of_fragmentation',
+    name: 'Kinetic Bolt of Fragmentation',
+    category: 'PRIMARY',
+    tags: ['Attack', 'Projectile', 'Wand'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'primary_bolt',
+        label: 'Primary Bolt',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Wand | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 1.85,
+        attackSpeedMulti: 1.15,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(125, 185, 270),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: [],
+      },
+    ],
+  },
+  {
+    id: 'power_siphon',
+    name: 'Power Siphon',
+    category: 'SECONDARY',
+    tags: ['Attack', 'Projectile', 'Wand', 'Critical'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'wand_hit',
+        label: 'Projectile Hit',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Wand | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical | KeywordFlags.Crit,
+        damageEffectiveness: 1.75,
+        attackSpeedMulti: 1.0,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(115, 175, 255),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: ['20% increased Critical Strike Chance per Power Charge'],
+      },
+    ],
+  },
+  {
+    id: 'reave',
+    name: 'Reave',
+    category: 'PRIMARY',
+    tags: ['Attack', 'Melee', 'Area', 'Sword'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'melee_cleave',
+        label: 'Melee Area Slash',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Melee | ModFlags.Area | ModFlags.Sword | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 2.1,
+        attackSpeedMulti: 1.1,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(135, 210, 310),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: [],
+      },
+    ],
+  },
+  {
+    id: 'double_strike_of_impaling',
+    name: 'Double Strike of Impaling',
+    category: 'SECONDARY',
+    tags: ['Attack', 'Melee', 'Physical', 'Impale'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'double_hit',
+        label: 'Double Strike (2 Hits)',
+        defaultFullDpsCount: 2,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Melee | ModFlags.Sword | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical | KeywordFlags.Impale,
+        damageEffectiveness: 1.55,
+        attackSpeedMulti: 0.9,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(105, 155, 230),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: ['20% chance to Impale Enemies on Hit with Attacks'],
+      },
+    ],
+  },
+  {
+    id: 'lightning_arrow',
+    name: 'Lightning Arrow',
+    category: 'PRIMARY',
+    tags: ['Attack', 'Projectile', 'Bow', 'Lightning', 'Area'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'arrow_hit',
+        label: 'Arrow + Lightning Hit',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Bow | ModFlags.Area | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical | KeywordFlags.Lightning | KeywordFlags.Elemental,
+        damageEffectiveness: 1.65,
+        attackSpeedMulti: 1.0,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(110, 165, 240),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        inherentConversion: { Physical: { Lightning: 50 } },
+        partMods: ['25% chance to Shock Enemies'],
+      },
+    ],
+  },
+  {
+    id: 'split_arrow',
+    name: 'Split Arrow',
+    category: 'SECONDARY',
+    tags: ['Attack', 'Projectile', 'Bow', 'Physical'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'split_shot',
+        label: 'Arrow Hit',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Bow | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 1.5,
+        attackSpeedMulti: 1.0,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(100, 150, 220),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: [],
+      },
+    ],
+  },
+  {
+    id: 'spark',
+    name: 'Spark',
+    category: 'PRIMARY',
+    tags: ['Spell', 'Projectile', 'Lightning', 'Duration'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'spark_proj',
+        label: 'Spark Projectile',
+        defaultFullDpsCount: 2,
+        isSpell: true,
+        isAttack: false,
+        skillModFlags: ModFlags.Spell | ModFlags.Projectile | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Lightning | KeywordFlags.Elemental,
+        damageEffectiveness: 1.9,
+        baseCastTimeSec: 0.65,
+        baseCritChancePct: 6.0,
+        weaponDamageMultiplierPctByLevel: {},
+        baseAddedDamageByLevel: buildFlatDamageCurve('Lightning', [3, 45], [95, 1805], [320, 6100]),
+        partMods: [],
+      },
+    ],
+  },
+  {
+    id: 'sunder',
+    name: 'Sunder',
+    category: 'PRIMARY',
+    tags: ['Attack', 'Melee', 'Area', 'Slam'],
+    maxSupports: 5,
+    parts: [
+      {
+        id: 'slam_wave',
+        label: 'Shockwave Hit',
+        defaultFullDpsCount: 1,
+        isSpell: false,
+        isAttack: true,
+        skillModFlags: ModFlags.Attack | ModFlags.Melee | ModFlags.Area | ModFlags.Hit,
+        skillKeywordFlags: KeywordFlags.Physical,
+        damageEffectiveness: 2.55,
+        attackSpeedMulti: 0.75,
+        weaponDamageMultiplierPctByLevel: buildWeaponMulCurve(175, 255, 365),
+        baseAddedDamageByLevel: EMPTY_ADDED,
+        partMods: [],
+      },
+    ],
+  },
+  {
+    id: 'haste_mercenary',
+    name: 'Haste (Mercenary Aura)',
+    category: 'UTILITY',
+    tags: ['Spell', 'Aura'],
+    maxSupports: 3,
+    parts: [],
+  },
+  {
+    id: 'grace_mercenary',
+    name: 'Grace (Mercenary Aura)',
+    category: 'UTILITY',
+    tags: ['Spell', 'Aura'],
+    maxSupports: 3,
+    parts: [],
+  },
+  {
+    id: 'conductivity_mercenary',
+    name: 'Conductivity (Mercenary Curse)',
+    category: 'UTILITY',
+    tags: ['Spell', 'Curse'],
+    maxSupports: 3,
+    parts: [],
+  },
+];
