@@ -18,6 +18,7 @@ import { computeStage3ConversionDag } from './stage3_conversion_dag.js';
 import { computeStage4IncMoreAndMitigation } from './stage4_inc_more_buckets.js';
 import { computeStage5CritAndHit } from './stage5_crit_lucky_multihit.js';
 import { computeStage6AccuracyAndSpeed } from './stage6_accuracy_speed.js';
+import { computeStage9ImpaleAndAilments } from './stage9_impale_and_ailments.js';
 
 export interface Stage10FullDpsOutput {
   combinedFullDps: number;
@@ -135,7 +136,7 @@ export function calculateSingleSkillPart(
     stage2.evalContext,
   );
 
-  return computeStage6AccuracyAndSpeed(
+  const stage6 = computeStage6AccuracyAndSpeed(
     group.groupId,
     skill,
     part,
@@ -149,6 +150,24 @@ export function calculateSingleSkillPart(
     includeInFullDps,
     hitCountMultiplier,
   );
+  const stage9 = computeStage9ImpaleAndAilments({
+    stage2,
+    stage3,
+    stage4,
+    stage5,
+    skillModDb,
+    enemyConfig: buildState.enemyConfig,
+    mercLightningUncappedResistPct,
+    hitChancePct: stage6.hitChancePct,
+    effectiveActionRate: stage6.effectiveActionRate,
+  });
+  return {
+    ...stage6,
+    impaleDps: stage9.impaleDps,
+    igniteDps: stage9.igniteDps,
+    bleedDps: stage9.bleedDps,
+    poisonDps: stage9.poisonDps,
+  };
 }
 
 /**

@@ -43,3 +43,7 @@ export {
   computeStage8EnemyMitigationAndTaken,
   type Stage8MitigationResult,
 } from './stage8_enemy_pdr_and_taken.js';
+export {
+  computeStage9ImpaleAndAilments,
+  type Stage9AilmentsResult,
+} from './stage9_impale_and_ailments.js';

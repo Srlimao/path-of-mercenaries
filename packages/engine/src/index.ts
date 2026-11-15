@@ -6,6 +6,8 @@ export * from './archetype-baseline/index.js';
 export * from './item-parser/index.js';
 export * from './item-diff-calculator/index.js';
 export * from './damage-pipeline/index.js';
+export * from './defence-pipeline/index.js';
 export * from './support-optimizer/index.js';
 export * from './party-aura-link-compiler/index.js';
+export * from './unique-handlers/index.js';
 export * from './orchestrator/index.js';

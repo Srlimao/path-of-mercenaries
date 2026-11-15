@@ -2,6 +2,7 @@ import { useMercenaryCalculator } from '../../state/index.js';
 import { QuickBuffsWidget } from '../party-enemy-config/index.js';
 import { ArchetypeSelector } from './ArchetypeSelector.js';
 import { MercLevelControl } from './MercLevelControl.js';
+import { SidebarDefencesPanel } from './SidebarDefencesPanel.js';
 import styles from './LeftStatSidebar.module.css';
 
 function formatNum(value: number): string {
@@ -39,7 +40,7 @@ export function LeftStatSidebar() {
     (s) => s.parts.length > 0 && (buildState.showAllSkillsSandbox || allowedSkillIds.has(s.id)),
   );
 
-  const { defences, activePartResult } = snapshot;
+  const { activePartResult } = snapshot;
 
   return (
     <aside className={styles.sidebar} aria-label="Mercenary Summary Sidebar">
@@ -116,6 +117,23 @@ export function LeftStatSidebar() {
           <span className="pom-stat-value">{formatNum(snapshot.activeSkillDps)}</span>
         </div>
         <div className="pom-stat-row">
+          <span className="pom-stat-label">Hit DPS</span>
+          <span className="pom-stat-value">{formatNum(activePartResult?.hitDps ?? 0)}</span>
+        </div>
+        {(activePartResult?.impaleDps ?? 0) > 0 && (
+          <div className="pom-stat-row">
+            <span className="pom-stat-label">Impale DPS</span>
+            <span className="pom-stat-value">{formatNum(activePartResult?.impaleDps ?? 0)}</span>
+          </div>
+        )}
+        <div className="pom-stat-row" title="Ignite / Bleed / Poison DPS">
+          <span className="pom-stat-label">Ignite / Bleed / Poison</span>
+          <span className="pom-stat-value">
+            {formatNum(activePartResult?.igniteDps ?? 0)} / {formatNum(activePartResult?.bleedDps ?? 0)} /{' '}
+            {formatNum(activePartResult?.poisonDps ?? 0)}
+          </span>
+        </div>
+        <div className="pom-stat-row">
           <span className="pom-stat-label">Average Hit</span>
           <span className="pom-stat-value">{formatNum(activePartResult?.averageHit ?? 0)}</span>
         </div>
@@ -143,102 +161,7 @@ export function LeftStatSidebar() {
         </div>
       </fieldset>
 
-      <fieldset className="pom-fieldset">
-        <legend>Attributes &amp; Pools</legend>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label">STR / DEX / INT</span>
-          <span className="pom-stat-value">
-            {defences.str} / {defences.dex} / {defences.int}
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-life)' }}>
-            Maximum Life
-          </span>
-          <span className="pom-stat-value">{formatNum(defences.maxLife)}</span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-es)' }}>
-            Energy Shield / Ward
-          </span>
-          <span className="pom-stat-value">
-            {formatNum(defences.maxEnergyShield)} / {formatNum(defences.maxWard)}
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label">Effective Hit Pool</span>
-          <span className="pom-stat-value" style={{ color: 'var(--pom-text-accent)' }}>
-            {formatNum(defences.effectiveHitPool)}
-          </span>
-        </div>
-      </fieldset>
-
-      <fieldset className="pom-fieldset">
-        <legend>Defences &amp; Resistances</legend>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label">Accuracy / Evasion</span>
-          <span className="pom-stat-value">
-            {formatNum(defences.accuracy)} / {formatNum(defences.evasion)}
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label">Armour / Phys DR</span>
-          <span className="pom-stat-value">
-            {formatNum(defences.armour)} ({defences.physicalDamageReductionPct}%)
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-fire)' }}>
-            Fire Resistance
-          </span>
-          <span className="pom-stat-value">
-            {defences.resistances.Fire.capped}% ({defences.resistances.Fire.uncapped}%)
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-cold)' }}>
-            Cold Resistance
-          </span>
-          <span className="pom-stat-value">
-            {defences.resistances.Cold.capped}% ({defences.resistances.Cold.uncapped}%)
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-lightning)' }}>
-            Lightning Resistance
-          </span>
-          <span className="pom-stat-value">
-            {defences.resistances.Lightning.capped}% ({defences.resistances.Lightning.uncapped}%)
-          </span>
-        </div>
-        <div className="pom-stat-row">
-          <span className="pom-stat-label" style={{ color: 'var(--poe-chaos)' }}>
-            Chaos Resistance
-          </span>
-          <span className="pom-stat-value">
-            {defences.resistances.Chaos.capped}% ({defences.resistances.Chaos.uncapped}%)
-          </span>
-        </div>
-
-        <div className={styles.maxHitGrid} title="Maximum Hit Taken by Damage Type">
-          {(
-            [
-              ['Phys', defences.maxHitTaken.Physical, 'var(--poe-phys)'],
-              ['Fire', defences.maxHitTaken.Fire, 'var(--poe-fire)'],
-              ['Cold', defences.maxHitTaken.Cold, 'var(--poe-cold)'],
-              ['Light', defences.maxHitTaken.Lightning, 'var(--poe-lightning)'],
-              ['Chaos', defences.maxHitTaken.Chaos, 'var(--poe-chaos)'],
-            ] as const
-          ).map(([label, val, color]) => (
-            <div key={label} className={styles.maxHitCell}>
-              <div className={styles.maxHitLabel} style={{ color }}>
-                {label}
-              </div>
-              <div className={styles.maxHitNum}>{formatNum(val)}</div>
-            </div>
-          ))}
-        </div>
-      </fieldset>
+      <SidebarDefencesPanel />
 
       <QuickBuffsWidget />
     </aside>

@@ -55,6 +55,8 @@ function computeEffectiveResistAndMitigation(
     stage7Resist,
     enemyConfig,
     queryFlags,
+    skillModDb,
+    context,
   );
 }
 

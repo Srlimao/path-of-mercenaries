@@ -3,6 +3,7 @@ import {
   type DamageType,
   type EnemyConfigState,
 } from '../catalog-types/index.js';
+import type { EvalContext, ModDB } from '../mod-db/index.js';
 import {
   CURSE_CATALOG,
   ENEMY_BOSS_PRESETS,
@@ -18,7 +19,7 @@ export interface Stage8MitigationResult {
 /**
  * Stage 8: Computes Enemy Armour Physical Damage Reduction, Increased Damage Taken
  * modifiers (Shock, Intimidate, Unnerve, Covered in Ash, Withered, Vulnerability,
- * Sniper's Mark, Punishment), and Uber Pinnacle Boss 0.30x multiplier.
+ * Sniper's Mark, Punishment, Yoke of Suffering), and Uber Pinnacle Boss 0.30x multiplier.
  */
 export function computeStage8EnemyMitigationAndTaken(
   damageType: DamageType,
@@ -26,13 +27,23 @@ export function computeStage8EnemyMitigationAndTaken(
   stage7ResistPct: number,
   enemyConfig: EnemyConfigState,
   queryFlags: number,
+  skillModDb?: ModDB,
+  context?: EvalContext,
 ): Stage8MitigationResult {
   const isAttack = (queryFlags & ModFlags.Attack) !== 0;
   const isSpell = (queryFlags & ModFlags.Spell) !== 0;
   const isProj = (queryFlags & ModFlags.Projectile) !== 0;
-  const curseScalar = getCurseEffectivenessScalar(enemyConfig);
+  const safeCtx: EvalContext = context ?? { conditions: {}, stats: {} };
+  const curseScalar = getCurseEffectivenessScalar(enemyConfig, skillModDb, safeCtx);
 
-  let takenIncPct = enemyConfig.shockPct ?? 0;
+  let takenIncPct =
+    (enemyConfig.shockPct ?? 0) +
+    (skillModDb?.sum('BASE', {
+      names: ['EnemyDamageTaken'],
+      flags: queryFlags,
+      keywordFlags: 0,
+      context: safeCtx,
+    }) ?? 0);
   if (isAttack && enemyConfig.isIntimidated) takenIncPct += 10;
   if (isSpell && enemyConfig.isUnnerved) takenIncPct += 10;
   if (damageType === 'Fire' && enemyConfig.isCoveredInAsh) takenIncPct += 20;

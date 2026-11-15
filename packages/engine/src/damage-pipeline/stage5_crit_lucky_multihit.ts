@@ -58,7 +58,7 @@ export function computeStage5CritAndHit(
     keywordFlags: 0,
     context,
   });
-  const curseScalar = getCurseEffectivenessScalar(enemyConfig);
+  const curseScalar = getCurseEffectivenessScalar(enemyConfig, skillModDb, context);
   let markBaseCrit = 0;
   let markCritMulti = 0;
   for (const cid of enemyConfig.activeCurses) {

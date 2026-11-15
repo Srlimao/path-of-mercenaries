@@ -196,38 +196,38 @@
 
 ## Phase 10: Feature Slice 8 — Build-Around Unique Handlers & Impale / Damaging Ailments (Stage 9)
 
-*Goal: Implement all 20 special Unique mechanical rules and complete Stage 9 Impale + anti-double-dipping Damaging Ailment (Ignite, Bleed, Poison) calculations.*
+*Goal: Implement special Unique mechanical rules and complete Stage 9 Impale + anti-double-dipping Damaging Ailment (Ignite, Bleed, Poison) calculations.*
 
-- [ ] **10.1 Engine: Build-Around Unique Handlers (`packages/engine/src/unique-handlers/`)**
-  - [ ] `unique_registry.ts` + modular handler files (`<300` LOC each):
+- [x] **10.1 Engine: Build-Around Unique Handlers (`packages/engine/src/unique-handlers/`)**
+  - [x] `unique_registry.ts` (all 22 `SEED_UNIQUES` registered, non-duplicating explicit-parser integration):
     - Resistance & Mitigation overrides: *Doryani's Prototype* (lock enemy lightning res to Merc lightning res $\ge -200\%$, disable light pen/exposure/curses), *Rakiata's Dance* (invert enemy base ele res), *Original Sin* (ele->chaos + 0% chaos res).
     - Damage & Crit mechanics: *Perquil's Toe* (Lucky hit damage), *Heatshiver* (Chill/Freeze extra fire), *Yoke of Suffering* (damage taken per ailment), *Voidforge* (700% random ele), *Ephemeral Edge* (flat light per ES), *Crown of the Tyrant* (socket color flat + `-10%` res), *Nimis* (return hits), *The Taming*, *Piscator's Vigil*.
-    - Charges, Party & Phys-Taken-As: *Ralakesh's Impatience*, *Sign of the Sin Eater*, *Leer Cast*, *Dying Breath*, *Gravebind*, *Dawnbreaker*, *Cloak of Flame*, *Lightning Coil*.
-  - [ ] `unique_handlers.test.ts`: Golden fixtures for *Kineticist* (*KB of Clustering* + *Flame Link* + *Perquil's Toe* + *Doryani's Prototype* `-188%` res), *Rakiata's Dance*, and *Heatshiver* + *Yoke*.
+    - Charges, Party & Phys-Taken-As: *Ralakesh's Impatience*, *Sign of the Sin Eater*, *Leer Cast*, *Dying Breath*, *Gravebind*, *Dawnbreaker*, *Cloak of Flame*, *Lightning Coil*, *Kingmaker*, *Garb of the Ephemeral*.
+  - [x] `unique_handlers.test.ts`: Golden fixtures for *Kineticist* (*KB of Clustering* + *Flame Link* + *Perquil's Toe* + *Doryani's Prototype* `-188%` res), *Rakiata's Dance*, *Heatshiver* + *Yoke* + *The Taming*, and *Voidforge* / *Original Sin* (4 tests).
 
-- [ ] **10.2 Engine: Stage 9 Impale & Ailments (`packages/engine/src/damage-pipeline/`)**
-  - [ ] `stage9_impale_and_ailments.ts`: Compute Impale DPS (pre-mitigation Phys × 10% × Impale Effect × stacks × rate) and dedicated **Base Ailment Damage** branch (Ignite `0.90x`, Bleed `0.70x` / Moving `2.10x` / Crimson Dance, Poison `0.30x` × stack uptime) isolating `Hit`-only modifiers from `Ailment | Dot` modifiers.
-  - [ ] `stage9_ailments.test.ts`: Verify `Projectile`/`Area` modifiers do not double-dip on Ignite/Bleed/Poison while `DoT Multi`, `Ailment Damage`, and `Poison Duration` scale accurately.
+- [x] **10.2 Engine: Stage 9 Impale & Ailments (`packages/engine/src/damage-pipeline/`)**
+  - [x] `stage9_impale_and_ailments.ts`: Compute Impale DPS (pre-mitigation Phys × 10% × Impale Effect × stacks × rate) and dedicated **Base Ailment Damage** branch (Ignite `0.90x`, Bleed `0.70x` / Moving `2.10x` / Crimson Dance, Poison `0.30x` × stack uptime) isolating `Hit`-only modifiers from `Ailment | Dot` modifiers.
+  - [x] `stage9_ailments.test.ts`: Verify `Projectile`/`Area` modifiers do not double-dip on Ignite/Bleed/Poison while `DoT Multi`, `Ailment Damage`, `Poison Duration`, and `Impale` scale accurately (3 tests).
 
-- [ ] **10.3 UI Integrations**
-  - [ ] Display Impale DPS & Ignite/Bleed/Poison DPS breakdown rows in `LeftStatSidebar.tsx`.
-  - [ ] Expose Unique-specific config controls (e.g., *Crown of the Tyrant* socket color selector, *Nimis* return hit multiplier, *Yoke* / *Heatshiver* enemy ailment toggles).
+- [x] **10.3 UI Integrations**
+  - [x] Display Hit DPS, Impale DPS, and Ignite / Bleed / Poison DPS breakdown rows in `LeftStatSidebar.tsx`.
+  - [x] Expose Unique-specific config controls (*Crown of the Tyrant* socket color selector in `CombatConditionsAndCustomModsPanel.tsx`; Ignite/Bleed/Poison + Chill/Freeze toggles for *Yoke*/*Heatshiver*/*The Taming* in `EnemyBossConfigPanel.tsx`).
 
 ---
 
 ## Phase 11: Feature Slice 9 — Full PoB Defensive & Survivability Suite (`packages/engine/src/defence-pipeline`)
 
-*Goal: Deliver complete defensive math: Life/ES/Ward pools, capped/uncapped resistances, `Phys Taken As`, Armour curve, Evasion, Block, Spell Suppression, quadratic Physical Max Hit solver, EHP, and Recovery.*
+*Goal: Deliver complete defensive math: Life/ES/Ward pools, capped/uncapped resistances, `Phys Taken As`, Armour curve, Evasion, Block, Spell Suppression, binary-search Physical Max Hit solver, EHP, and Recovery.*
 
-- [ ] **11.1 Engine: Defensive Pipeline (`packages/engine/src/defence-pipeline/`)**
-  - [ ] `pools_and_resistances.ts`: Compute Max Life, Max ES, Ward, CI override, and Capped / Uncapped Resistances (tracking negative Lightning Res for *Doryani's*).
-  - [ ] `damage_taken_conversion.ts`: Normalize `PhysTakenAsFire/Cold/Lightning/Chaos` proportions (*Cloak of Flame*, *Lightning Coil*, *Dawnbreaker*).
-  - [ ] `mitigation_and_avoidance.ts`: Non-linear Armour PDR vs Enemy Physical Hit Size, Evade Chance, Attack/Spell Block (*Intuitive Link*), and Spell Suppression (`50%+` reduction).
-  - [ ] `max_hit_and_ehp_solver.ts`: Quadratic Physical Max Hit Taken solver, Elemental/Chaos Max Hit Taken, weighted **Effective Hit Pool (`EHP`)**, and Net Recovery (Regen + Leech + On-Hit/On-Block).
-  - [ ] `defence_pipeline.test.ts`: Golden unit tests for Lv 84 hidden `+35%` res, *Cloak of Flame* + *Dawnbreaker* + Armour quadratic Max Hit, and EHP parity.
+- [x] **11.1 Engine: Defensive Pipeline (`packages/engine/src/defence-pipeline/`)**
+  - [x] `pools_and_resistances.ts`: Compute Max Life, Max ES, Ward, and Capped / Uncapped Resistances (tracking negative Lightning Res down to `-200%` for *Doryani's* and raised max res caps).
+  - [x] `damage_taken_conversion.ts`: Normalize `PhysTakenAsFire/Cold/Lightning/Chaos` proportions (*Cloak of Flame*, *Lightning Coil*, *Dawnbreaker*) and Elemental-taken-as-Fire shifts.
+  - [x] `mitigation_and_avoidance.ts`: Non-linear Armour PDR vs Enemy Physical Hit Size, Evade Chance, Attack/Spell Block (*Intuitive Link*), Spell Suppression, Endurance/Additional PDR, and Fortify DR.
+  - [x] `max_hit_and_ehp_solver.ts`: Iterative Physical Max Hit Taken solver, Elemental/Chaos Max Hit Taken (*Doryani's Prototype* Armour-to-Lightning rule), weighted **Effective Hit Pool (`EHP`)**, and Net Life Recovery/s.
+  - [x] `defence_pipeline.test.ts`: Golden unit tests for Lv 84 hidden `+35%` res, *Cloak of Flame* + *Dawnbreaker* + Armour Max Hit, *Doryani's* Lightning Max Hit, and Evasion/Block/Suppression EHP (4 tests).
 
-- [ ] **11.2 UI: Full Defences Readout (`apps/web/src/features/left-stat-sidebar/`)**
-  - [ ] Expand `LeftStatSidebar.tsx` Defences panel with `EHP`, per-type `Max Hit Taken (Phys / Fire / Cold / Light / Chaos)`, `Life / ES / Ward`, `Armour (PDR%) / Evade% / Block% / Suppress%`, `Capped (Uncapped)` Resistances, and `Net Recovery/s`.
+- [x] **11.2 UI: Full Defences Readout (`apps/web/src/features/left-stat-sidebar/`)**
+  - [x] Expand Defences readout via `SidebarDefencesPanel.tsx` rendered inside `LeftStatSidebar.tsx` with `EHP`, per-type `Max Hit Taken (Phys / Fire / Cold / Light / Chaos)`, `Life / ES / Ward`, `Armour (PDR%) / Evade% / Block% / Suppress%`, `Phys Taken As`, `Capped (Uncapped)` Resistances, and `Net Life Recovery/s`.
 
 ---
 

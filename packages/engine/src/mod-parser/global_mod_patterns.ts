@@ -1,9 +1,13 @@
+import { ModFlags } from '../catalog-types/index.js';
 import type { Mod } from '../mod-db/index.js';
 import {
   DAMAGE_MOD_PATTERNS,
   makeParsedMod,
   type ModPatternMatcher,
 } from './damage_mod_patterns.js';
+
+const capWord = (word: string): string =>
+  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 
 export const GLOBAL_MOD_PATTERNS: ModPatternMatcher[] = [
   // Attributes
@@ -100,6 +104,60 @@ export const GLOBAL_MOD_PATTERNS: ModPatternMatcher[] = [
   {
     regex: /^Nearby Enemies have\s+([+-]?\d+)%\s+to all Resistances$/i,
     build: (m, s) => [makeParsedMod(s, 'EnemyAllResist', 'BASE', Number(m[1]))],
+  },
+  // Maximum Resistances
+  {
+    regex: /^([+-]?\d+)%\s+to\s+all\s+maximum\s+Elemental\s+Resistances$/i,
+    build: (m, s) => {
+      const val = Number(m[1]);
+      return [
+        makeParsedMod(s, 'MaxFireResist', 'BASE', val),
+        makeParsedMod(s, 'MaxColdResist', 'BASE', val),
+        makeParsedMod(s, 'MaxLightningResist', 'BASE', val),
+      ];
+    },
+  },
+  {
+    regex: /^([+-]?\d+)%\s+to\s+maximum\s+(Fire|Cold|Lightning|Chaos)\s+Resistance$/i,
+    build: (m, s) => [makeParsedMod(s, `Max${capWord(m[2]!)}Resist`, 'BASE', Number(m[1]))],
+  },
+  // DoT Multiplier & Ailment Duration / Chance
+  {
+    regex: /^([+-]?\d+)%\s+to\s+(?:(Fire|Cold|Physical|Chaos)\s+)?Damage over Time Multiplier$/i,
+    build: (m, s) => {
+      const name = m[2] ? `${capWord(m[2])}DotMultiplier` : 'DotMultiplier';
+      return [makeParsedMod(s, name, 'BASE', Number(m[1]), ModFlags.Dot)];
+    },
+  },
+  {
+    regex: /^(\d+)%\s+(increased|reduced)\s+(Ignite|Bleed|Bleeding|Poison|Ailment)\s+Duration(?:\s+on Enemies)?$/i,
+    build: (m, s) => {
+      const signed = m[2]!.toLowerCase() === 'reduced' ? -Number(m[1]) : Number(m[1]);
+      const rawType = m[3]!.toLowerCase();
+      const key = rawType.startsWith('bleed') ? 'Bleed' : capWord(rawType);
+      return [makeParsedMod(s, `${key}Duration`, 'INC', signed)];
+    },
+  },
+  {
+    regex: /^(\d+)%\s+chance to\s+(Ignite|Poison|cause Bleeding)(?:\s+on Hit)?$/i,
+    build: (m, s) => {
+      const raw = m[2]!.toLowerCase();
+      const key = raw.includes('bleed') ? 'BleedChance' : raw === 'ignite' ? 'IgniteChance' : 'PoisonChance';
+      return [makeParsedMod(s, key, 'BASE', Number(m[1]))];
+    },
+  },
+  // Life Regen & Additional Physical DR
+  {
+    regex: /^Regenerate\s+(\d+(?:\.\d+)?)\s+Life per second$/i,
+    build: (m, s) => [makeParsedMod(s, 'LifeRegen', 'BASE', Number(m[1]))],
+  },
+  {
+    regex: /^Regenerate\s+(\d+(?:\.\d+)?)%\s+of Life per second$/i,
+    build: (m, s) => [makeParsedMod(s, 'LifeRegenPercent', 'BASE', Number(m[1]))],
+  },
+  {
+    regex: /^([+-]?\d+)%\s+additional Physical Damage Reduction$/i,
+    build: (m, s) => [makeParsedMod(s, 'PhysicalDamageReduction', 'BASE', Number(m[1]))],
   },
   ...DAMAGE_MOD_PATTERNS,
 ];

@@ -255,6 +255,9 @@ export function EnemyBossConfigPanel() {
               ['isCoveredInAsh', 'Covered in Ash (+20% Fire)'],
               ['isChilled', 'Enemy is Chilled'],
               ['isFrozen', 'Enemy is Frozen'],
+              ['isIgnited', 'Enemy is Ignited'],
+              ['isBleeding', 'Enemy is Bleeding'],
+              ['isPoisoned', 'Enemy is Poisoned'],
             ] as const
           ).map(([key, label]) => (
             <label key={key} className={styles.checkChip ?? ''}>

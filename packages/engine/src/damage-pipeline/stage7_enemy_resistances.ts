@@ -99,9 +99,23 @@ export const CURSE_CATALOG: CurseDefinition[] = [
   { id: 'snipers_mark', name: "Sniper's Mark", summary: '+35% Projectile Taken', projTakenIncPct: 35 },
 ];
 
-export function getCurseEffectivenessScalar(enemyConfig: EnemyConfigState): number {
+export function getCurseEffectivenessScalar(
+  enemyConfig: EnemyConfigState,
+  skillModDb?: ModDB,
+  context?: EvalContext,
+): number {
   const preset = ENEMY_BOSS_PRESETS[enemyConfig.presetId] ?? ENEMY_BOSS_PRESETS.pinnacle;
-  return Math.max(0, 1 + (enemyConfig.curseEffectPct ?? 0) / 100) * preset.bossCursePenalty;
+  const modCurseEffect =
+    skillModDb?.sum('BASE', {
+      names: ['EnemyCurseEffect'],
+      flags: 0,
+      keywordFlags: 0,
+      context: context ?? { conditions: {}, stats: {} },
+    }) ?? 0;
+  return (
+    Math.max(0, 1 + ((enemyConfig.curseEffectPct ?? 0) + modCurseEffect) / 100) *
+    preset.bossCursePenalty
+  );
 }
 
 /**
@@ -123,7 +137,7 @@ export function computeStage7EnemyEffectiveResist(
     if (skillModDb.flag('EnemyChaosResZero', context, queryFlags)) {
       return 0;
     }
-    const curseScalar = getCurseEffectivenessScalar(enemyConfig);
+    const curseScalar = getCurseEffectivenessScalar(enemyConfig, skillModDb, context);
     let curseDelta = 0;
     for (const cid of enemyConfig.activeCurses) {
       const def = CURSE_CATALOG.find((c) => c.id === cid);
@@ -146,7 +160,7 @@ export function computeStage7EnemyEffectiveResist(
     return Math.max(-200, Math.min(75, mercLightningUncappedResistPct));
   }
 
-  const curseScalar = getCurseEffectivenessScalar(enemyConfig);
+  const curseScalar = getCurseEffectivenessScalar(enemyConfig, skillModDb, context);
   let curseDelta = 0;
   for (const cid of enemyConfig.activeCurses) {
     const def = CURSE_CATALOG.find((c) => c.id === cid);
