@@ -127,13 +127,15 @@ export async function listSavedBuilds(signedInUser: DunhasUser | null): Promise<
         headers: getAuthHeaders(),
       });
       if (res.ok) {
+        type CloudRow = { key?: string; record_key?: string; data?: SavedBuildRecordPayload };
         const json = (await res.json()) as
-          | Array<{ key?: string; data?: SavedBuildRecordPayload }>
-          | { records?: Array<{ key?: string; data?: SavedBuildRecordPayload }>; items?: Array<{ key?: string; data?: SavedBuildRecordPayload }> };
-        const rows = Array.isArray(json) ? json : (json.records ?? json.items ?? []);
+          | CloudRow[]
+          | { results?: CloudRow[]; records?: CloudRow[]; items?: CloudRow[] };
+        const rows = Array.isArray(json) ? json : (json.results ?? json.records ?? json.items ?? []);
         for (const row of rows) {
-          if (row.key && row.data && isValidBuildState(row.data.buildState)) {
-            entriesByKey.set(row.key, { key: row.key, data: row.data, storage: 'cloud' });
+          const rowKey = row.key ?? row.record_key;
+          if (rowKey && row.data && isValidBuildState(row.data.buildState)) {
+            entriesByKey.set(rowKey, { key: rowKey, data: row.data, storage: 'cloud' });
           }
         }
       }
