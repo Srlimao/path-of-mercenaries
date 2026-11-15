@@ -1,4 +1,5 @@
 import { useMercenaryCalculator } from '../../state/index.js';
+import { QuickBuffsWidget } from '../party-enemy-config/index.js';
 import { ArchetypeSelector } from './ArchetypeSelector.js';
 import { MercLevelControl } from './MercLevelControl.js';
 import styles from './LeftStatSidebar.module.css';
@@ -238,6 +239,8 @@ export function LeftStatSidebar() {
           ))}
         </div>
       </fieldset>
+
+      <QuickBuffsWidget />
     </aside>
   );
 }

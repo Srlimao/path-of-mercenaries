@@ -1,0 +1,53 @@
+.body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.desc {
+  font-size: 12px;
+  color: var(--pom-text-secondary);
+}
+
+.actionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.bucketList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px;
+}
+
+.bucketBox {
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+  font-size: 11px;
+}
+
+.bucketTitle {
+  font-weight: 700;
+  color: var(--pom-gold);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.lineItem {
+  font-family: var(--pom-font-mono);
+  color: var(--pom-text-primary);
+  line-height: 1.4;
+}
+
+.codePreview {
+  width: 100%;
+  min-height: 56px;
+  font-family: var(--pom-font-mono);
+  font-size: 11px;
+  resize: vertical;
+}

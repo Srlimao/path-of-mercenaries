@@ -1,0 +1,39 @@
+.body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 6px;
+}
+
+.fieldItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.chipsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 5px;
+}
+
+.checkChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 7px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+  font-size: 11px;
+  color: var(--pom-text-primary);
+  cursor: pointer;
+}

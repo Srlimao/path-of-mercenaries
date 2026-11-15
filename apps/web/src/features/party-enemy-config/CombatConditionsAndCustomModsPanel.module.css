@@ -1,0 +1,49 @@
+.body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chargesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 6px;
+}
+
+.fieldItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.toggleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.checkLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--pom-text-primary);
+  cursor: pointer;
+}
+
+.customArea {
+  width: 100%;
+  min-height: 92px;
+  padding: 6px 8px;
+  font-family: var(--pom-font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  resize: vertical;
+}

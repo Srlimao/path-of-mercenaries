@@ -162,35 +162,35 @@
 
 ---
 
-## Phase 8: Feature Slice 6 — `Config` Tab Part A: Player Party Links, Aurabot Scaling & Combat Conditions
+## Phase 8: Feature Slice 6 — `Config` Tab Part A: Player-Given Buffs, Aurabot PoB Export & Combat Conditions
 
-*Goal: Wire Player Links (*Flame Link*, *Destructive Link*, etc.), Aurabot Auras/Mines with Global Aura Effect %, and Mercenary Charges/Combat Conditions.*
+*Goal: Support both Luminary / Support Player → Carry Mercenary buffs (Links, Auras/Mines, Combat Conditions) and Mercenary-as-Aurabot → Player PoB `<Party>` export.*
 
-- [ ] **8.1 Engine: Party Link, Aura & Condition Compiler (`packages/engine/src/party-aura-link-compiler/`)**
-  - [ ] `compile_player_links.ts`: Compute *Flame Link* flat fire from Gem Lv `1–30` + `PlayerMaxLife` + `LinkEffect%`, *Destructive Link* main-hand Base Crit override, and *Intuitive/Protective/Soul/Vampiric Link* buffs.
-  - [ ] `compile_player_auras.ts`: Scale *Wrath*, *Anger*, *Hatred*, *Zealotry*, *Pride*, *Haste*, *Precision*, *Determination*, *Grace*, *Purities*, *Smite*, and *Pyroclast Mine of Sabotage* (`ActiveMines`) by `(1 + GlobalPlayerAuraEffect% + GenerosityEffect%)`.
-  - [ ] `compile_combat_conditions.ts`: Inject Power/Frenzy/Endurance Charge bonuses, Onslaught, Tailwind, Adrenaline, Fortify, Point Blank/Far Shot distance scaling, and `EvalContext` flags into `ModDB`.
-  - [ ] `party_aura_link.test.ts`: Verify *Flame Link* with 9,000 Player Life, *Destructive Link* crit override, and `150%+` Aura Effect scaling.
+- [x] **8.1 Engine: Party Link, Aura, Condition & PoB Export Compiler (`packages/engine/src/party-aura-link-compiler/`)**
+  - [x] `compile_player_links.ts`: Compute *Flame Link* flat fire from Gem Lv `1–30` + `PlayerMaxLife` + `LinkEffect%`, *Destructive Link* main-hand Base Crit override, and *Intuitive Link* block sharing buffs.
+  - [x] `compile_player_auras.ts`: Scale *Wrath*, *Anger*, *Hatred*, *Zealotry*, *Pride*, *Haste*, *Precision*, *Determination*, *Grace*, *Purities*, *Smite*, and *Pyroclast Mine of Sabotage* (`ActiveMines`) by `(1 + GlobalPlayerAuraEffect% + GenerosityEffect%)`.
+  - [x] `compile_combat_conditions.ts`: Inject Power/Frenzy/Endurance Charge bonuses (respecting *Ralakesh's Impatience* minimum floor), Onslaught, Tailwind, Adrenaline, Fortify, *Crown of the Tyrant* socket flat, Custom Modifiers, and `EvalContext` flags into `ModDB`.
+  - [x] `export_mercenary_party_pob.ts`: Compile Mercenary aurabot gear (*Kingmaker*, *Garb of the Ephemeral*, etc.), mercenary auras, and curses into official PoB `<Party><ExportedBuffs>` XML + RFC 1950 Zlib/Base64URL share code.
+  - [x] `party_aura_link.test.ts`: Verify *Flame Link* scaling, *Destructive Link* crit override, `150%+` Aura Effect scaling, and PoB `<Party>` XML/code export round-trip (4 tests).
 
-- [ ] **8.2 UI: Party, Auras & Combat Conditions Panel (`apps/web/src/features/party-enemy-config/`)**
-  - [ ] `PlayerLinksConfigPanel.tsx`: Parameterized inputs for *Flame Link* (`Player Max Life`, `Gem Lv`), *Destructive Link* (`Player Weapon Crit %`), and utility Links.
-  - [ ] `PlayerAurasConfigPanel.tsx`: `Global Aura Effect %` slider (`0%–300%`), *Generosity* toggle, aura level inputs, and *Pyroclast Mine* active mine counter.
-  - [ ] `CombatConditionsPanel.tsx`: Charges, Onslaught, Tailwind, Adrenaline, Fortify, Projectile Distance slider, plus Quick Party Toggles widget in the Left Sidebar.
+- [x] **8.2 UI: Player Buffs, Combat Conditions & Aurabot Export (`apps/web/src/features/party-enemy-config/`)**
+  - [x] `PlayerLinksAndAurasPanel.tsx` & `PlayerAurasSection.tsx`: Parameterized inputs for *Flame Link*, *Destructive Link*, *Intuitive Link*, `Global Aura Effect %` slider (`0%–300%`), *Generosity* toggle, *Smite*, *Pyroclast Mines*, and Player Aura levels.
+  - [x] `CombatConditionsAndCustomModsPanel.tsx`: Charges, Onslaught, Tailwind, Adrenaline, Fortify, *Crown of the Tyrant* socket color, and multi-line Custom Modifiers box with live parsed/unrecognized indicator.
+  - [x] `MercenaryPartyExportPanel.tsx` & `QuickBuffsWidget.tsx`: Mercenary → PoB `<Party>` XML & share code copy panel plus Quick Buff Toggles widget in `LeftStatSidebar`.
 
 ---
 
 ## Phase 9: Feature Slice 7 — `Config` Tab Part B: Enemy Boss Presets, Debuffs & Mitigation Math (Stages 7–8)
 
-*Goal: Implement Stage 7 (Enemy Resistances, Curses, Exposure, Penetration) & Stage 8 (Enemy Armour PDR, Damage Taken Multipliers, Uber Boss `0.30x`) along with Enemy Config & Custom Modifiers UI.*
+*Goal: Implement Stage 7 (Enemy Resistances, Curses, Exposure, Penetration) & Stage 8 (Enemy Armour PDR, Damage Taken Multipliers, Uber Boss `0.30x`) along with Enemy Config UI.*
 
-- [ ] **9.1 Engine: Damage Pipeline Stages 7 & 8 (`packages/engine/src/damage-pipeline/`)**
-  - [ ] `stage7_enemy_resistances.ts`: Compute Enemy Effective Resistance after Curse reductions (with Curse Effect % and `33%` Pinnacle Boss penalty), Exposure, Scorch, and Penetration.
-  - [ ] `stage8_enemy_pdr_and_taken.ts`: Compute non-linear Enemy Armour PDR against raw physical hit + Overwhelm, Enemy Increased/More Damage Taken (`Shock`, `Intimidate`, `Unnerve`, `Covered in Ash/Frost`, `Withered 0–15`, `Pride`, `Vulnerability/Punishment`), and Uber Pinnacle `0.30x` (`70% less Damage Taken`).
-  - [ ] `stages_7_to_8.test.ts`: Verify Standard Monster vs Pinnacle Boss vs Uber Pinnacle mitigation ratios and curse/penetration math.
+- [x] **9.1 Engine: Damage Pipeline Stages 7 & 8 (`packages/engine/src/damage-pipeline/`)**
+  - [x] `stage7_enemy_resistances.ts`: Compute Enemy Effective Resistance after Curse reductions (with Curse Effect % and `0.67x` boss hex penalty), *Doryani's Prototype* lock, Exposure, Scorch, and Penetration.
+  - [x] `stage8_enemy_pdr_and_taken.ts`: Compute non-linear Enemy Armour PDR against raw physical hit + Overwhelm, Enemy Increased/More Damage Taken (`Shock`, `Intimidate`, `Unnerve`, `Covered in Ash`, `Withered`, `Vulnerability`, `Punishment`, `Sniper's Mark`, `Assassin's Mark`), and Uber Pinnacle `0.30x` (`70% less Damage Taken`).
+  - [x] `stages_7_to_8.test.ts`: Verify Standard vs Pinnacle vs Uber Pinnacle mitigation ratios and curse/penetration math (2 tests).
 
-- [ ] **9.2 UI: Enemy Boss Presets, Debuffs & Custom Mods (`apps/web/src/features/party-enemy-config/`)**
-  - [ ] `EnemyBossConfigPanel.tsx`: Preset switcher (`Standard Monster`, `Map Boss`, `Guardian / Pinnacle Boss`, `Uber Pinnacle Boss`), manual enemy Res/Armour/Evasion/Hit Size overrides, Curse/Mark/Exposure/Wither/Shock/Scorch/Brittle controls.
-  - [ ] `CustomModifiersBox.tsx`: Multi-line PoE mod text area parsed live via `mod-parser` with inline indicator of parsed vs unrecognized lines.
+- [x] **9.2 UI: Enemy Boss Presets & Debuffs (`apps/web/src/features/party-enemy-config/`)**
+  - [x] `EnemyBossConfigPanel.tsx` & `ConfigTabView.tsx`: Preset switcher (`standard_rare`, `pinnacle`, `uber_pinnacle`), manual enemy Res/Armour/Level overrides, Curse/Mark toggles, and debuff inputs integrated into `ConfigTabView` and wired into `FeatureSlotPlaceholder.tsx`.
 
 ---
 

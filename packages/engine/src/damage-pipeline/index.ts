@@ -31,3 +31,15 @@ export {
   computeStage10FullDps,
   type Stage10FullDpsOutput,
 } from './stage10_full_dps.js';
+export {
+  CURSE_CATALOG,
+  ENEMY_BOSS_PRESETS,
+  computeStage7EnemyEffectiveResist,
+  getCurseEffectivenessScalar,
+  type CurseDefinition,
+  type EnemyBossPresetDefinition,
+} from './stage7_enemy_resistances.js';
+export {
+  computeStage8EnemyMitigationAndTaken,
+  type Stage8MitigationResult,
+} from './stage8_enemy_pdr_and_taken.js';

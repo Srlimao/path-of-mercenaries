@@ -10,6 +10,7 @@ import type { EvalContext, ModDB } from '../mod-db/index.js';
 import type { Stage2AddedDamageResult } from './stage2_added_damage.js';
 import type { Stage3ConversionResult } from './stage3_conversion_dag.js';
 import type { Stage4ScaledDamageResult } from './stage4_inc_more_buckets.js';
+import { CURSE_CATALOG, getCurseEffectivenessScalar } from './stage7_enemy_resistances.js';
 
 export interface Stage5CritAndHitResult {
   effectiveCritChancePct: number;
@@ -57,9 +58,19 @@ export function computeStage5CritAndHit(
     keywordFlags: 0,
     context,
   });
+  const curseScalar = getCurseEffectivenessScalar(enemyConfig);
+  let markBaseCrit = 0;
+  let markCritMulti = 0;
+  for (const cid of enemyConfig.activeCurses) {
+    const def = CURSE_CATALOG.find((c) => c.id === cid);
+    if (!def) continue;
+    if (def.addedBaseCritPct) markBaseCrit += def.addedBaseCritPct * curseScalar;
+    if (def.addedCritMultiPct) markCritMulti += def.addedCritMultiPct * curseScalar;
+  }
+
   const brittlePct = Math.max(0, enemyConfig.brittlePct ?? 0);
   const rawCritPct =
-    (stage2.baseCritChancePct + flatAddedCritPct + brittlePct) *
+    (stage2.baseCritChancePct + flatAddedCritPct + brittlePct + markBaseCrit) *
     Math.max(0, 1 + incCritPct / 100);
   const singleRollCritPct = Math.max(0, Math.min(100, rawCritPct));
   const luckyCrit = skillModDb.flag('LuckyCritChance', context, queryFlags);
@@ -73,7 +84,7 @@ export function computeStage5CritAndHit(
     keywordFlags: 0,
     context,
   });
-  const critMultiplierPct = Math.max(100, 150 + addedCritMulti);
+  const critMultiplierPct = Math.max(100, 150 + addedCritMulti + markCritMulti);
   const critProb = effectiveCritChancePct / 100;
   const critFactor = (1 - critProb) + critProb * (critMultiplierPct / 100);
 

@@ -1,0 +1,87 @@
+.body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.linkCard {
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.linkHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.checkLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pom-text-primary);
+  cursor: pointer;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 6px;
+}
+
+.fieldItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.sliderRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.auraGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 5px;
+}
+
+.auraRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 3px 6px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.lvInput {
+  width: 48px;
+  text-align: center;
+  font-family: var(--pom-font-mono);
+}

@@ -11,6 +11,11 @@ import { computeStage10FullDps } from '../damage-pipeline/index.js';
 import { ModDB, type EvalContext } from '../mod-db/index.js';
 import { compileEquippedItemsMods } from '../mod-parser/index.js';
 import {
+  compileCombatConditionMods,
+  compilePlayerAuraMods,
+  compilePlayerLinkMods,
+} from '../party-aura-link-compiler/index.js';
+import {
   SEED_CATALOGS,
   findArchetypeById,
   type GameCatalogBundle,
@@ -43,6 +48,14 @@ export function calculateBuild(
     if (warning) warnings.push(warning);
   }
   compileEquippedItemsMods(buildState.equippedItems, modDb);
+  compilePlayerLinkMods(buildState.partyConfig, modDb);
+  compilePlayerAuraMods(buildState.partyConfig, modDb);
+  const unrecognizedCustomLines = compileCombatConditionMods(buildState, modDb);
+  if (unrecognizedCustomLines.length > 0) {
+    warnings.push(
+      `Unrecognized custom mod line(s): ${unrecognizedCustomLines.slice(0, 3).join('; ')}${unrecognizedCustomLines.length > 3 ? ` (+${unrecognizedCustomLines.length - 3} more)` : ''}`,
+    );
+  }
 
   const emptyCtx: EvalContext = { conditions: {}, stats: {} };
   const q = (names: string[], flags = ModFlags.None, keywordFlags = KeywordFlags.None) => ({

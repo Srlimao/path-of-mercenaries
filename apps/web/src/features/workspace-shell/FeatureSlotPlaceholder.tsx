@@ -1,10 +1,11 @@
 import { useMercenaryCalculator } from '../../state/index.js';
 import { ItemsTabView } from '../items-paperdoll-inspector/index.js';
+import { ConfigTabView } from '../party-enemy-config/index.js';
 import { SkillsTabView } from '../skills-support-planner/index.js';
 import styles from './FeatureSlotPlaceholder.module.css';
 
 export function FeatureSlotPlaceholder() {
-  const { activeTab, buildState, modDb } = useMercenaryCalculator();
+  const { activeTab, modDb } = useMercenaryCalculator();
 
   if (activeTab === 'items') {
     return <ItemsTabView />;
@@ -15,24 +16,7 @@ export function FeatureSlotPlaceholder() {
   }
 
   if (activeTab === 'config') {
-    return (
-      <div className={styles.container}>
-        <section className={`pom-panel ${styles.fullSpan}`}>
-          <div className="pom-panel-header">
-            <span>Party Links, Aurabot Scaling &amp; Enemy Presets</span>
-            <span className="pom-badge">Phase 8–9 Slot</span>
-          </div>
-          <div className={styles.body}>
-            <div className={styles.notice}>
-              Enemy Preset: <strong>{buildState.enemyConfig.presetId}</strong> (Level{' '}
-              {buildState.enemyConfig.level}) | Player Aura Effect:{' '}
-              {buildState.partyConfig.globalPlayerAuraEffectPct}%. Ready for Flame Link,
-              Destructive Link, Auras, Curses, and Custom Modifiers.
-            </div>
-          </div>
-        </section>
-      </div>
-    );
+    return <ConfigTabView />;
   }
 
   return (

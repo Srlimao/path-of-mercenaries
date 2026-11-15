@@ -8,6 +8,8 @@ import {
 import type { EvalContext, ModDB } from '../mod-db/index.js';
 import { makeDamageRange } from './stage2_added_damage.js';
 import type { DamageChunk } from './stage3_conversion_dag.js';
+import { computeStage7EnemyEffectiveResist } from './stage7_enemy_resistances.js';
+import { computeStage8EnemyMitigationAndTaken } from './stage8_enemy_pdr_and_taken.js';
 
 export interface Stage4ScaledDamageResult {
   scaledRanges: Record<DamageType, DamageRange>;
@@ -39,75 +41,21 @@ function computeEffectiveResistAndMitigation(
   queryFlags: number,
   context: EvalContext,
 ): { effectiveResistPct: number; mitigationMultiplier: number; takenMultiplier: number } {
-  const isAttack = (queryFlags & ModFlags.Attack) !== 0;
-  const isSpell = (queryFlags & ModFlags.Spell) !== 0;
-
-  let takenIncPct = enemyConfig.shockPct ?? 0;
-  if (isAttack && enemyConfig.isIntimidated) takenIncPct += 10;
-  if (isSpell && enemyConfig.isUnnerved) takenIncPct += 10;
-  if (damageType === 'Fire' && enemyConfig.isCoveredInAsh) takenIncPct += 20;
-  if (damageType === 'Chaos' && enemyConfig.witherStacks > 0) {
-    takenIncPct += Math.min(15, enemyConfig.witherStacks) * 6;
-  }
-  const takenMultiplier = Math.max(0.1, 1 + takenIncPct / 100);
-
-  if (damageType === 'Physical') {
-    const enemyArmour = Math.max(0, enemyConfig.armour);
-    const pdr = rawAverageHit > 0 ? Math.min(0.9, enemyArmour / (enemyArmour + 5 * rawAverageHit)) : 0;
-    return {
-      effectiveResistPct: Math.round(pdr * 100),
-      mitigationMultiplier: (1 - pdr) * takenMultiplier,
-      takenMultiplier,
-    };
-  }
-
-  let enemyRes = enemyConfig.baseResistsPct[damageType];
-  if (damageType === 'Chaos') {
-    if (skillModDb.flag('EnemyChaosResZero', context, queryFlags)) {
-      enemyRes = 0;
-    } else {
-      enemyRes += skillModDb.sum('BASE', { names: ['EnemyAllResist'], flags: queryFlags, keywordFlags: 0, context });
-    }
-    return {
-      effectiveResistPct: enemyRes,
-      mitigationMultiplier: Math.max(0, 1 - enemyRes / 100) * takenMultiplier,
-      takenMultiplier,
-    };
-  }
-
-  if (
-    damageType === 'Lightning' &&
-    skillModDb.flag('EnemyLightningResEqualsMerc', context, queryFlags)
-  ) {
-    enemyRes = Math.max(-200, Math.min(75, mercLightningUncappedResistPct));
-  } else {
-    const exposure = enemyConfig.exposurePct[damageType] ?? 0;
-    const scorch = enemyConfig.scorchPct ?? 0;
-    const allResMod = skillModDb.sum('BASE', {
-      names: ['EnemyAllResist'],
-      flags: queryFlags,
-      keywordFlags: 0,
-      context,
-    });
-    enemyRes = enemyRes + allResMod - Math.abs(exposure) - Math.abs(scorch);
-  }
-
-  if (skillModDb.flag('InvertEnemyElementalResistances', context, queryFlags)) {
-    enemyRes = -enemyRes;
-  }
-
-  const elePen = skillModDb.sum('BASE', {
-    names: [`${damageType}Penetration`, 'ElementalPenetration'],
-    flags: queryFlags,
-    keywordFlags: 0,
+  const stage7Resist = computeStage7EnemyEffectiveResist(
+    damageType,
+    enemyConfig,
+    skillModDb,
+    mercLightningUncappedResistPct,
+    queryFlags,
     context,
-  });
-  const effectiveResistPct = enemyRes - elePen;
-  return {
-    effectiveResistPct,
-    mitigationMultiplier: Math.max(0, 1 - effectiveResistPct / 100) * takenMultiplier,
-    takenMultiplier,
-  };
+  );
+  return computeStage8EnemyMitigationAndTaken(
+    damageType,
+    rawAverageHit,
+    stage7Resist,
+    enemyConfig,
+    queryFlags,
+  );
 }
 
 /**

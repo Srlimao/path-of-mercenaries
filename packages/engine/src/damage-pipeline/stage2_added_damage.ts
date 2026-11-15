@@ -224,8 +224,15 @@ export function computeStage2AddedDamage(
     baseRanges[dt] = makeDamageRange(wScaledMin + effAddedMin, wScaledMax + effAddedMax);
   }
 
+  const dlCritOverride = part.isAttack
+    ? skillModDb.override('DestructiveLinkMainHandCritOverride', {
+        flags: queryFlags,
+        keywordFlags: 0,
+        context: evalContext,
+      })
+    : undefined;
   const baseCritChancePct = part.isAttack
-    ? (weapon1?.localWeaponStats?.critChancePct ?? part.baseCritChancePct ?? 5)
+    ? (dlCritOverride ?? weapon1?.localWeaponStats?.critChancePct ?? part.baseCritChancePct ?? 5)
     : (part.baseCritChancePct ?? 6);
   const baseActionTimeSec = part.isAttack
     ? part.baseAttackTimeOverrideSec ??
