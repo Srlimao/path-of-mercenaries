@@ -12,7 +12,11 @@ export function GggImportModal({ onClose }: GggImportModalProps) {
   const { loadBuildState } = useMercenaryCalculator();
   const [accountName, setAccountName] = useState('');
   const [characterName, setCharacterName] = useState('');
-  const [workerUrl, setWorkerUrl] = useState('http://localhost:8787');
+  const [workerUrl, setWorkerUrl] = useState(() =>
+    typeof window !== 'undefined' && window.location.hostname === 'localhost'
+      ? 'http://localhost:8787'
+      : 'https://path-of-mercenaries-api.w-back93.workers.dev',
+  );
   const [pasteCode, setPasteCode] = useState('');
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
