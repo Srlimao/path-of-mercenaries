@@ -235,12 +235,12 @@
 
 *Goal: Expose desktop PoB's transparent `Calcs` tab so every single number in the planner can be inspected down to its exact item, skill, support, link, or aura source.*
 
-- [ ] **12.1 Engine: `Calcs` Matrix Snapshot Builder (`packages/engine/src/calcs-snapshot/`)**
-  - [ ] `build_calcs_matrix.ts`: Emit per-element (`Physical | Lightning | Cold | Fire | Chaos | Total`) rows for every pipeline stage (`Base`, `Added × Eff`, `Converted In/Out`, `Gained as Extra`, `Total Inc%`, `Total More Multi`, `Pre-Mit Hit`, `Crit`, `Rate`, `Enemy Res/PDR`, `Final Hit/DPS`, `Impale/Ailments`) paired with `ModQuery` descriptors for `ModDB.tabulate()`, plus a Defences Breakdown Matrix.
+- [x] **12.1 Engine: `Calcs` Matrix Snapshot Builder (`packages/engine/src/calcs-snapshot/`)**
+  - [x] `build_calcs_matrix.ts`: Emit per-element (`Physical | Lightning | Cold | Fire | Chaos | Total`) rows for every pipeline stage (`Base`, `Added × Eff`, `Converted In/Out`, `Gained as Extra`, `Total Inc%`, `Total More Multi`, `Pre-Mit Hit`, `Crit`, `Rate`, `Enemy Res/PDR`, `Final Hit/DPS`, `Impale/Ailments`) paired with `ModQuery` descriptors for `ModDB.tabulate()`, plus a Defences Breakdown Matrix.
 
-- [ ] **12.2 UI: `Calcs` Tab & Source Attribution Drawer (`apps/web/src/features/calcs-breakdown-matrix/`)**
-  - [ ] `CalcsTabView.tsx` & `CalcsTabView.module.css`: Skill & Skill Part selector, 6-column Offence Breakdown Matrix table, and Defences Breakdown Matrix table.
-  - [ ] `SourceAttributionDrawer.tsx`: Click or hover any matrix cell to query `ModDB.tabulate()` and inspect the exact modifier list (`Source`, `Type`, `Value`, `Raw Mod Line`).
+- [x] **12.2 UI: `Calcs` Tab & Source Attribution Drawer (`apps/web/src/features/calcs-breakdown-matrix/`)**
+  - [x] `CalcsTabView.tsx` & `CalcsTabView.module.css`: Skill & Skill Part selector, 6-column Offence Breakdown Matrix table, and Defences Breakdown Matrix table.
+  - [x] `SourceAttributionDrawer.tsx`: Click or hover any matrix cell to query `ModDB.tabulate()` and inspect the exact modifier list (`Source`, `Type`, `Value`, `Raw Mod Line`).
 
 ---
 
@@ -248,15 +248,15 @@
 
 *Goal: Complete persistence, interoperability, and full-catalog datamine ingestion.*
 
-- [ ] **13.1 Stateless Sharing & PoB Party XML (`apps/web/src/features/build-share-auth/`)**
-  - [ ] `url_hash_serializer.ts`: Encode/decode `MercenaryBuildState` via `lz-string` into `#b=<payload>` URL fragments on share/load.
-  - [ ] `pob_party_xml_exporter.ts`: Serialize equipped Mercenary gear, skills, and aura/support stats into zlib+Base64 XML compatible with desktop PoB's **Party** tab.
+- [x] **13.1 Stateless Sharing & PoB Party XML (`apps/web/src/features/build-share-auth/`)**
+  - [x] `url_hash_serializer.ts`: Encode/decode `MercenaryBuildState` via `lz-string` into `#b=<payload>` URL fragments on share/load.
+  - [x] `pob_party_xml_exporter.ts`: Serialize equipped Mercenary gear, skills, and aura/support stats into zlib+Base64 XML compatible with desktop PoB's **Party** tab.
 
-- [ ] **13.2 Dunhas Auth Hub & Cloud D1 Storage (`apps/web/src/features/build-share-auth/`)**
-  - [ ] `dunhas_auth_client.ts`: Wrap `https://auth.dunhas.com/sdk.mjs` (`appId: 'path-of-mercenaries'`) for Google Sign-In / Sign-Out and session state.
-  - [ ] `CloudBuildsModal.tsx`: Save/Load/Delete personal builds in `hub.db` (`'builds'` collection) and generate public short links (`/b/:slug`) via `hub.shared` (`'shared_builds'` collection).
+- [x] **13.2 Dunhas Auth Hub & Cloud D1 Storage (`apps/web/src/features/build-share-auth/`)**
+  - [x] `dunhas_auth_client.ts`: Wrap `https://auth.dunhas.com/sdk.mjs` (`appId: 'path-of-mercenaries'`) for Google Sign-In / Sign-Out and session state.
+  - [x] `CloudBuildsModal.tsx`: Save/Load/Delete personal builds in `hub.db` (`'builds'` collection) and generate public short links (`/b/:slug`) via `hub.shared` (`'shared_builds'` collection).
 
-- [ ] **13.3 Edge Importer & Full Datamine Pipeline (`apps/worker/` & `packages/data-pipeline/`)**
-  - [ ] `packages/data-pipeline/`: CLI ingestion scripts parsing full PoEDB Mercenaries (all 36 archetypes + Level 1–40 skill curves) and RePoE (`base_items`, `gems`, `uniques`) into immutable versioned JSON bundles + automated PoB parity fixture runner.
-  - [ ] `apps/worker/src/features/ggg-mercenary-importer/`: Hono worker endpoint `GET /api/import/ggg/:account/:character` fetching live `active_mercenary_index` equipment/skills with Cloudflare KV caching (`TTL: 300s`).
-  - [ ] `apps/web/src/features/build-share-auth/GggImportModal.tsx`: Account/Character input UI importing live Mercenaries directly into the planner.
+- [x] **13.3 Edge Importer & Full Datamine Pipeline (`apps/worker/` & `packages/data-pipeline/`)**
+  - [x] `packages/data-pipeline/`: CLI ingestion scripts parsing full PoEDB Mercenaries (all 36 archetypes + Level 1–40 skill curves) and RePoE (`base_items`, `gems`, `uniques`) into immutable versioned JSON bundles + automated PoB parity fixture runner.
+  - [x] `apps/worker/src/features/ggg-mercenary-importer/`: Hono worker endpoint `GET /api/import/ggg/:account/:character` fetching live `active_mercenary_index` equipment/skills with Cloudflare KV caching (`TTL: 300s`).
+  - [x] `apps/web/src/features/build-share-auth/GggImportModal.tsx`: Account/Character input UI importing live Mercenaries directly into the planner.

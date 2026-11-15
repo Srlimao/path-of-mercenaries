@@ -32,9 +32,12 @@ export interface StatSourceAttribution {
 
 export interface CalcBreakdownRow {
   rowId: string;
+  section: 'OFFENCE' | 'DEFENCE';
   label: string;
   valuesByType: Partial<Record<DamageType | 'Total', string | number>>;
   tabulateQueryName?: string;
+  inspectStatNames?: string[];
+  inspectModTypes?: ('BASE' | 'INC' | 'MORE' | 'OVERRIDE' | 'FLAG')[];
 }
 
 export interface SkillPartCalcResult {

@@ -4,6 +4,7 @@ import {
   type MercenaryBuildState,
 } from '../catalog-types/index.js';
 import { compileArchetypeMods, validateEquipmentForArchetype } from '../archetype-baseline/index.js';
+import { buildCalcsBreakdownRows } from '../calcs-snapshot/index.js';
 import { computeStage10FullDps } from '../damage-pipeline/index.js';
 import { computeDefences } from '../defence-pipeline/index.js';
 import { ModDB } from '../mod-db/index.js';
@@ -82,7 +83,7 @@ export function calculateBuild(
       activePartResult: fullDpsOutput.activePartResult,
       skillResults: fullDpsOutput.skillResults,
       defences,
-      calcsRows: [],
+      calcsRows: buildCalcsBreakdownRows(fullDpsOutput.activePartResult, defences),
       warnings,
     },
   };

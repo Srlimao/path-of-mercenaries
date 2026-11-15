@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { SEED_CATALOGS } from '@pom/engine';
+import { handleGggMercenaryImport } from './ggg_mercenary_importer.js';
 
 export interface WorkerBindings {
   APP_ID: string;
@@ -49,5 +50,7 @@ app.get('/api/catalog/summary', (c) => {
     },
   });
 });
+
+app.get('/api/import/ggg/:account/:character', (c) => handleGggMercenaryImport(c));
 
 export default app;

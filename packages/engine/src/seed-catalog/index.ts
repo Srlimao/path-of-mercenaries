@@ -63,3 +63,4 @@ export {
   SEED_UNIQUES_DEFENCE_SUPPORT,
 };
 export { buildMercenaryLevelCurve, deriveHiddenElemResPct, deriveMercSkillLevel } from './level_stat_curve_builder.js';
+export { validateCatalogIntegrity, type CatalogIntegrityReport } from './catalog_integrity.js';

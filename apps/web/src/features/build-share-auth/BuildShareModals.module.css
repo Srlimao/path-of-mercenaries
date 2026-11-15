@@ -1,0 +1,99 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background-color: rgba(6, 8, 12, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal {
+  width: min(760px, 100%);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75);
+}
+
+.body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.sectionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.growInput {
+  flex: 1 1 200px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  font-family: var(--pom-font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.presetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px;
+}
+
+.presetCard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background-color: var(--pom-bg-panel);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.presetTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pom-gold);
+}
+
+.presetDesc {
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+  line-height: 1.35;
+}
+
+.statusLine {
+  padding: 5px 8px;
+  border-radius: var(--pom-radius);
+  font-size: 12px;
+  background-color: rgba(200, 170, 110, 0.12);
+  border: 1px solid var(--pom-gold-dim);
+  color: var(--pom-text-primary);
+}
+
+.errorLine {
+  padding: 5px 8px;
+  border-radius: var(--pom-radius);
+  font-size: 12px;
+  background-color: rgba(180, 48, 48, 0.18);
+  border: 1px solid #993333;
+  color: #fca5a5;
+}

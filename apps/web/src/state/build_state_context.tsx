@@ -1,10 +1,21 @@
 import {
   createContext,
   useCallback,
+  useEffect,
   useMemo,
   useState,
   type PropsWithChildren,
 } from 'react';
+import {
+  captureDunhasRedirectToken,
+  loadSharedBuild,
+} from '../features/build-share-auth/dunhas_auth_client.js';
+import {
+  loadAutosaveBuild,
+  readBuildFromWindowHash,
+  readSharedSlugFromUrl,
+  saveAutosaveBuild,
+} from '../features/build-share-auth/url_hash_serializer.js';
 import {
   SEED_CATALOGS,
   calculateBuild,
@@ -36,6 +47,7 @@ export interface BuildStateContextValue {
   unequipItem: (slot: EquipmentSlot) => void;
   equipStarterLoadout: () => void;
   updateBuildState: (updater: (prev: MercenaryBuildState) => MercenaryBuildState) => void;
+  loadBuildState: (nextState: MercenaryBuildState) => void;
   resetBuildState: () => void;
 }
 
@@ -69,10 +81,23 @@ Opal Ring
 export const BuildStateContext = createContext<BuildStateContextValue | null>(null);
 
 export function BuildStateProvider({ children }: PropsWithChildren) {
-  const [buildState, setBuildState] = useState<MercenaryBuildState>(() =>
-    createDefaultBuildState(),
-  );
+  const [buildState, setBuildState] = useState<MercenaryBuildState>(() => {
+    captureDunhasRedirectToken();
+    return readBuildFromWindowHash() ?? loadAutosaveBuild() ?? createDefaultBuildState();
+  });
   const [activeTab, setActiveTab] = useState<WorkspaceTabId>('items');
+
+  useEffect(() => {
+    saveAutosaveBuild(buildState);
+  }, [buildState]);
+
+  useEffect(() => {
+    const slug = readSharedSlugFromUrl();
+    if (!slug) return;
+    void loadSharedBuild(slug).then((shared) => {
+      if (shared) setBuildState(shared);
+    });
+  }, []);
 
   const engineOutput = useMemo(
     () => calculateBuild(buildState, SEED_CATALOGS),
@@ -216,6 +241,10 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
     [],
   );
 
+  const loadBuildState = useCallback((nextState: MercenaryBuildState) => {
+    setBuildState(nextState);
+  }, []);
+
   const resetBuildState = useCallback(() => {
     setBuildState(createDefaultBuildState());
   }, []);
@@ -236,6 +265,7 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
       unequipItem,
       equipStarterLoadout,
       updateBuildState,
+      loadBuildState,
       resetBuildState,
     }),
     [
@@ -252,6 +282,7 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
       unequipItem,
       equipStarterLoadout,
       updateBuildState,
+      loadBuildState,
       resetBuildState,
     ],
   );
