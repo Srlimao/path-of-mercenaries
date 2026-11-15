@@ -1,22 +1,31 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   EQUIPMENT_SLOTS,
-  createParsedItemFromUnique,
+  computeItemSlotDiff,
   serializeItemToClipboard,
   validateEquipmentForArchetype,
   type EquipmentSlot,
-  type UniqueItemDefinition,
+  type ParsedItem,
 } from '@pom/engine';
 import { useMercenaryCalculator } from '../../state/index.js';
 import { EquipmentPaperdoll } from './EquipmentPaperdoll.js';
+import { HoverDiffComparison } from './HoverDiffComparison.js';
+import { ItemRollAndTextEditor } from './ItemRollAndTextEditor.js';
 import { PasteItemModal } from './PasteItemModal.js';
 import { PoeItemTooltip } from './PoeItemTooltip.js';
+import { UniquesBrowserPanel } from './UniquesBrowserPanel.js';
 import { SLOT_LABELS } from './slot_display_metadata.js';
 import styles from './ItemsTabView.module.css';
+
+interface CandidateRef {
+  slot: EquipmentSlot;
+  item: ParsedItem;
+}
 
 export function ItemsTabView() {
   const {
     buildState,
+    snapshot,
     catalogs,
     activeArchetype,
     equipItem,
@@ -26,14 +35,28 @@ export function ItemsTabView() {
 
   const [selectedSlot, setSelectedSlot] = useState<EquipmentSlot>('Weapon1');
   const [isPasteOpen, setIsPasteOpen] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [pasteSlot, setPasteSlot] = useState<EquipmentSlot>('Weapon1');
   const [pasteText, setPasteText] = useState('');
-  const [uniqueFilter, setUniqueFilter] = useState('');
+  const [hoveredCandidate, setHoveredCandidate] = useState<CandidateRef | null>(null);
+  const [pinnedCandidate, setPinnedCandidate] = useState<CandidateRef | null>(null);
   const [copiedFlag, setCopiedFlag] = useState(false);
 
   const equippedCount = EQUIPMENT_SLOTS.filter((slot) => Boolean(buildState.equippedItems[slot])).length;
   const selectedItem = buildState.equippedItems[selectedSlot];
   const weapon1 = buildState.equippedItems.Weapon1;
+  const activeCompare = pinnedCandidate ?? hoveredCandidate;
+
+  const compareDiff = useMemo(() => {
+    if (!activeCompare) return null;
+    return computeItemSlotDiff(
+      buildState,
+      activeCompare.slot,
+      activeCompare.item,
+      catalogs,
+      snapshot,
+    );
+  }, [activeCompare, buildState, catalogs, snapshot]);
 
   const selectedWarning =
     selectedItem && activeArchetype
@@ -69,23 +92,6 @@ export function ItemsTabView() {
     }
   }
 
-  function handleQuickEquipUnique(uniqueDef: UniqueItemDefinition) {
-    const parsed = createParsedItemFromUnique(uniqueDef, catalogs);
-    const targetSlot = uniqueDef.validSlots[0] ?? selectedSlot;
-    equipItem(targetSlot, parsed);
-    setSelectedSlot(targetSlot);
-  }
-
-  const normalizedFilter = uniqueFilter.trim().toLowerCase();
-  const filteredUniques = catalogs.uniques.filter((u) => {
-    if (!normalizedFilter) return true;
-    return (
-      u.name.toLowerCase().includes(normalizedFilter) ||
-      u.baseType.toLowerCase().includes(normalizedFilter) ||
-      u.itemClass.toLowerCase().includes(normalizedFilter)
-    );
-  });
-
   function getEmptySlotRestrictionHint(): string {
     if (!activeArchetype) return 'Select an archetype to see weapon restrictions.';
     if (selectedSlot === 'Weapon1') {
@@ -95,7 +101,7 @@ export function ItemsTabView() {
       const dw = activeArchetype.canDualWield ? 'Dual Wield enabled' : 'No Dual Wield';
       return `Allowed Off-Hand: ${activeArchetype.allowedOffHandClasses.join(', ')} (${dw})`;
     }
-    return `Standard ${SLOT_LABELS[selectedSlot]} slot — paste a PoE item (Ctrl+V) or equip a Seed Unique.`;
+    return `Standard ${SLOT_LABELS[selectedSlot]} slot — paste a PoE item (Ctrl+V) or hover a Unique to compare.`;
   }
 
   return (
@@ -108,7 +114,10 @@ export function ItemsTabView() {
         <div className={styles.panelBody}>
           <EquipmentPaperdoll
             selectedSlot={selectedSlot}
-            onSelectSlot={setSelectedSlot}
+            onSelectSlot={(slot) => {
+              setSelectedSlot(slot);
+              setPinnedCandidate(null);
+            }}
             onOpenPasteModal={handleOpenPasteModal}
           />
         </div>
@@ -116,19 +125,53 @@ export function ItemsTabView() {
 
       <section className="pom-panel">
         <div className="pom-panel-header">
-          <span>Inspector — {SLOT_LABELS[selectedSlot]}</span>
-          <span className="pom-badge">{selectedItem ? selectedItem.rarity : 'Empty'}</span>
+          <span>
+            {activeCompare
+              ? `Compare — ${SLOT_LABELS[activeCompare.slot]}`
+              : `Inspector — ${SLOT_LABELS[selectedSlot]}`}
+          </span>
+          <span className="pom-badge">
+            {activeCompare ? 'What-If Diff' : selectedItem ? selectedItem.rarity : 'Empty'}
+          </span>
         </div>
         <div className={styles.panelBody}>
-          {selectedItem ? (
+          {activeCompare && compareDiff ? (
+            <HoverDiffComparison
+              slot={activeCompare.slot}
+              candidateItem={activeCompare.item}
+              equippedItem={buildState.equippedItems[activeCompare.slot]}
+              diff={compareDiff}
+              onClearCompare={
+                pinnedCandidate
+                  ? () => {
+                      setPinnedCandidate(null);
+                      setHoveredCandidate(null);
+                    }
+                  : undefined
+              }
+              onEquipCandidate={() => {
+                equipItem(activeCompare.slot, activeCompare.item);
+                setSelectedSlot(activeCompare.slot);
+                setPinnedCandidate(null);
+                setHoveredCandidate(null);
+              }}
+            />
+          ) : selectedItem ? (
             <>
               <div className={styles.inspectorActions}>
                 <button
                   type="button"
                   className="pom-button pom-button-gold"
+                  onClick={() => setIsEditorOpen(true)}
+                >
+                  Edit Rolls / Text
+                </button>
+                <button
+                  type="button"
+                  className="pom-button"
                   onClick={() => handleOpenPasteModal(selectedSlot)}
                 >
-                  Replace via Paste (Ctrl+V)
+                  Paste (Ctrl+V)
                 </button>
                 <button type="button" className="pom-button" onClick={handleCopySelected}>
                   {copiedFlag ? 'Copied!' : 'Copy PoE Text'}
@@ -167,45 +210,21 @@ export function ItemsTabView() {
 
       <section className="pom-panel">
         <div className="pom-panel-header">
-          <span>Quick-Equip Seed Uniques</span>
+          <span>Uniques Catalog &amp; Hover Diffs</span>
           <span className="pom-badge pom-badge-gold">{catalogs.uniques.length} Uniques</span>
         </div>
         <div className={styles.panelBody}>
-          <input
-            type="search"
-            className={`pom-input ${styles.searchInput}`}
-            value={uniqueFilter}
-            onChange={(e) => setUniqueFilter(e.target.value)}
-            placeholder="Filter uniques by name, base, or class..."
-            aria-label="Filter Seed Uniques"
+          <UniquesBrowserPanel
+            selectedSlot={selectedSlot}
+            onHoverCandidate={setHoveredCandidate}
+            onPinCandidate={setPinnedCandidate}
+            onEquipUnique={(slot, item) => {
+              equipItem(slot, item);
+              setSelectedSlot(slot);
+              setPinnedCandidate(null);
+              setHoveredCandidate(null);
+            }}
           />
-          <div className={styles.uniqueList}>
-            {filteredUniques.map((u) => {
-              const targetSlot = u.validSlots[0] ?? 'BodyArmour';
-              return (
-                <div key={u.id} className={styles.uniqueCard}>
-                  <div className={styles.uniqueTop}>
-                    <div className={styles.uniqueTitleWrap}>
-                      <span className={styles.uniqueName}>{u.name}</span>
-                      <span className={styles.uniqueBase}>
-                        {u.baseType} · {SLOT_LABELS[targetSlot]}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      className="pom-button"
-                      onClick={() => handleQuickEquipUnique(u)}
-                    >
-                      Equip
-                    </button>
-                  </div>
-                  {u.explicits.length > 0 && (
-                    <div className={styles.uniqueModPreview}>{u.explicits[0]}</div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -217,6 +236,16 @@ export function ItemsTabView() {
         onClose={() => setIsPasteOpen(false)}
         onEquipped={(slot) => setSelectedSlot(slot)}
       />
+
+      {selectedItem && (
+        <ItemRollAndTextEditor
+          isOpen={isEditorOpen}
+          slot={selectedSlot}
+          item={selectedItem}
+          onClose={() => setIsEditorOpen(false)}
+          onSave={(slot, updatedItem) => equipItem(slot, updatedItem)}
+        />
+      )}
     </div>
   );
 }

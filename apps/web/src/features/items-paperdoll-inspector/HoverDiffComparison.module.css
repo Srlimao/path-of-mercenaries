@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.titleText {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pom-gold);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.diffBanner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-gold-dim);
+  border-radius: var(--pom-radius);
+}
+
+.metricBox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 2px 4px;
+  border-bottom: 1px solid rgba(43, 48, 58, 0.4);
+}
+
+.metricLabel {
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+}
+
+.metricValue {
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pos {
+  color: var(--poe-diff-pos);
+}
+
+.neg {
+  color: var(--poe-diff-neg);
+}
+
+.neutral {
+  color: var(--pom-text-muted);
+}
+
+.resRow {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 2px;
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+}
+
+.sideBySide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
+.singlePane {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 980px) {
+  .sideBySide {
+    grid-template-columns: 1fr;
+  }
+}
+
+.colWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.colHeader {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--pom-text-secondary);
+}

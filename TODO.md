@@ -117,14 +117,14 @@
 
 *Goal: Deliver PoB's signature gearing workflow: search Uniques, hover any item for live `+Full DPS%` / `+EHP%` / resistance deltas, and edit item rolls or raw mod text in-place.*
 
-- [ ] **5.1 Engine: Slot Replacement Diff Calculator (`packages/engine/src/item-diff-calculator/`)**
-  - [ ] `compute_item_slot_diff.ts`: Clone build state with candidate item in target slot, execute fast calculation pass, and return `{ deltaFullDps, deltaFullDpsPct, deltaSkillDps, deltaEhp, deltaEhpPct, deltaMaxHitPhys, deltaResistances }`.
-  - [ ] `item_diff_calculator.test.ts`: Assert diff output matches manual equip + full recalculation identically.
+- [x] **5.1 Engine: Slot Replacement Diff Calculator (`packages/engine/src/item-diff-calculator/`)**
+  - [x] `compute_item_slot_diff.ts`: Clone build state with candidate item in target slot, execute fast calculation pass, and return `{ deltaFullDps, deltaFullDpsPct, deltaSkillDps, deltaEhp, deltaEhpPct, deltaMaxHitPhys, deltaResistances }`.
+  - [x] `item_diff_calculator.test.ts`: Assert diff output matches manual equip + full recalculation identically.
 
-- [ ] **5.2 UI: Uniques Browser, Hover Comparison Tooltip & Roll/Text Editor (`apps/web/src/features/items-paperdoll-inspector/`)**
-  - [ ] `UniquesBrowserPanel.tsx`: Instant search by name, slot filter pills, mod keyword search (e.g., `"Lucky"`, `"Lightning Resistance"`), `Merc Meta` badge filter, and 1-click equip.
-  - [ ] `HoverDiffComparison.tsx`: Side-by-side *Equipped* vs *Hovered Candidate* PoE tooltips with green/red `+Full DPS` / `+EHP` / `Res` delta footer.
-  - [ ] `ItemRollAndTextEditor.tsx`: In-place editor modal with `0%–100%` explicit roll sliders, `0%–30%` quality + catalyst selector, and editable raw PoE item text area with live re-parse preview.
+- [x] **5.2 UI: Uniques Browser, Hover Comparison Tooltip & Roll/Text Editor (`apps/web/src/features/items-paperdoll-inspector/`)**
+  - [x] `UniquesBrowserPanel.tsx`: Instant search by name, slot filter pills, mod keyword search (e.g., `"Lucky"`, `"Lightning Resistance"`), `Merc Meta` badge filter, and 1-click equip.
+  - [x] `HoverDiffComparison.tsx`: Side-by-side *Equipped* vs *Hovered Candidate* PoE tooltips with green/red `+Full DPS` / `+EHP` / `Res` delta footer.
+  - [x] `ItemRollAndTextEditor.tsx`: In-place editor modal with `0%–100%` explicit roll sliders, `0%–30%` quality + catalyst selector, and editable raw PoE item text area with live re-parse preview.
 
 ---
 

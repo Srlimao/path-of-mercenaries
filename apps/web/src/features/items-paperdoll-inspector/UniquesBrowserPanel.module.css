@@ -1,0 +1,129 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.searchInput {
+  width: 100%;
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.filterPill {
+  height: 22px;
+  padding: 0 7px;
+  font-size: 11px;
+  border-radius: var(--pom-radius);
+  border: 1px solid var(--pom-border-strong);
+  background-color: var(--pom-bg-recessed);
+  color: var(--pom-text-secondary);
+  cursor: pointer;
+}
+
+.filterPill:hover {
+  background-color: var(--pom-bg-hover);
+  color: var(--pom-text-primary);
+}
+
+.filterPillActive {
+  border-color: var(--pom-gold);
+  background-color: var(--pom-gold-bg);
+  color: var(--pom-text-accent);
+  font-weight: 600;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  background-color: var(--pom-bg-recessed);
+  border: 1px solid var(--pom-border-subtle);
+  border-radius: var(--pom-radius);
+}
+
+.card:hover {
+  border-color: var(--pom-gold-dim);
+  background-color: var(--pom-bg-elevated);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.titleWrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--poe-unique);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.base {
+  font-size: 10px;
+  color: var(--pom-text-muted);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deltaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--pom-font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+}
+
+.pos {
+  color: var(--poe-diff-pos);
+}
+
+.neg {
+  color: var(--poe-diff-neg);
+}
+
+.neutral {
+  color: var(--pom-text-muted);
+}
+
+.modPreview {
+  font-size: 11px;
+  color: var(--pom-text-secondary);
+  line-height: 1.3;
+}
