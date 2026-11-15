@@ -22,17 +22,19 @@ export function ArchetypeSelector() {
           value={buildState.archetypeId}
           onChange={(e) => setArchetypeId(e.target.value)}
         >
-          <optgroup label="Standard Mercenaries">
+          <optgroup label={`Standard Mercenaries (${standardArchetypes.length})`}>
             {standardArchetypes.map((a) => (
               <option key={a.id} value={a.id}>
-                {a.name} ({a.attributeAffinity})
+                {a.trarthanHouse ? `[${a.trarthanHouse}] ` : ''}
+                {a.name} — {a.attributeAffinity}
               </option>
             ))}
           </optgroup>
-          <optgroup label="Infamous Mercenaries">
+          <optgroup label={`Infamous Mercenaries (${infamousArchetypes.length})`}>
             {infamousArchetypes.map((a) => (
               <option key={a.id} value={a.id}>
-                {a.name} ({a.attributeAffinity})
+                {a.trarthanHouse ? `[${a.trarthanHouse}] ` : ''}
+                {a.name} — {a.attributeAffinity}
               </option>
             ))}
           </optgroup>
@@ -41,9 +43,12 @@ export function ArchetypeSelector() {
 
       {activeArchetype && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {activeArchetype.trarthanHouse && (
+            <span className="pom-badge">House {activeArchetype.trarthanHouse}</span>
+          )}
           <span className="pom-badge pom-badge-gold">{activeArchetype.attributeAffinity}</span>
           <span className="pom-badge" title="Allowed Main-Hand Weapon Classes">
-            MH: {activeArchetype.allowedMainHandClasses[0]}
+            MH: {activeArchetype.allowedMainHandClasses[0] ?? 'None'}
             {activeArchetype.allowedMainHandClasses.length > 1
               ? ` +${activeArchetype.allowedMainHandClasses.length - 1}`
               : ''}

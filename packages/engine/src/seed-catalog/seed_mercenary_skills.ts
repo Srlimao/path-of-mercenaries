@@ -1,50 +1,17 @@
 import {
   KeywordFlags,
   ModFlags,
-  type DamageRangeTuple,
-  type DamageType,
   type MercenarySkillDefinition,
 } from '../catalog-types/index.js';
+import poedbDump from './poedb_mercenaries_dump.json';
+import {
+  EMPTY_ADDED,
+  buildFlatDamageCurve,
+  buildWeaponMulCurve,
+  synthesizePoedbSkill,
+} from './skill_curve_helpers.js';
 
-/** Generates linear level 1-40 weapon damage % curve. */
-function buildWeaponMulCurve(lv1Pct: number, lv20Pct: number, lv40Pct: number): Record<number, number> {
-  const out: Record<number, number> = {};
-  for (let lv = 1; lv <= 40; lv += 1) {
-    if (lv <= 20) {
-      out[lv] = Number((lv1Pct + ((lv - 1) / 19) * (lv20Pct - lv1Pct)).toFixed(1));
-    } else {
-      out[lv] = Number((lv20Pct + ((lv - 20) / 20) * (lv40Pct - lv20Pct)).toFixed(1));
-    }
-  }
-  return out;
-}
-
-/** Generates smooth level 1-40 spell/added base damage tuples. */
-function buildFlatDamageCurve(
-  type: DamageType,
-  lv1: DamageRangeTuple,
-  lv20: DamageRangeTuple,
-  lv40: DamageRangeTuple,
-): Record<number, Partial<Record<DamageType, DamageRangeTuple>>> {
-  const out: Record<number, Partial<Record<DamageType, DamageRangeTuple>>> = {};
-  for (let lv = 1; lv <= 40; lv += 1) {
-    const t = lv <= 20 ? (lv - 1) / 19 : (lv - 20) / 20;
-    const [aMin, aMax] = lv <= 20 ? lv1 : lv20;
-    const [bMin, bMax] = lv <= 20 ? lv20 : lv40;
-    const factor = lv <= 20 ? 1 : 1 + t * 1.15;
-    out[lv] = {
-      [type]: [
-        Math.round((aMin + (bMin - aMin) * t) * factor),
-        Math.round((aMax + (bMax - aMax) * t) * factor),
-      ],
-    };
-  }
-  return out;
-}
-
-const EMPTY_ADDED: Record<number, Partial<Record<DamageType, DamageRangeTuple>>> = {};
-
-export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
+const CURATED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
   {
     id: 'kinetic_blast_of_clustering',
     name: 'Kinetic Blast of Clustering',
@@ -72,7 +39,8 @@ export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
         defaultFullDpsCount: 5,
         isSpell: false,
         isAttack: true,
-        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Area | ModFlags.Wand | ModFlags.Hit,
+        skillModFlags:
+          ModFlags.Attack | ModFlags.Projectile | ModFlags.Area | ModFlags.Wand | ModFlags.Hit,
         skillKeywordFlags: KeywordFlags.Physical,
         damageEffectiveness: 2.35,
         attackSpeedMulti: 1.0,
@@ -141,7 +109,8 @@ export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
         defaultFullDpsCount: 1,
         isSpell: false,
         isAttack: true,
-        skillModFlags: ModFlags.Attack | ModFlags.Melee | ModFlags.Area | ModFlags.Sword | ModFlags.Hit,
+        skillModFlags:
+          ModFlags.Attack | ModFlags.Melee | ModFlags.Area | ModFlags.Sword | ModFlags.Hit,
         skillKeywordFlags: KeywordFlags.Physical,
         damageEffectiveness: 2.1,
         attackSpeedMulti: 1.1,
@@ -187,7 +156,8 @@ export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
         defaultFullDpsCount: 1,
         isSpell: false,
         isAttack: true,
-        skillModFlags: ModFlags.Attack | ModFlags.Projectile | ModFlags.Bow | ModFlags.Area | ModFlags.Hit,
+        skillModFlags:
+          ModFlags.Attack | ModFlags.Projectile | ModFlags.Bow | ModFlags.Area | ModFlags.Hit,
         skillKeywordFlags: KeywordFlags.Physical | KeywordFlags.Lightning | KeywordFlags.Elemental,
         damageEffectiveness: 1.65,
         attackSpeedMulti: 1.0,
@@ -292,4 +262,22 @@ export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
     maxSupports: 3,
     parts: [],
   },
+];
+
+const CURATED_IDS = new Set(CURATED_MERCENARY_SKILLS.map((s) => s.id));
+
+const SYNTHESIZED_POEDB_SKILLS: MercenarySkillDefinition[] = poedbDump.skills
+  .filter((entry) => !CURATED_IDS.has(entry.id))
+  .map((entry) =>
+    synthesizePoedbSkill({
+      id: entry.id,
+      name: entry.name,
+      category: entry.category as 'PRIMARY' | 'SECONDARY' | 'UTILITY',
+      isSpellHint: entry.isSpellHint,
+    }),
+  );
+
+export const SEED_MERCENARY_SKILLS: MercenarySkillDefinition[] = [
+  ...CURATED_MERCENARY_SKILLS,
+  ...SYNTHESIZED_POEDB_SKILLS,
 ];

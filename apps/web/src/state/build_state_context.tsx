@@ -100,7 +100,16 @@ export function BuildStateProvider({ children }: PropsWithChildren) {
           !prev.showAllSkillsSandbox &&
           !validPool.has(group.skillId)
         ) {
-          const fallbackSkillId = nextArch.skillPool.primary[0] ?? group.skillId;
+          const orderedCandidates = [
+            ...nextArch.skillPool.primary,
+            ...nextArch.skillPool.secondary,
+          ];
+          const fallbackSkillId =
+            orderedCandidates.find(
+              (id) => (findSkillById(id, SEED_CATALOGS)?.parts.length ?? 0) > 0,
+            ) ??
+            nextArch.skillPool.primary[0] ??
+            group.skillId;
           const skillDef = findSkillById(fallbackSkillId, SEED_CATALOGS);
           const firstPartId = skillDef?.parts[0]?.id ?? '';
           return {

@@ -1,0 +1,3947 @@
+{
+  "generatedAt": "2026-11-15T13:09:36.140Z",
+  "sourceUrls": {
+    "poedb": "https://poedb.tw/us/Mercenaries",
+    "poewiki": "https://www.poewiki.net/w/api.php?action=parse&page=List_of_mercenary_classes&prop=wikitext&format=json"
+  },
+  "archetypes": [
+    {
+      "id": "stormhand",
+      "name": "Stormhand",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "conductivity_mercenary",
+          "sigil_of_power"
+        ],
+        "secondary": [
+          "spark",
+          "arc",
+          "ball_lightning_of_static",
+          "greater_stormcall",
+          "greater_shock_nova",
+          "orb_of_storms",
+          "stormcall"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "wrath",
+          "purity_of_lightning",
+          "proximity_shield"
+        ]
+      }
+    },
+    {
+      "id": "infamous_stormhand",
+      "name": "Infamous Stormhand",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "conductivity_mercenary",
+          "sigil_of_power"
+        ],
+        "secondary": [
+          "spark",
+          "arc",
+          "ball_lightning_of_static",
+          "greater_stormcall",
+          "greater_shock_nova",
+          "orb_of_storms",
+          "stormcall"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "wrath",
+          "purity_of_lightning",
+          "proximity_shield"
+        ]
+      }
+    },
+    {
+      "id": "frosthand",
+      "name": "Frosthand",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "frost_bomb",
+          "frostbite"
+        ],
+        "secondary": [
+          "frost_wall",
+          "eye_of_winter",
+          "vortex",
+          "frostbolt",
+          "ice_nova",
+          "ice_nova_of_projection",
+          "icestorm"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "purity_of_ice",
+          "discipline"
+        ]
+      }
+    },
+    {
+      "id": "infamous_frosthand",
+      "name": "Infamous Frosthand",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "frost_bomb",
+          "frostbite"
+        ],
+        "secondary": [
+          "frost_wall",
+          "eye_of_winter",
+          "vortex",
+          "frostbolt",
+          "ice_nova",
+          "ice_nova_of_projection",
+          "icestorm"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "purity_of_ice",
+          "discipline"
+        ]
+      }
+    },
+    {
+      "id": "flamehand",
+      "name": "Flamehand",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "flame_wall",
+          "flammability"
+        ],
+        "secondary": [
+          "greater_flame_dash",
+          "flameblast",
+          "vaal_flameblast",
+          "fireball",
+          "fireball_of_impact",
+          "rolling_magma",
+          "flame_surge"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "purity_of_fire",
+          "anger",
+          "flame_aegis"
+        ]
+      }
+    },
+    {
+      "id": "withertouch",
+      "name": "Withertouch",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "bane",
+          "temporal_chains"
+        ],
+        "secondary": [
+          "greater_soulrend",
+          "scourstorm",
+          "blight",
+          "essence_drain_of_wickedness",
+          "altar_of_chaos"
+        ],
+        "utility": [
+          "malevolence",
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "clarity",
+          "withering_step",
+          "wither_totem"
+        ]
+      }
+    },
+    {
+      "id": "infamous_withertouch",
+      "name": "Infamous Withertouch",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "bane",
+          "temporal_chains"
+        ],
+        "secondary": [
+          "greater_soulrend",
+          "scourstorm",
+          "blight",
+          "essence_drain_of_wickedness",
+          "altar_of_chaos"
+        ],
+        "utility": [
+          "malevolence",
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "clarity",
+          "withering_step",
+          "wither_totem"
+        ]
+      }
+    },
+    {
+      "id": "reanimator",
+      "name": "Reanimator",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "raise_zombie_of_gigantism",
+          "desecrate"
+        ],
+        "secondary": [
+          "raise_zombie_of_falling",
+          "summon_skeletons",
+          "flesh_offering",
+          "bone_offering",
+          "summon_raging_spirit"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "blasphemy_enfeeble",
+          "relic_of_binding"
+        ]
+      }
+    },
+    {
+      "id": "infamous_reanimator",
+      "name": "Infamous Reanimator",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "raise_zombie_of_gigantism",
+          "desecrate"
+        ],
+        "secondary": [
+          "raise_zombie_of_falling",
+          "summon_skeletons",
+          "flesh_offering",
+          "bone_offering",
+          "summon_raging_spirit"
+        ],
+        "utility": [
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "blasphemy_enfeeble",
+          "relic_of_binding"
+        ]
+      }
+    },
+    {
+      "id": "cruel_mistress",
+      "name": "Cruel Mistress",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "despair",
+          "void_sphere"
+        ],
+        "secondary": [
+          "dark_bargain",
+          "voltaxic_burst",
+          "soulrend_of_reaping",
+          "forbidden_rite_totem",
+          "summon_seeking_void",
+          "profane_cascade"
+        ],
+        "utility": [
+          "zealotry",
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "envy"
+        ]
+      }
+    },
+    {
+      "id": "infamous_cruel_mistress",
+      "name": "Infamous Cruel Mistress",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "despair",
+          "void_sphere"
+        ],
+        "secondary": [
+          "dark_bargain",
+          "voltaxic_burst",
+          "soulrend_of_reaping",
+          "forbidden_rite_totem",
+          "summon_seeking_void",
+          "profane_cascade"
+        ],
+        "utility": [
+          "zealotry",
+          "lightning_warp",
+          "frostblink",
+          "flame_dash",
+          "envy"
+        ]
+      }
+    },
+    {
+      "id": "blade_ambusher",
+      "name": "Blade Ambusher",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "blade_trap",
+          "trarthan_agility"
+        ],
+        "secondary": [
+          "spectral_throw_of_trarthus",
+          "spectral_helix_of_trarthus"
+        ],
+        "utility": [
+          "smoke_mine",
+          "flame_dash",
+          "grace_mercenary",
+          "summon_skitterbots",
+          "bear_trap"
+        ]
+      }
+    },
+    {
+      "id": "infamous_blade_ambusher",
+      "name": "Infamous Blade Ambusher",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "blade_trap",
+          "trarthan_agility"
+        ],
+        "secondary": [
+          "spectral_throw_of_trarthus",
+          "spectral_helix_of_trarthus"
+        ],
+        "utility": [
+          "smoke_mine",
+          "flame_dash",
+          "grace_mercenary",
+          "summon_skitterbots",
+          "bear_trap"
+        ]
+      }
+    },
+    {
+      "id": "shock_ambusher",
+      "name": "Shock Ambusher",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Sceptre",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "Wand",
+        "Sceptre",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "conductivity_mercenary",
+          "vaal_lightning_trap"
+        ],
+        "secondary": [
+          "lightning_trap",
+          "lightning_spire_trap",
+          "ball_lightning_of_orbiting_trap",
+          "lightning_warp_trap"
+        ],
+        "utility": [
+          "flame_dash",
+          "frostblink",
+          "smoke_mine",
+          "summon_skitterbots",
+          "zealotry"
+        ]
+      }
+    },
+    {
+      "id": "infamous_shock_ambusher",
+      "name": "Infamous Shock Ambusher",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Sceptre",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "Wand",
+        "Sceptre",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "conductivity_mercenary",
+          "vaal_lightning_trap"
+        ],
+        "secondary": [
+          "lightning_trap",
+          "lightning_spire_trap",
+          "ball_lightning_of_orbiting_trap",
+          "lightning_warp_trap"
+        ],
+        "utility": [
+          "flame_dash",
+          "frostblink",
+          "smoke_mine",
+          "summon_skitterbots",
+          "zealotry"
+        ]
+      }
+    },
+    {
+      "id": "frost_ambusher",
+      "name": "Frost Ambusher",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Sceptre",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "frost_shield",
+          "greater_vortex_trap"
+        ],
+        "secondary": [
+          "ice_trap",
+          "creeping_frost_trap"
+        ],
+        "utility": [
+          "summon_skitterbots",
+          "flame_dash",
+          "frostblink",
+          "grace_mercenary",
+          "arctic_armour",
+          "vaal_arctic_armour"
+        ]
+      }
+    },
+    {
+      "id": "bladereach",
+      "name": "Bladereach",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "Dagger",
+        "Claw"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "Dagger",
+        "Claw",
+        "Shield"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "do_nothing"
+        ],
+        "secondary": [],
+        "utility": []
+      }
+    },
+    {
+      "id": "bladecaster",
+      "name": "Bladecaster",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "clutches_of_the_damned",
+          "bloody_warp"
+        ],
+        "secondary": [
+          "seismic_crush",
+          "bladefall",
+          "blade_vortex",
+          "ethereal_knives",
+          "bladefall_of_trarthus"
+        ],
+        "utility": [
+          "dash",
+          "grace_mercenary",
+          "flame_dash",
+          "aspect_of_the_spider",
+          "frost_shield"
+        ]
+      }
+    },
+    {
+      "id": "infamous_bladecaster",
+      "name": "Infamous Bladecaster",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "clutches_of_the_damned",
+          "bloody_warp"
+        ],
+        "secondary": [
+          "seismic_crush",
+          "bladefall",
+          "blade_vortex",
+          "ethereal_knives",
+          "bladefall_of_trarthus"
+        ],
+        "utility": [
+          "dash",
+          "grace_mercenary",
+          "flame_dash",
+          "aspect_of_the_spider",
+          "frost_shield"
+        ]
+      }
+    },
+    {
+      "id": "bladebitter",
+      "name": "Bladebitter",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "viper_strike",
+          "abyssal_cry"
+        ],
+        "secondary": [
+          "venom_gyre",
+          "profane_strike",
+          "cobra_lash",
+          "pestilent_strike"
+        ],
+        "utility": [
+          "whirling_blades",
+          "dash",
+          "malevolence",
+          "withering_step",
+          "grace_mercenary"
+        ]
+      }
+    },
+    {
+      "id": "infamous_bladebitter",
+      "name": "Infamous Bladebitter",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "DEX_INT",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Claw",
+        "Dagger"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "viper_strike",
+          "abyssal_cry"
+        ],
+        "secondary": [
+          "venom_gyre",
+          "profane_strike",
+          "cobra_lash",
+          "pestilent_strike"
+        ],
+        "utility": [
+          "whirling_blades",
+          "dash",
+          "malevolence",
+          "withering_step",
+          "grace_mercenary"
+        ]
+      }
+    },
+    {
+      "id": "eruptor",
+      "name": "Eruptor",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "Two Hand Axe",
+        "Two Hand Mace"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "infernal_cry",
+          "leap_slam",
+          "triggerslam"
+        ],
+        "secondary": [
+          "volcanic_fissure_of_snaking",
+          "consecrated_path",
+          "tectonic_slam",
+          "ashen_fissure"
+        ],
+        "utility": [
+          "molten_shell",
+          "determination",
+          "purity_of_fire",
+          "herald_of_ash",
+          "flame_link"
+        ]
+      }
+    },
+    {
+      "id": "infamous_eruptor",
+      "name": "Infamous Eruptor",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "Two Hand Axe",
+        "Two Hand Mace"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "infernal_cry",
+          "leap_slam",
+          "triggerslam"
+        ],
+        "secondary": [
+          "volcanic_fissure_of_snaking",
+          "consecrated_path",
+          "tectonic_slam",
+          "ashen_fissure"
+        ],
+        "utility": [
+          "molten_shell",
+          "determination",
+          "purity_of_fire",
+          "herald_of_ash",
+          "flame_link"
+        ]
+      }
+    },
+    {
+      "id": "ripper",
+      "name": "Ripper",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Thrusting One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Thrusting One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "tunnelslam",
+          "enrage"
+        ],
+        "secondary": [
+          "cleave",
+          "vaal_cleave",
+          "slicing_wind",
+          "chain_hook_of_trarthus",
+          "leap_slam_of_groundbreaking"
+        ],
+        "utility": [
+          "molten_shell",
+          "determination",
+          "leap_slam",
+          "vitality"
+        ]
+      }
+    },
+    {
+      "id": "infamous_ripper",
+      "name": "Infamous Ripper",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Thrusting One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Thrusting One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "tunnelslam",
+          "enrage"
+        ],
+        "secondary": [
+          "cleave",
+          "vaal_cleave",
+          "slicing_wind",
+          "chain_hook_of_trarthus",
+          "leap_slam_of_groundbreaking"
+        ],
+        "utility": [
+          "molten_shell",
+          "determination",
+          "leap_slam",
+          "vitality"
+        ]
+      }
+    },
+    {
+      "id": "earthshaker",
+      "name": "Earthshaker",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "Two Hand Mace",
+        "Two Hand Axe"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "intimidating_cry",
+          "leap_slam"
+        ],
+        "secondary": [
+          "vaal_ground_slam",
+          "ground_slam",
+          "earthquake_of_amplification",
+          "tectonic_cascade",
+          "sunder"
+        ],
+        "utility": [
+          "determination",
+          "molten_shell",
+          "burrow",
+          "endure",
+          "vaal_vitality"
+        ]
+      }
+    },
+    {
+      "id": "infamous_earthshaker",
+      "name": "Infamous Earthshaker",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "Two Hand Mace",
+        "Two Hand Axe"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "intimidating_cry",
+          "leap_slam"
+        ],
+        "secondary": [
+          "vaal_ground_slam",
+          "ground_slam",
+          "earthquake_of_amplification",
+          "tectonic_cascade",
+          "sunder"
+        ],
+        "utility": [
+          "determination",
+          "molten_shell",
+          "burrow",
+          "endure",
+          "vaal_vitality"
+        ]
+      }
+    },
+    {
+      "id": "smoulderstrike",
+      "name": "Smoulderstrike",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "One Hand Mace",
+        "Thrusting One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "One Hand Mace",
+        "Thrusting One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "punishment",
+          "inflame"
+        ],
+        "secondary": [
+          "vaal_molten_strike",
+          "infernal_blow_of_immolation",
+          "molten_strike",
+          "flamebolt_strike"
+        ],
+        "utility": [
+          "anger",
+          "leap_slam",
+          "molten_shell",
+          "flame_aegis",
+          "infernal_cry"
+        ]
+      }
+    },
+    {
+      "id": "striker",
+      "name": "Striker",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "One Hand Mace",
+        "One Hand Axe"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Mace",
+        "One Hand Axe"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "vigilant_strike",
+          "enduring_cry",
+          "physical_aegis"
+        ],
+        "secondary": [
+          "heavy_strike_of_vulnerability",
+          "boneshatter",
+          "dual_strike"
+        ],
+        "utility": [
+          "determination",
+          "leap_slam",
+          "molten_shell",
+          "vitality",
+          "vaal_ancestral_warchief",
+          "decoy_totem"
+        ]
+      }
+    },
+    {
+      "id": "infamous_striker",
+      "name": "Infamous Striker",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR",
+      "allowedMainHandClasses": [
+        "One Hand Mace",
+        "One Hand Axe"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Mace",
+        "One Hand Axe"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "vigilant_strike",
+          "enduring_cry",
+          "physical_aegis"
+        ],
+        "secondary": [
+          "heavy_strike_of_vulnerability",
+          "boneshatter",
+          "dual_strike"
+        ],
+        "utility": [
+          "determination",
+          "leap_slam",
+          "molten_shell",
+          "vitality",
+          "vaal_ancestral_warchief",
+          "decoy_totem"
+        ]
+      }
+    },
+    {
+      "id": "sanguimancer",
+      "name": "Sanguimancer",
+      "isInfamous": false,
+      "trarthanHouse": "Bardiya",
+      "attributeAffinity": "STR_DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "boiling_blood",
+          "storm_call_of_trarthus",
+          "bodyswap"
+        ],
+        "secondary": [
+          "exsanguinate",
+          "vaal_reap",
+          "reap",
+          "corrupted_blade_vortex_of_the_scythe"
+        ],
+        "utility": [
+          "flame_dash",
+          "lightning_warp",
+          "pride",
+          "proximity_shield",
+          "vaal_vitality"
+        ]
+      }
+    },
+    {
+      "id": "infamous_sanguimancer",
+      "name": "Infamous Sanguimancer",
+      "isInfamous": true,
+      "trarthanHouse": "Bardiya",
+      "attributeAffinity": "STR_DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "boiling_blood",
+          "storm_call_of_trarthus",
+          "bodyswap"
+        ],
+        "secondary": [
+          "exsanguinate",
+          "vaal_reap",
+          "reap",
+          "corrupted_blade_vortex_of_the_scythe"
+        ],
+        "utility": [
+          "flame_dash",
+          "lightning_warp",
+          "pride",
+          "proximity_shield",
+          "vaal_vitality"
+        ]
+      }
+    },
+    {
+      "id": "kineticist",
+      "name": "Kineticist",
+      "isInfamous": false,
+      "trarthanHouse": "Bardiya",
+      "attributeAffinity": "STR_DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "kinetic_blast_of_clustering",
+          "kinetic_bolt_of_fragmentation",
+          "elemental_weakness",
+          "flame_wall"
+        ],
+        "secondary": [
+          "kinetic_bolt",
+          "power_siphon",
+          "barrage",
+          "greater_kinetic_blast",
+          "kinetic_blast_of_clustering",
+          "kinetic_rain_of_impact"
+        ],
+        "utility": [
+          "flame_dash",
+          "frostblink",
+          "haste_mercenary",
+          "inspiring_cry"
+        ]
+      }
+    },
+    {
+      "id": "infamous_kineticist",
+      "name": "Infamous Kineticist",
+      "isInfamous": true,
+      "trarthanHouse": "Bardiya",
+      "attributeAffinity": "STR_DEX_INT",
+      "allowedMainHandClasses": [
+        "Wand"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "kinetic_blast_of_clustering",
+          "kinetic_bolt_of_fragmentation",
+          "elemental_weakness",
+          "flame_wall"
+        ],
+        "secondary": [
+          "kinetic_bolt",
+          "power_siphon",
+          "barrage",
+          "greater_kinetic_blast",
+          "kinetic_blast_of_clustering",
+          "kinetic_rain_of_impact"
+        ],
+        "utility": [
+          "flame_dash",
+          "frostblink",
+          "haste_mercenary",
+          "inspiring_cry"
+        ]
+      }
+    },
+    {
+      "id": "warpriest",
+      "name": "Warpriest",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "One Hand Mace",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "holy_relic",
+          "smite"
+        ],
+        "secondary": [
+          "beacons_of_faith",
+          "dominating_blow",
+          "raise_spectre_holy_flame_elementals",
+          "touch_of_god"
+        ],
+        "utility": [
+          "purity_of_lightning",
+          "flame_dash",
+          "herald_of_purity"
+        ]
+      }
+    },
+    {
+      "id": "infamous_warpriest",
+      "name": "Infamous Warpriest",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "One Hand Mace",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "holy_relic",
+          "smite"
+        ],
+        "secondary": [
+          "beacons_of_faith",
+          "dominating_blow",
+          "raise_spectre_holy_flame_elementals",
+          "touch_of_god"
+        ],
+        "utility": [
+          "purity_of_lightning",
+          "flame_dash",
+          "herald_of_purity"
+        ]
+      }
+    },
+    {
+      "id": "infamous_warpriest_of_the_ruckus",
+      "name": "Infamous Warpriest of the Ruckus",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "One Hand Mace",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "holy_relic",
+          "smite"
+        ],
+        "secondary": [
+          "beacons_of_faith",
+          "dominating_blow",
+          "raise_spectre_holy_flame_elementals",
+          "touch_of_god"
+        ],
+        "utility": [
+          "purity_of_lightning",
+          "flame_dash",
+          "herald_of_purity"
+        ]
+      }
+    },
+    {
+      "id": "cardinal",
+      "name": "Cardinal",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "holy_hammers",
+          "holy_strike"
+        ],
+        "secondary": [
+          "holy_sweep",
+          "sanctified_strike",
+          "consecrated_path"
+        ],
+        "utility": [
+          "purity_of_lightning",
+          "flame_dash",
+          "herald_of_purity",
+          "wrath"
+        ]
+      }
+    },
+    {
+      "id": "infamous_cardinal",
+      "name": "Infamous Cardinal",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "holy_hammers",
+          "holy_strike"
+        ],
+        "secondary": [
+          "holy_sweep",
+          "sanctified_strike",
+          "consecrated_path"
+        ],
+        "utility": [
+          "purity_of_lightning",
+          "flame_dash",
+          "herald_of_purity",
+          "wrath"
+        ]
+      }
+    },
+    {
+      "id": "fallen_reverend",
+      "name": "Fallen Reverend",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "absolution",
+          "raise_spectre_of_transience",
+          "desecrate"
+        ],
+        "secondary": [
+          "reinforce_fallen_bishop",
+          "reinforce_fallen_emperor",
+          "reinforce_fallen_osseotitan"
+        ],
+        "utility": [
+          "wrath",
+          "zealotry",
+          "battlemages_cry",
+          "flame_dash",
+          "frostblink"
+        ]
+      }
+    },
+    {
+      "id": "infamous_fallen_reverend",
+      "name": "Infamous Fallen Reverend",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Wand",
+        "Sceptre"
+      ],
+      "allowedOffHandClasses": [
+        "Shield",
+        "Wand",
+        "Sceptre"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "absolution",
+          "raise_spectre_of_transience",
+          "desecrate"
+        ],
+        "secondary": [
+          "reinforce_fallen_bishop",
+          "reinforce_fallen_emperor",
+          "reinforce_fallen_osseotitan"
+        ],
+        "utility": [
+          "wrath",
+          "zealotry",
+          "battlemages_cry",
+          "flame_dash",
+          "frostblink"
+        ]
+      }
+    },
+    {
+      "id": "winter_deacon",
+      "name": "Winter Deacon",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Two Hand Mace",
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "frost_shield",
+          "vaal_glacial_hammer"
+        ],
+        "secondary": [
+          "ice_crash",
+          "glacial_hammer",
+          "earthquake_of_winter",
+          "heavy_strike_of_trarthus"
+        ],
+        "utility": [
+          "hatred",
+          "frostblink",
+          "frost_bomb",
+          "arctic_armour",
+          "purity_of_ice"
+        ]
+      }
+    },
+    {
+      "id": "storming_zealot",
+      "name": "Storming Zealot",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "unnerving_blast",
+          "wave_of_conviction"
+        ],
+        "secondary": [
+          "divine_ire",
+          "tornado_of_elemental_turbulence",
+          "divine_retribution",
+          "shockwave_totem_of_shocking"
+        ],
+        "utility": [
+          "charged_dash_of_the_arcane",
+          "wrath",
+          "lightning_warp",
+          "flame_dash"
+        ]
+      }
+    },
+    {
+      "id": "infamous_storming_zealot",
+      "name": "Infamous Storming Zealot",
+      "isInfamous": true,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Staff"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "unnerving_blast",
+          "wave_of_conviction"
+        ],
+        "secondary": [
+          "divine_ire",
+          "tornado_of_elemental_turbulence",
+          "divine_retribution",
+          "shockwave_totem_of_shocking"
+        ],
+        "utility": [
+          "charged_dash_of_the_arcane",
+          "wrath",
+          "lightning_warp",
+          "flame_dash"
+        ]
+      }
+    },
+    {
+      "id": "flaming_charlatan",
+      "name": "Flaming Charlatan",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Sceptre",
+        "Wand"
+      ],
+      "allowedOffHandClasses": [
+        "Sceptre",
+        "Wand"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "holy_flame_totem",
+          "purifying_flame"
+        ],
+        "secondary": [
+          "holy_mortar",
+          "wave_of_conviction_of_trarthus",
+          "scorching_ray_totem",
+          "meteor"
+        ],
+        "utility": [
+          "lightning_warp",
+          "flame_dash",
+          "herald_of_ash",
+          "anger"
+        ]
+      }
+    },
+    {
+      "id": "chaplain_of_the_well",
+      "name": "Chaplain of the Well",
+      "isInfamous": false,
+      "trarthanHouse": "Keita",
+      "attributeAffinity": "STR_INT",
+      "allowedMainHandClasses": [
+        "Sceptre",
+        "One Hand Mace",
+        "Staff"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "abyssal_spray",
+          "abyssal_spray_detonation",
+          "power_of_the_depths"
+        ],
+        "secondary": [
+          "smite",
+          "vaal_smite"
+        ],
+        "utility": [
+          "envy",
+          "flame_dash",
+          "abyssal_cry",
+          "herald_of_ash"
+        ]
+      }
+    },
+    {
+      "id": "toxicologist",
+      "name": "Toxicologist",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "withering_step",
+          "chaotic_burst",
+          "chaotic_shot"
+        ],
+        "secondary": [
+          "vaal_caustic_arrow",
+          "toxic_rain",
+          "scourge_arrow_of_menace",
+          "caustic_arrow"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "malevolence",
+          "trarthan_agility"
+        ]
+      }
+    },
+    {
+      "id": "infamous_toxicologist",
+      "name": "Infamous Toxicologist",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "withering_step",
+          "chaotic_burst",
+          "chaotic_shot"
+        ],
+        "secondary": [
+          "vaal_caustic_arrow",
+          "toxic_rain",
+          "scourge_arrow_of_menace",
+          "caustic_arrow"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "malevolence",
+          "trarthan_agility"
+        ]
+      }
+    },
+    {
+      "id": "sniper",
+      "name": "Sniper",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "ensnaring_arrow",
+          "poachers_mark"
+        ],
+        "secondary": [
+          "greater_split_arrow",
+          "rain_of_arrows_of_saturation",
+          "tornado_shot",
+          "shrapnel_ballista",
+          "barrage_of_volley_fire",
+          "siege_ballista_of_trarthus",
+          "split_arrow",
+          "puncture"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "frenzy",
+          "haste_mercenary"
+        ]
+      }
+    },
+    {
+      "id": "infamous_sniper",
+      "name": "Infamous Sniper",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "ensnaring_arrow",
+          "poachers_mark"
+        ],
+        "secondary": [
+          "greater_split_arrow",
+          "rain_of_arrows_of_saturation",
+          "tornado_shot",
+          "shrapnel_ballista",
+          "barrage_of_volley_fire",
+          "siege_ballista_of_trarthus",
+          "split_arrow",
+          "puncture"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "frenzy",
+          "haste_mercenary"
+        ]
+      }
+    },
+    {
+      "id": "thunderquiver",
+      "name": "Thunderquiver",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "lightning_arrow",
+          "assassins_mark"
+        ],
+        "secondary": [
+          "galvanic_arrow",
+          "greater_lightning_arrow",
+          "vaal_lightning_arrow",
+          "storm_rain"
+        ],
+        "utility": [
+          "wrath",
+          "blink_arrow",
+          "trarthan_agility",
+          "precision",
+          "dash"
+        ]
+      }
+    },
+    {
+      "id": "flamequiver",
+      "name": "Flamequiver",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "burning_arrow",
+          "alchemists_mark"
+        ],
+        "secondary": [
+          "vaal_burning_arrow",
+          "molten_well",
+          "artillery_ballista",
+          "explosive_arrow",
+          "blast_rain_of_trarthus",
+          "conflagration"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "blasphemy_flammability"
+        ]
+      }
+    },
+    {
+      "id": "infamous_flamequiver",
+      "name": "Infamous Flamequiver",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "burning_arrow",
+          "alchemists_mark"
+        ],
+        "secondary": [
+          "vaal_burning_arrow",
+          "molten_well",
+          "artillery_ballista",
+          "explosive_arrow",
+          "blast_rain_of_trarthus",
+          "conflagration"
+        ],
+        "utility": [
+          "grace_mercenary",
+          "blink_arrow",
+          "dash",
+          "blasphemy_flammability"
+        ]
+      }
+    },
+    {
+      "id": "manyshot",
+      "name": "Manyshot",
+      "isInfamous": false,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "ice_shot",
+          "vaal_grace"
+        ],
+        "secondary": [
+          "vaal_ice_shot",
+          "frigid_forkshot",
+          "icicle_rain",
+          "mirror_arrow"
+        ],
+        "utility": [
+          "hatred",
+          "frost_bomb",
+          "grace_mercenary",
+          "dash",
+          "blink_arrow"
+        ]
+      }
+    },
+    {
+      "id": "infamous_manyshot",
+      "name": "Infamous Manyshot",
+      "isInfamous": true,
+      "trarthanHouse": "Cyaxan",
+      "attributeAffinity": "DEX",
+      "allowedMainHandClasses": [
+        "Bow"
+      ],
+      "allowedOffHandClasses": [
+        "Quiver"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "ice_shot",
+          "vaal_grace"
+        ],
+        "secondary": [
+          "vaal_ice_shot",
+          "frigid_forkshot",
+          "icicle_rain",
+          "mirror_arrow"
+        ],
+        "utility": [
+          "hatred",
+          "frost_bomb",
+          "grace_mercenary",
+          "dash",
+          "blink_arrow"
+        ]
+      }
+    },
+    {
+      "id": "bastion",
+      "name": "Bastion",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "One Hand Mace"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "shield_crush",
+          "shield_charge"
+        ],
+        "secondary": [
+          "spectral_shield_throw_of_trarthus",
+          "tempest_shield",
+          "prismplate"
+        ],
+        "utility": [
+          "determination",
+          "dash",
+          "intimidating_cry",
+          "physical_aegis",
+          "impenetrable_bastion"
+        ]
+      }
+    },
+    {
+      "id": "infamous_bastion",
+      "name": "Infamous Bastion",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "One Hand Mace"
+      ],
+      "allowedOffHandClasses": [
+        "Shield"
+      ],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "shield_crush",
+          "shield_charge"
+        ],
+        "secondary": [
+          "spectral_shield_throw_of_trarthus",
+          "tempest_shield",
+          "prismplate"
+        ],
+        "utility": [
+          "determination",
+          "dash",
+          "intimidating_cry",
+          "physical_aegis",
+          "impenetrable_bastion"
+        ]
+      }
+    },
+    {
+      "id": "bloodletter",
+      "name": "Bloodletter",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "bloodthirst",
+          "blood_mortar",
+          "lacerate"
+        ],
+        "secondary": [
+          "bladestorm",
+          "perforate"
+        ],
+        "utility": [
+          "leap_slam",
+          "dash",
+          "determination",
+          "oil_slick"
+        ]
+      }
+    },
+    {
+      "id": "infamous_bloodletter",
+      "name": "Infamous Bloodletter",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "bloodthirst",
+          "blood_mortar",
+          "lacerate"
+        ],
+        "secondary": [
+          "bladestorm",
+          "perforate"
+        ],
+        "utility": [
+          "leap_slam",
+          "dash",
+          "determination",
+          "oil_slick"
+        ]
+      }
+    },
+    {
+      "id": "shattersword",
+      "name": "Shattersword",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "call_of_steel",
+          "rallying_cry",
+          "triggerblades"
+        ],
+        "secondary": [
+          "shattering_steel",
+          "splitting_steel",
+          "lancing_steel"
+        ],
+        "utility": [
+          "dash",
+          "whirling_blades",
+          "grace_mercenary",
+          "brutal_teachings"
+        ]
+      }
+    },
+    {
+      "id": "swiftblade",
+      "name": "Swiftblade",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "Two Hand Axe",
+        "Two Hand Sword"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "cyclone_of_the_empire",
+          "rallying_cry",
+          "triggerblades"
+        ],
+        "secondary": [
+          "flicker_strike",
+          "vaal_double_strike"
+        ],
+        "utility": [
+          "pride",
+          "leap_slam",
+          "incite",
+          "dash",
+          "steelskin_ally"
+        ]
+      }
+    },
+    {
+      "id": "infamous_swiftblade",
+      "name": "Infamous Swiftblade",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "Two Hand Axe",
+        "Two Hand Sword"
+      ],
+      "allowedOffHandClasses": [],
+      "canDualWield": false,
+      "skillPool": {
+        "primary": [
+          "cyclone_of_the_empire",
+          "rallying_cry",
+          "triggerblades"
+        ],
+        "secondary": [
+          "flicker_strike",
+          "vaal_double_strike"
+        ],
+        "utility": [
+          "pride",
+          "leap_slam",
+          "incite",
+          "dash",
+          "steelskin_ally"
+        ]
+      }
+    },
+    {
+      "id": "combatant",
+      "name": "Combatant",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Claw"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Claw"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "inspiring_cry",
+          "herald_of_ice"
+        ],
+        "secondary": [
+          "frost_blades",
+          "wild_strike",
+          "spectral_helix",
+          "static_strike"
+        ],
+        "utility": [
+          "wrath",
+          "dash",
+          "frostblink",
+          "purity_of_ice"
+        ]
+      }
+    },
+    {
+      "id": "infamous_combatant",
+      "name": "Infamous Combatant",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Claw"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Axe",
+        "One Hand Sword",
+        "Claw"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "inspiring_cry",
+          "herald_of_ice"
+        ],
+        "secondary": [
+          "frost_blades",
+          "wild_strike",
+          "spectral_helix",
+          "static_strike"
+        ],
+        "utility": [
+          "wrath",
+          "dash",
+          "frostblink",
+          "purity_of_ice"
+        ]
+      }
+    },
+    {
+      "id": "mysterious_diver",
+      "name": "Mysterious Diver",
+      "isInfamous": false,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "One Hand Axe",
+        "Claw"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "One Hand Axe",
+        "Claw"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "elemental_hit_of_ice",
+          "frost_bomb"
+        ],
+        "secondary": [
+          "frost_blades",
+          "wild_strike",
+          "herald_of_ice"
+        ],
+        "utility": [
+          "hatred",
+          "purity_of_ice",
+          "frostblink",
+          "dash"
+        ]
+      }
+    },
+    {
+      "id": "infamous_mysterious_diver",
+      "name": "Infamous Mysterious Diver",
+      "isInfamous": true,
+      "trarthanHouse": "Azadi",
+      "attributeAffinity": "STR_DEX",
+      "allowedMainHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "One Hand Axe",
+        "Claw"
+      ],
+      "allowedOffHandClasses": [
+        "One Hand Sword",
+        "Thrusting One Hand Sword",
+        "One Hand Axe",
+        "Claw"
+      ],
+      "canDualWield": true,
+      "skillPool": {
+        "primary": [
+          "elemental_hit_of_ice",
+          "frost_bomb"
+        ],
+        "secondary": [
+          "frost_blades",
+          "wild_strike",
+          "herald_of_ice"
+        ],
+        "utility": [
+          "hatred",
+          "purity_of_ice",
+          "frostblink",
+          "dash"
+        ]
+      }
+    }
+  ],
+  "skills": [
+    {
+      "id": "conductivity_mercenary",
+      "name": "Conductivity",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "sigil_of_power",
+      "name": "Sigil of Power",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "spark",
+      "name": "Spark",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "arc",
+      "name": "Arc",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ball_lightning_of_static",
+      "name": "Ball Lightning of Static",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_stormcall",
+      "name": "Greater Stormcall",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_shock_nova",
+      "name": "Greater Shock Nova",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "orb_of_storms",
+      "name": "Orb of Storms",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "stormcall",
+      "name": "Stormcall",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "lightning_warp",
+      "name": "Lightning Warp",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frostblink",
+      "name": "Frostblink",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flame_dash",
+      "name": "Flame Dash",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "wrath",
+      "name": "Wrath",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "purity_of_lightning",
+      "name": "Purity of Lightning",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "proximity_shield",
+      "name": "Proximity Shield",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frost_bomb",
+      "name": "Frost Bomb",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frostbite",
+      "name": "Frostbite",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frost_wall",
+      "name": "Frost Wall",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "eye_of_winter",
+      "name": "Eye of Winter",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vortex",
+      "name": "Vortex",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frostbolt",
+      "name": "Frostbolt",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ice_nova",
+      "name": "Ice Nova",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ice_nova_of_projection",
+      "name": "Ice Nova of Projection",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "icestorm",
+      "name": "Icestorm",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "purity_of_ice",
+      "name": "Purity of Ice",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "discipline",
+      "name": "Discipline",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flame_wall",
+      "name": "Flame Wall",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flammability",
+      "name": "Flammability",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_flame_dash",
+      "name": "Greater Flame Dash",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flameblast",
+      "name": "Flameblast",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_flameblast",
+      "name": "Vaal Flameblast",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "fireball_of_impact",
+      "name": "Fireball of Impact",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "rolling_magma",
+      "name": "Rolling Magma",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flame_surge",
+      "name": "Flame Surge",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "purity_of_fire",
+      "name": "Purity of Fire",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "anger",
+      "name": "Anger",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flame_aegis",
+      "name": "Flame Aegis",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bane",
+      "name": "Bane",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "temporal_chains",
+      "name": "Temporal Chains",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_soulrend",
+      "name": "Greater Soulrend",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "scourstorm",
+      "name": "Scourstorm",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "blight",
+      "name": "Blight",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "essence_drain_of_wickedness",
+      "name": "Essence Drain of Wickedness",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "altar_of_chaos",
+      "name": "Altar of Chaos",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "malevolence",
+      "name": "Malevolence",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "clarity",
+      "name": "Clarity",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "withering_step",
+      "name": "Withering Step",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "wither_totem",
+      "name": "Wither Totem",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "raise_zombie_of_gigantism",
+      "name": "Raise Zombie of Gigantism",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "desecrate",
+      "name": "Desecrate",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "raise_zombie_of_falling",
+      "name": "Raise Zombie of Falling",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "summon_skeletons",
+      "name": "Summon Skeletons",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flesh_offering",
+      "name": "Flesh Offering",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bone_offering",
+      "name": "Bone Offering",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "summon_raging_spirit",
+      "name": "Summon Raging Spirit",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "blasphemy_enfeeble",
+      "name": "Blasphemy Enfeeble",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "relic_of_binding",
+      "name": "Relic of Binding",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "despair",
+      "name": "Despair",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "void_sphere",
+      "name": "Void Sphere",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "dark_bargain",
+      "name": "Dark Bargain",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "voltaxic_burst",
+      "name": "Voltaxic Burst",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "soulrend_of_reaping",
+      "name": "Soulrend of Reaping",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "forbidden_rite_totem",
+      "name": "Forbidden Rite Totem",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "summon_seeking_void",
+      "name": "Summon Seeking Void",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "profane_cascade",
+      "name": "Profane Cascade",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "zealotry",
+      "name": "Zealotry",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "envy",
+      "name": "Envy",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "blade_trap",
+      "name": "Blade Trap",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "trarthan_agility",
+      "name": "Trarthan Agility",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "spectral_throw_of_trarthus",
+      "name": "Spectral Throw of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "spectral_helix_of_trarthus",
+      "name": "Spectral Helix of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "smoke_mine",
+      "name": "Smoke Mine",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "grace_mercenary",
+      "name": "Grace",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "summon_skitterbots",
+      "name": "Summon Skitterbots",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bear_trap",
+      "name": "Bear Trap",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_lightning_trap",
+      "name": "Vaal Lightning Trap",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "lightning_trap",
+      "name": "Lightning Trap",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "lightning_spire_trap",
+      "name": "Lightning Spire Trap",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "ball_lightning_of_orbiting_trap",
+      "name": "Ball Lightning of Orbiting Trap",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "lightning_warp_trap",
+      "name": "Lightning Warp Trap",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "frost_shield",
+      "name": "Frost Shield",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_vortex_trap",
+      "name": "Greater Vortex Trap",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ice_trap",
+      "name": "Ice Trap",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "creeping_frost_trap",
+      "name": "Creeping Frost Trap",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "arctic_armour",
+      "name": "Arctic Armour",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_arctic_armour",
+      "name": "Vaal Arctic Armour",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "do_nothing",
+      "name": "Do Nothing",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "clutches_of_the_damned",
+      "name": "Clutches of the Damned",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "bloody_warp",
+      "name": "Bloody Warp",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "seismic_crush",
+      "name": "Seismic Crush",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "bladefall",
+      "name": "Bladefall",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "blade_vortex",
+      "name": "Blade Vortex",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ethereal_knives",
+      "name": "Ethereal Knives",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bladefall_of_trarthus",
+      "name": "Bladefall of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "dash",
+      "name": "Dash",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "aspect_of_the_spider",
+      "name": "Aspect of the Spider",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "viper_strike",
+      "name": "Viper Strike",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "abyssal_cry",
+      "name": "Abyssal Cry",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "venom_gyre",
+      "name": "Venom Gyre",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "profane_strike",
+      "name": "Profane Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "cobra_lash",
+      "name": "Cobra Lash",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "pestilent_strike",
+      "name": "Pestilent Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "whirling_blades",
+      "name": "Whirling Blades",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "infernal_cry",
+      "name": "Infernal Cry",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "leap_slam",
+      "name": "Leap Slam",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "triggerslam",
+      "name": "Triggerslam",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "volcanic_fissure_of_snaking",
+      "name": "Volcanic Fissure of Snaking",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "consecrated_path",
+      "name": "Consecrated Path",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "tectonic_slam",
+      "name": "Tectonic Slam",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "ashen_fissure",
+      "name": "Ashen Fissure",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "molten_shell",
+      "name": "Molten Shell",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "determination",
+      "name": "Determination",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "herald_of_ash",
+      "name": "Herald of Ash",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "flame_link",
+      "name": "Flame Link",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "tunnelslam",
+      "name": "Tunnelslam",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "enrage",
+      "name": "Enrage",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "cleave",
+      "name": "Cleave",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_cleave",
+      "name": "Vaal Cleave",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "slicing_wind",
+      "name": "Slicing Wind",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "chain_hook_of_trarthus",
+      "name": "Chain Hook of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "leap_slam_of_groundbreaking",
+      "name": "Leap Slam of Groundbreaking",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vitality",
+      "name": "Vitality",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "intimidating_cry",
+      "name": "Intimidating Cry",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_ground_slam",
+      "name": "Vaal Ground Slam",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "ground_slam",
+      "name": "Ground Slam",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "earthquake_of_amplification",
+      "name": "Earthquake of Amplification",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "tectonic_cascade",
+      "name": "Tectonic Cascade",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "sunder",
+      "name": "Sunder of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "burrow",
+      "name": "Burrow",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "endure",
+      "name": "Endure",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_vitality",
+      "name": "Vaal Vitality",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "punishment",
+      "name": "Punishment",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "inflame",
+      "name": "Inflame",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_molten_strike",
+      "name": "Vaal Molten Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "infernal_blow_of_immolation",
+      "name": "Infernal Blow of Immolation",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "molten_strike",
+      "name": "Molten Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "flamebolt_strike",
+      "name": "Flamebolt Strike",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vigilant_strike",
+      "name": "Vigilant Strike",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "enduring_cry",
+      "name": "Enduring Cry",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "physical_aegis",
+      "name": "Physical Aegis",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "heavy_strike_of_vulnerability",
+      "name": "Heavy Strike of Vulnerability",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "boneshatter",
+      "name": "Boneshatter",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "dual_strike",
+      "name": "Dual Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_ancestral_warchief",
+      "name": "Vaal Ancestral Warchief",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "decoy_totem",
+      "name": "Decoy Totem",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "boiling_blood",
+      "name": "Boiling Blood",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "storm_call_of_trarthus",
+      "name": "Storm Call of Trarthus",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bodyswap",
+      "name": "Bodyswap",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "exsanguinate",
+      "name": "Exsanguinate",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_reap",
+      "name": "Vaal Reap",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "reap",
+      "name": "Reap",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "corrupted_blade_vortex_of_the_scythe",
+      "name": "Corrupted Blade Vortex of the Scythe",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "pride",
+      "name": "Pride",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "elemental_weakness",
+      "name": "Elemental Weakness",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "kinetic_bolt",
+      "name": "Kinetic Bolt",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "power_siphon",
+      "name": "Power Siphon",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "barrage",
+      "name": "Barrage",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "greater_kinetic_blast",
+      "name": "Greater Kinetic Blast",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "kinetic_blast_of_clustering",
+      "name": "Kinetic Blast of Clustering",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "kinetic_rain_of_impact",
+      "name": "Kinetic Rain of Impact",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "haste_mercenary",
+      "name": "Haste",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "inspiring_cry",
+      "name": "Inspiring Cry",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "holy_relic",
+      "name": "Holy Relic",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "smite",
+      "name": "Smite",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "beacons_of_faith",
+      "name": "Beacons of Faith",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "dominating_blow",
+      "name": "Dominating Blow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "raise_spectre_holy_flame_elementals",
+      "name": "Raise Spectre: Holy Flame Elementals",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "touch_of_god",
+      "name": "Touch of God",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "herald_of_purity",
+      "name": "Herald of Purity",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "holy_hammers",
+      "name": "Holy Hammers",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "holy_strike",
+      "name": "Holy Strike",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "holy_sweep",
+      "name": "Holy Sweep",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "sanctified_strike",
+      "name": "Sanctified Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "absolution",
+      "name": "Absolution",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "raise_spectre_of_transience",
+      "name": "Raise Spectre of Transience",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "reinforce_fallen_bishop",
+      "name": "Reinforce: Fallen Bishop",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "reinforce_fallen_emperor",
+      "name": "Reinforce: Fallen Emperor",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "reinforce_fallen_osseotitan",
+      "name": "Reinforce: Fallen Osseotitan",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "battlemages_cry",
+      "name": "Battlemage's Cry",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_glacial_hammer",
+      "name": "Vaal Glacial Hammer",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "ice_crash",
+      "name": "Ice Crash",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "glacial_hammer",
+      "name": "Glacial Hammer",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "earthquake_of_winter",
+      "name": "Earthquake of Winter",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "heavy_strike_of_trarthus",
+      "name": "Heavy Strike of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "hatred",
+      "name": "Hatred",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "unnerving_blast",
+      "name": "Unnerving Blast",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "wave_of_conviction",
+      "name": "Wave of Conviction",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "divine_ire",
+      "name": "Divine Ire",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "tornado_of_elemental_turbulence",
+      "name": "Tornado of Elemental Turbulence",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "divine_retribution",
+      "name": "Divine Retribution",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "shockwave_totem_of_shocking",
+      "name": "Shockwave Totem of Shocking",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "charged_dash_of_the_arcane",
+      "name": "Charged Dash of the Arcane",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "holy_flame_totem",
+      "name": "Holy Flame Totem",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "purifying_flame",
+      "name": "Purifying Flame",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "holy_mortar",
+      "name": "Holy Mortar",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "wave_of_conviction_of_trarthus",
+      "name": "Wave of Conviction of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "scorching_ray_totem",
+      "name": "Scorching Ray Totem",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "meteor",
+      "name": "Meteor",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "abyssal_spray",
+      "name": "Abyssal Spray",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "abyssal_spray_detonation",
+      "name": "Abyssal Spray Detonation",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "power_of_the_depths",
+      "name": "Power of the Depths",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_smite",
+      "name": "Vaal Smite",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "chaotic_burst",
+      "name": "Chaotic Burst",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "chaotic_shot",
+      "name": "Chaotic Shot",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_caustic_arrow",
+      "name": "Vaal Caustic Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "toxic_rain",
+      "name": "Toxic Rain",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "scourge_arrow_of_menace",
+      "name": "Scourge Arrow of Menace",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "caustic_arrow",
+      "name": "Caustic Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "blink_arrow",
+      "name": "Blink Arrow",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ensnaring_arrow",
+      "name": "Ensnaring Arrow",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "poachers_mark",
+      "name": "Poacher's Mark",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "greater_split_arrow",
+      "name": "Greater Split Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "rain_of_arrows_of_saturation",
+      "name": "Rain of Arrows of Saturation",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "tornado_shot",
+      "name": "Tornado Shot",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "shrapnel_ballista",
+      "name": "Shrapnel Ballista",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "barrage_of_volley_fire",
+      "name": "Barrage of Volley Fire",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "siege_ballista_of_trarthus",
+      "name": "Siege Ballista of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "split_arrow",
+      "name": "Split Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "puncture",
+      "name": "Puncture",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "frenzy",
+      "name": "Frenzy",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "lightning_arrow",
+      "name": "Lightning Arrow",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "assassins_mark",
+      "name": "Assassin's Mark",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "galvanic_arrow",
+      "name": "Galvanic Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "greater_lightning_arrow",
+      "name": "Greater Lightning Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_lightning_arrow",
+      "name": "Vaal Lightning Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "storm_rain",
+      "name": "Storm Rain",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "precision",
+      "name": "Precision",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "burning_arrow",
+      "name": "Burning Arrow",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "alchemists_mark",
+      "name": "Alchemist's Mark",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_burning_arrow",
+      "name": "Vaal Burning Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "molten_well",
+      "name": "Molten Well",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "artillery_ballista",
+      "name": "Artillery Ballista",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "explosive_arrow",
+      "name": "Explosive Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "blast_rain_of_trarthus",
+      "name": "Blast Rain of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "conflagration",
+      "name": "Conflagration",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "blasphemy_flammability",
+      "name": "Blasphemy Flammability",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "ice_shot",
+      "name": "Ice Shot",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_grace",
+      "name": "Vaal Grace",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "vaal_ice_shot",
+      "name": "Vaal Ice Shot",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "frigid_forkshot",
+      "name": "Frigid Forkshot",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "icicle_rain",
+      "name": "Icicle Rain",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "mirror_arrow",
+      "name": "Mirror Arrow",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "shield_crush",
+      "name": "Shield Crush",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "shield_charge",
+      "name": "Shield Charge",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "spectral_shield_throw_of_trarthus",
+      "name": "Spectral Shield Throw of Trarthus",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "tempest_shield",
+      "name": "Tempest Shield",
+      "category": "SECONDARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "prismplate",
+      "name": "Prismplate",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "impenetrable_bastion",
+      "name": "Impenetrable Bastion",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "bloodthirst",
+      "name": "Bloodthirst",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "blood_mortar",
+      "name": "Blood Mortar",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "lacerate",
+      "name": "Lacerate",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "bladestorm",
+      "name": "Bladestorm",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "perforate",
+      "name": "Perforate",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "oil_slick",
+      "name": "Oil Slick",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "call_of_steel",
+      "name": "Call of Steel",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "rallying_cry",
+      "name": "Rallying Cry",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "triggerblades",
+      "name": "Triggerblades",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "shattering_steel",
+      "name": "Shattering Steel",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "splitting_steel",
+      "name": "Splitting Steel",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "lancing_steel",
+      "name": "Lancing Steel",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "brutal_teachings",
+      "name": "Brutal Teachings",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "cyclone_of_the_empire",
+      "name": "Cyclone of the Empire",
+      "category": "PRIMARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "flicker_strike",
+      "name": "Flicker Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "vaal_double_strike",
+      "name": "Vaal Double Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "incite",
+      "name": "Incite",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "steelskin_ally",
+      "name": "Steelskin Ally",
+      "category": "UTILITY",
+      "isSpellHint": true
+    },
+    {
+      "id": "herald_of_ice",
+      "name": "Herald of Ice",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    },
+    {
+      "id": "frost_blades",
+      "name": "Frost Blades",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "wild_strike",
+      "name": "Wild Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "spectral_helix",
+      "name": "Spectral Helix",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "static_strike",
+      "name": "Static Strike",
+      "category": "SECONDARY",
+      "isSpellHint": false
+    },
+    {
+      "id": "elemental_hit_of_ice",
+      "name": "Elemental Hit of Ice",
+      "category": "PRIMARY",
+      "isSpellHint": true
+    }
+  ]
+}

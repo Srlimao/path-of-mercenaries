@@ -9,6 +9,8 @@ export type AttributeAffinity =
   | 'DEX_INT'
   | 'STR_DEX_INT';
 
+export type TrarthanHouse = 'Keita' | 'Cyaxan' | 'Azadi' | 'Bardiya';
+
 export interface MercenaryLevelStatRow {
   level: number;
   baseLife: number;
@@ -27,6 +29,7 @@ export interface MercenaryArchetype {
   id: string;
   name: string;
   isInfamous: boolean;
+  trarthanHouse?: TrarthanHouse;
   attributeAffinity: AttributeAffinity;
   allowedMainHandClasses: string[];
   allowedOffHandClasses: string[];

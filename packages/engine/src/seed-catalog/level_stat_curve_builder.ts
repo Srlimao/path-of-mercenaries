@@ -7,7 +7,7 @@ const AFFINITY_WEIGHTS: Record<AttributeAffinity, { str: number; dex: number; in
   STR_DEX: { str: 0.43, dex: 0.43, int: 0.14, lifeMul: 1.05 },
   STR_INT: { str: 0.43, dex: 0.14, int: 0.43, lifeMul: 1.02 },
   DEX_INT: { str: 0.14, dex: 0.43, int: 0.43, lifeMul: 0.95 },
-  STR_DEX_INT: { str: 0.34, dex: 0.33, int: 0.33, lifeMul: 1.0 },
+  STR_DEX_INT: { str: 0.32, dex: 0.33, int: 0.35, lifeMul: 1.0 },
 };
 
 /** Maps Mercenary character level (1-85) to internal skill level (1-40). */

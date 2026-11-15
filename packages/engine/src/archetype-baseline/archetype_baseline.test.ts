@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { KeywordFlags, ModFlags, type ParsedItem } from '../catalog-types/index.js';
 import { ModDB } from '../mod-db/index.js';
-import { findArchetypeById } from '../seed-catalog/index.js';
+import { SEED_CATALOGS, findArchetypeById, findSkillById } from '../seed-catalog/index.js';
 import { compileArchetypeMods, validateEquipmentForArchetype } from './compile_archetype_mods.js';
 
 describe('archetype-baseline compiler', () => {
@@ -69,5 +69,36 @@ describe('archetype-baseline compiler', () => {
     expect(validateEquipmentForArchetype(kineticist, 'Weapon1', bowMock)).toContain('cannot equip Bow');
     expect(validateEquipmentForArchetype(kineticist, 'Weapon1', wandMock)).toBeNull();
     expect(validateEquipmentForArchetype(kineticist, 'Weapon2', wandMock)).toBeNull();
+  });
+
+  it('hydrates all 66+ PoEDB archetypes with Trarthan houses and resolvable skill pools', () => {
+    expect(SEED_CATALOGS.archetypes.length).toBeGreaterThanOrEqual(66);
+
+    const expectedHouses: Record<string, string> = {
+      stormhand: 'Cyaxan',
+      infamous_stormhand: 'Cyaxan',
+      manyshot: 'Cyaxan',
+      eruptor: 'Keita',
+      blade_ambusher: 'Azadi',
+      sanguimancer: 'Bardiya',
+      mysterious_diver: 'Azadi',
+    };
+
+    for (const [id, house] of Object.entries(expectedHouses)) {
+      const arch = findArchetypeById(id);
+      expect(arch, `Expected archetype ${id}`).toBeDefined();
+      expect(arch?.trarthanHouse).toBe(house);
+    }
+
+    for (const arch of SEED_CATALOGS.archetypes) {
+      const allSkills = [
+        ...arch.skillPool.primary,
+        ...arch.skillPool.secondary,
+        ...arch.skillPool.utility,
+      ];
+      for (const skillId of allSkills) {
+        expect(findSkillById(skillId), `Missing skill ${skillId} for ${arch.id}`).toBeDefined();
+      }
+    }
   });
 });

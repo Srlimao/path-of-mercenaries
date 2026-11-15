@@ -10,6 +10,7 @@
     "test": "pnpm --filter @pom/engine test",
     "typecheck": "pnpm -r typecheck",
     "check:loc": "node scripts/check_max_file_lines.mjs",
+    "import:poedb": "node scripts/import_poedb_mercenaries.mjs",
     "dev:worker": "pnpm --filter @pom/worker dev",
     "deploy:worker": "pnpm --filter @pom/worker deploy",
     "deploy:web": "pnpm --filter @pom/web build && npx wrangler pages deploy apps/web/dist --project-name=path-of-mercenaries"

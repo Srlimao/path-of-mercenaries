@@ -1,192 +1,127 @@
-import type { AttributeAffinity, MercenaryArchetype } from '../catalog-types/index.js';
+import type {
+  AttributeAffinity,
+  MercenaryArchetype,
+  TrarthanHouse,
+} from '../catalog-types/index.js';
 import { buildMercenaryLevelCurve } from './level_stat_curve_builder.js';
+import poedbDump from './poedb_mercenaries_dump.json';
 
-interface ArchetypeSeedSpec {
-  id: string;
-  name: string;
-  isInfamous: boolean;
-  affinity: AttributeAffinity;
-  mainHand: string[];
-  offHand: string[];
-  canDualWield: boolean;
-  innateMods: string[];
-  primary: string[];
-  secondary: string[];
-  utility: string[];
+const INNATE_MODS_BY_ID: Record<string, string[]> = {
+  kineticist: ['20% increased Projectile Damage', '10% increased Attack Speed'],
+  infamous_kineticist: [
+    '35% increased Projectile Damage',
+    '15% increased Attack Speed',
+    '25% increased Critical Strike Chance',
+  ],
+  blademaster: ['20% increased Melee Physical Damage', '15% increased Attack Speed'],
+  infamous_blademaster: [
+    '35% increased Melee Physical Damage',
+    '20% increased Attack Speed',
+    '15% chance to Impale Enemies on Hit with Attacks',
+  ],
+  cruel_mistress: ['25% increased Chaos Damage', '15% increased Cast Speed'],
+  infamous_cruel_mistress: [
+    '40% increased Chaos Damage',
+    '20% increased Cast Speed',
+    '15% increased Effect of Withered',
+  ],
+  sniper: ['25% increased Projectile Damage', '20% increased Accuracy Rating'],
+  infamous_sniper: [
+    '40% increased Projectile Damage',
+    '30% increased Accuracy Rating',
+    '25% increased Critical Strike Multiplier',
+  ],
+  warpriest: ['25% increased Elemental Damage', '15% increased Area of Effect'],
+  infamous_warpriest: [
+    '40% increased Elemental Damage',
+    '25% increased Area of Effect',
+    '15% increased Effect of Non-Curse Auras',
+  ],
+  earthshaker: ['25% increased Physical Damage', '15% increased Maximum Life'],
+  infamous_earthshaker: [
+    '40% increased Physical Damage',
+    '20% increased Maximum Life',
+    '20% increased Stun Duration on Enemies',
+  ],
+};
+
+function defaultInnateMods(affinity: AttributeAffinity, isInfamous: boolean): string[] {
+  const boost = isInfamous ? 35 : 20;
+  switch (affinity) {
+    case 'STR':
+      return [`${boost}% increased Physical Damage`, `${isInfamous ? 20 : 12}% increased Maximum Life`];
+    case 'DEX':
+      return [`${boost}% increased Projectile Damage`, `${isInfamous ? 18 : 10}% increased Attack Speed`];
+    case 'INT':
+      return [`${boost}% increased Spell Damage`, `${isInfamous ? 20 : 12}% increased Cast Speed`];
+    case 'STR_DEX':
+      return [`${boost}% increased Attack Damage`, `${isInfamous ? 18 : 10}% increased Attack Speed`];
+    case 'STR_INT':
+      return [`${boost}% increased Elemental Damage`, `${isInfamous ? 20 : 12}% increased Area of Effect`];
+    case 'DEX_INT':
+      return [`${boost}% increased Damage`, `${isInfamous ? 30 : 20}% increased Critical Strike Chance`];
+    case 'STR_DEX_INT':
+      return [`${boost}% increased Damage`, `${isInfamous ? 15 : 10}% increased Attack Speed`];
+  }
 }
 
-const ARCHETYPE_SPECS: ArchetypeSeedSpec[] = [
-  {
-    id: 'kineticist',
-    name: 'Kineticist',
-    isInfamous: false,
-    affinity: 'INT',
-    mainHand: ['Wand'],
-    offHand: ['Shield', 'Wand'],
-    canDualWield: true,
-    innateMods: ['20% increased Projectile Damage', '10% increased Attack Speed'],
-    primary: ['kinetic_blast_of_clustering', 'kinetic_bolt_of_fragmentation', 'power_siphon'],
-    secondary: ['power_siphon', 'kinetic_bolt_of_fragmentation'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
-  {
-    id: 'infamous_kineticist',
-    name: 'Infamous Kineticist',
-    isInfamous: true,
-    affinity: 'INT',
-    mainHand: ['Wand'],
-    offHand: ['Shield', 'Wand'],
-    canDualWield: true,
-    innateMods: ['35% increased Projectile Damage', '15% increased Attack Speed', '25% increased Critical Strike Chance'],
-    primary: ['kinetic_blast_of_clustering', 'kinetic_bolt_of_fragmentation', 'power_siphon'],
-    secondary: ['power_siphon', 'kinetic_bolt_of_fragmentation'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
+const LEGACY_ARCHETYPES: MercenaryArchetype[] = [
   {
     id: 'blademaster',
-    name: 'Blademaster',
+    name: 'Blademaster (Legacy Preset)',
     isInfamous: false,
-    affinity: 'STR_DEX',
-    mainHand: ['One Hand Sword', 'Thrusting One Hand Sword', 'Two Hand Sword'],
-    offHand: ['One Hand Sword', 'Thrusting One Hand Sword', 'Shield'],
+    trarthanHouse: 'Azadi',
+    attributeAffinity: 'STR_DEX',
+    allowedMainHandClasses: ['One Hand Sword', 'Thrusting One Hand Sword', 'Two Hand Sword'],
+    allowedOffHandClasses: ['One Hand Sword', 'Thrusting One Hand Sword', 'Shield'],
     canDualWield: true,
-    innateMods: ['20% increased Melee Physical Damage', '15% increased Attack Speed'],
-    primary: ['reave', 'double_strike_of_impaling'],
-    secondary: ['double_strike_of_impaling', 'reave'],
-    utility: ['grace_mercenary', 'haste_mercenary'],
+    statsByLevel: buildMercenaryLevelCurve('STR_DEX', 1.0),
+    innateMods: INNATE_MODS_BY_ID.blademaster!,
+    skillPool: {
+      primary: ['reave', 'double_strike_of_impaling'],
+      secondary: ['double_strike_of_impaling', 'reave'],
+      utility: ['grace_mercenary', 'haste_mercenary'],
+    },
   },
   {
     id: 'infamous_blademaster',
-    name: 'Infamous Blademaster',
+    name: 'Infamous Blademaster (Legacy Preset)',
     isInfamous: true,
-    affinity: 'STR_DEX',
-    mainHand: ['One Hand Sword', 'Thrusting One Hand Sword', 'Two Hand Sword'],
-    offHand: ['One Hand Sword', 'Thrusting One Hand Sword', 'Shield'],
+    trarthanHouse: 'Azadi',
+    attributeAffinity: 'STR_DEX',
+    allowedMainHandClasses: ['One Hand Sword', 'Thrusting One Hand Sword', 'Two Hand Sword'],
+    allowedOffHandClasses: ['One Hand Sword', 'Thrusting One Hand Sword', 'Shield'],
     canDualWield: true,
-    innateMods: ['35% increased Melee Physical Damage', '20% increased Attack Speed', '15% chance to Impale Enemies on Hit with Attacks'],
-    primary: ['reave', 'double_strike_of_impaling'],
-    secondary: ['double_strike_of_impaling', 'reave'],
-    utility: ['grace_mercenary', 'haste_mercenary'],
-  },
-  {
-    id: 'cruel_mistress',
-    name: 'Cruel Mistress',
-    isInfamous: false,
-    affinity: 'DEX_INT',
-    mainHand: ['Wand', 'Dagger', 'Sceptre'],
-    offHand: ['Shield', 'Dagger'],
-    canDualWield: true,
-    innateMods: ['25% increased Chaos Damage', '15% increased Cast Speed'],
-    primary: ['spark', 'power_siphon'],
-    secondary: ['spark', 'kinetic_bolt_of_fragmentation'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
-  {
-    id: 'infamous_cruel_mistress',
-    name: 'Infamous Cruel Mistress',
-    isInfamous: true,
-    affinity: 'DEX_INT',
-    mainHand: ['Wand', 'Dagger', 'Sceptre'],
-    offHand: ['Shield', 'Dagger'],
-    canDualWield: true,
-    innateMods: ['40% increased Chaos Damage', '20% increased Cast Speed', '15% increased Effect of Withered'],
-    primary: ['spark', 'power_siphon'],
-    secondary: ['spark', 'kinetic_bolt_of_fragmentation'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
-  {
-    id: 'sniper',
-    name: 'Sniper',
-    isInfamous: false,
-    affinity: 'DEX',
-    mainHand: ['Bow'],
-    offHand: ['Quiver'],
-    canDualWield: false,
-    innateMods: ['25% increased Projectile Damage', '20% increased Accuracy Rating'],
-    primary: ['lightning_arrow', 'split_arrow'],
-    secondary: ['split_arrow', 'lightning_arrow'],
-    utility: ['grace_mercenary', 'haste_mercenary'],
-  },
-  {
-    id: 'infamous_sniper',
-    name: 'Infamous Sniper',
-    isInfamous: true,
-    affinity: 'DEX',
-    mainHand: ['Bow'],
-    offHand: ['Quiver'],
-    canDualWield: false,
-    innateMods: ['40% increased Projectile Damage', '30% increased Accuracy Rating', '25% increased Critical Strike Multiplier'],
-    primary: ['lightning_arrow', 'split_arrow'],
-    secondary: ['split_arrow', 'lightning_arrow'],
-    utility: ['grace_mercenary', 'haste_mercenary'],
-  },
-  {
-    id: 'warpriest',
-    name: 'Warpriest',
-    isInfamous: false,
-    affinity: 'STR_INT',
-    mainHand: ['Sceptre', 'One Hand Mace', 'Staff'],
-    offHand: ['Shield'],
-    canDualWield: false,
-    innateMods: ['25% increased Elemental Damage', '15% increased Area of Effect'],
-    primary: ['spark', 'sunder'],
-    secondary: ['sunder', 'spark'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
-  {
-    id: 'infamous_warpriest',
-    name: 'Infamous Warpriest',
-    isInfamous: true,
-    affinity: 'STR_INT',
-    mainHand: ['Sceptre', 'One Hand Mace', 'Staff'],
-    offHand: ['Shield'],
-    canDualWield: false,
-    innateMods: ['40% increased Elemental Damage', '25% increased Area of Effect', '15% increased Effect of Non-Curse Auras'],
-    primary: ['spark', 'sunder'],
-    secondary: ['sunder', 'spark'],
-    utility: ['haste_mercenary', 'conductivity_mercenary'],
-  },
-  {
-    id: 'earthshaker',
-    name: 'Earthshaker',
-    isInfamous: false,
-    affinity: 'STR',
-    mainHand: ['Two Hand Axe', 'Two Hand Mace', 'One Hand Mace', 'One Hand Axe'],
-    offHand: ['Shield'],
-    canDualWield: false,
-    innateMods: ['25% increased Physical Damage', '15% increased Maximum Life'],
-    primary: ['sunder', 'double_strike_of_impaling'],
-    secondary: ['reave', 'sunder'],
-    utility: ['grace_mercenary'],
-  },
-  {
-    id: 'infamous_earthshaker',
-    name: 'Infamous Earthshaker',
-    isInfamous: true,
-    affinity: 'STR',
-    mainHand: ['Two Hand Axe', 'Two Hand Mace', 'One Hand Mace', 'One Hand Axe'],
-    offHand: ['Shield'],
-    canDualWield: false,
-    innateMods: ['40% increased Physical Damage', '20% increased Maximum Life', '20% increased Stun Duration on Enemies'],
-    primary: ['sunder', 'double_strike_of_impaling'],
-    secondary: ['reave', 'sunder'],
-    utility: ['grace_mercenary'],
+    statsByLevel: buildMercenaryLevelCurve('STR_DEX', 1.12),
+    innateMods: INNATE_MODS_BY_ID.infamous_blademaster!,
+    skillPool: {
+      primary: ['reave', 'double_strike_of_impaling'],
+      secondary: ['double_strike_of_impaling', 'reave'],
+      utility: ['grace_mercenary', 'haste_mercenary'],
+    },
   },
 ];
 
-export const SEED_ARCHETYPES: MercenaryArchetype[] = ARCHETYPE_SPECS.map((spec) => ({
-  id: spec.id,
-  name: spec.name,
-  isInfamous: spec.isInfamous,
-  attributeAffinity: spec.affinity,
-  allowedMainHandClasses: spec.mainHand,
-  allowedOffHandClasses: spec.offHand,
-  canDualWield: spec.canDualWield,
-  statsByLevel: buildMercenaryLevelCurve(spec.affinity, spec.isInfamous ? 1.12 : 1.0),
-  innateMods: spec.innateMods,
-  skillPool: {
-    primary: spec.primary,
-    secondary: spec.secondary,
-    utility: spec.utility,
-  },
-}));
+const POEDB_ARCHETYPES: MercenaryArchetype[] = poedbDump.archetypes.map((raw) => {
+  const affinity = raw.attributeAffinity as AttributeAffinity;
+  return {
+    id: raw.id,
+    name: raw.name,
+    isInfamous: raw.isInfamous,
+    trarthanHouse: raw.trarthanHouse as TrarthanHouse | undefined,
+    attributeAffinity: affinity,
+    allowedMainHandClasses: raw.allowedMainHandClasses,
+    allowedOffHandClasses: raw.allowedOffHandClasses,
+    canDualWield: raw.canDualWield,
+    statsByLevel: buildMercenaryLevelCurve(affinity, raw.isInfamous ? 1.12 : 1.0),
+    innateMods: INNATE_MODS_BY_ID[raw.id] ?? defaultInnateMods(affinity, raw.isInfamous),
+    skillPool: raw.skillPool,
+  };
+});
+
+const POEDB_IDS = new Set(POEDB_ARCHETYPES.map((a) => a.id));
+
+export const SEED_ARCHETYPES: MercenaryArchetype[] = [
+  ...POEDB_ARCHETYPES,
+  ...LEGACY_ARCHETYPES.filter((a) => !POEDB_IDS.has(a.id)),
+];
